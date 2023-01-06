@@ -60,23 +60,23 @@ The constructor takes in following params:
 ## Combining the two inputs (making a multi input/output model)
 
 ##### For the neural network(NN), the mnsit image goes thru the given layering below, which, with an input image size of 28x28x1.This forms the first "part" of the NN.Actually here, this layering is leveraged off the earlier session assignment, but now merged to cater to the  additional rand-num input and sum_of_mnist_rand_rum output too.The additional set of inputs and outputs are taken thru a layering of fully connected layers.
+
 Input Channels/Image  |  Conv2d/Transform      | Output Channels | RF
----------------------|--------------|----------------------|------
-**28x28x1**              | **(3x3x1)x32**   |      **28x28x32**(padding=1) |      **3x3**
-                         |          `ReLU`  |                              |
-**28x28x32**             | **(3x3x32)x64**  |      **28x28x64**(padding=1) |      **5x5**  
-             |          `ReLU`  | 
-**28x28x64**             | *MP(2x2)*  |      **14x14x64** |      **10x10**  
-**14x14x64**             | **(3x3x64)x128** | **14x14x128**(padding=1)  |  **12x12**
-             |          `ReLU`  | 
-**14x14x128**            | **(3x3x128)x256**| **14x14x256** (padding=1)|   **14x14** 
-             |          `ReLU`  |
-**14x14x256**            | *MP(2x2)*  |      **7x7x256** |      **28x28**
-**7x7x256**              | **(3x3x256)x512**  |**5x5x512** (no padding)|      **30x30**
-             |          `ReLU`  |   
-**5x5x512**              | **(3x3x512)x1024**  | **3x3x1024** (no padding)  |  **32x32** 
-             |          `ReLU`  | 
-**3x3x1024**             | **(3x3x1024)x10**  | **1x1x10** (no padding)  |  **34x34**
+---------------------|--------------|----------------------|----------------------
+`28x28x1`              | `(3x3x1)x32`   |      `28x28x32**(padding=1)`  |      `3x3`|      
+` `              | `ReLU`   |      ` `  |      ` ` 
+**28x28x32**             | **(3x3x32)x64**  |      **28x28x64** |      **5x5**
+** **             | **ReLU**   |     ** **  |     ** **      
+*28x28x64*             |   *MP(2x2)*    |      *14x14x64*   |      *10x10*  
+**14x14x64**             | **((3x3x64)x128**  |      **14x14x128**(padding=1)** |      **12x12**  
+** **             | **ReLU**   |     ** **  |     ** **                                         
+*14x14x128*             | *(3x3x128)x256*  |      *14x14x256** (padding=1)*    |      *14x14* 
+** **             | *ReLU*   |     * *   |     * *
+**14x14x256**             | **MP(2x2)**  |      **7x7x256** |      **28x28** 
+**7x7x256**               | **3x3x256)x512**  |      **3x3x1024** (no padding)**  |      **32x32** 
+** **             | **ReLU**   |     ** **  |     ** **    
+*3x3x1024*               | *(3x3x1024)x10*  |      *1x1x10** (no padding)*    |      *34x34*
+
 >Please note that for the FC-part a provision is made to potentially go for 2 inputs as well (though 
 currently only one input rand_num goes thru), In case in future experiment an additional input is required
  that can also be concatenated along (in all one-hot-enoded formats)
