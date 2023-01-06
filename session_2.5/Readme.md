@@ -63,7 +63,7 @@ The constructor takes in following params:
 Input Channels/Image  |  Conv2d/Transform      | Output Channels | RF
 ---------------------|--------------|----------------------|------
 **28x28x1**              | **(3x3x1)x32**   |      **28x28x32**(padding=1) |      **3x3**
-             |          `ReLU`  | 
+                         |          `ReLU`  |                              |
 **28x28x32**             | **(3x3x32)x64**  |      **28x28x64**(padding=1) |      **5x5**  
              |          `ReLU`  | 
 **28x28x64**             | *MP(2x2)*  |      **14x14x64** |      **10x10**  
