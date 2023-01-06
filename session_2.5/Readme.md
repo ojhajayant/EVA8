@@ -1,5 +1,6 @@
 Session_2.5:
-#Implementation for a neural network that can:
+
+# Implementation for a neural network that can:
 1.   take 2 inputs :
 > an image from the MNIST dataset (say 5), and a random number between 0 and 9, (say 7)
 
@@ -12,7 +13,7 @@ Session_2.5:
 
 Please refer the [notebook](https://github.com/ojhajayant/EVA8/blob/main/session_2.5/EVA8_session_2_5_final_Jayant_Ojha.ipynb) 
 
-##Data representation & data generation strategy:
+## Data representation & data generation strategy:
 
 ### Custom dataset-class required here:
 The constructor takes in following params:
@@ -56,14 +57,9 @@ The constructor takes in following params:
  8. **transform_in2:**: a "callable" data-transform interface provided for the part# 2 of the neural network
     (made up of the FC-layers & catering to the random number input) By default kept as None.
  
-##Combining the two inputs (making a multi input/output model)
+## Combining the two inputs (making a multi input/output model)
 
-#####For the neural network(NN), the mnsit image goes thru the given layering below, which, 
-#####with an input image size of 28x28x1.This forms the first "part" of the NN.Actually here,
-#####this layering is leveraged off the earlier session assignment, but now merged to cater to
-#####the  additional rand-num input and sum_of_mnist_rand_rum output too.The additional set 
-#####of inputs and outputs are taken thru a layering of fully connected layers.
-
+##### For the neural network(NN), the mnsit image goes thru the given layering below, which, with an input image size of 28x28x1.This forms the first "part" of the NN.Actually here, this layering is leveraged off the earlier session assignment, but now merged to cater to the  additional rand-num input and sum_of_mnist_rand_rum output too.The additional set of inputs and outputs are taken thru a layering of fully connected layers.
 >Please note that for the FC-part a provision is made to potentially go for 2 inputs as well (though 
 currently only one input rand_num goes thru), In case in future experiment an additional input is required
  that can also be concatenated along (in all one-hot-enoded formats)
@@ -75,7 +71,7 @@ The Net class construct hence provides these args:
 
 >num_hidden_fc_features=100 (a hidden in between FC layer requires these, by default 100)
 
-##Evaluation of results we finally got:
+## Evaluation of results we finally got:
 - Training happened on the GPU (i.e.CUDA Available? True  device:  cuda  )
 - final validation/test accuracy---99% (for MNIST image input) & 1% (for the random-num/sum-out combination)
 - Logs for 10 epoch runs are shown below:
@@ -165,7 +161,7 @@ Test set: Average loss_in2: 2.3111, Accuracy_in2: 104/10000 (1%)
 	- Hence we can conclude that the 2nd part of the network doesn't learn(Accuracy_in2 = ~1%).While the MNIST
 	  image path shows proper learning (Accuracy_in1 = ~99+%)
 
-##Loss Function picked and why:
+## Loss Function picked and why:
 ```python
 #For the model instantiated as below:
 output_in1, output_in2 = model(data_in1, data_in2)
