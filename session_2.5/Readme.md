@@ -74,9 +74,12 @@ Input Channels/Image  |  Conv2d/Transform      | Output Channels | RF
 ** **             | *ReLU*   |     * *   |     * *
 **14x14x256**             | **MP(2x2)**  |      **7x7x256** |      **28x28** 
 **7x7x256**               | **3x3x256)x512**  |      **5x5x512** (no padding)**  |      **30x30** 
-**7x7x256**               | **3x3x256)x512**  |      **3x3x1024** (no padding)**  |      **32x32** 
+** **             | **ReLU**   |     ** **  |     ** **    
+**5x5x512**               | **3x3x512)x1024**  |      **3x3x1024** (no padding)**  |      **32x32** 
 ** **             | **ReLU**   |     ** **  |     ** **    
 *3x3x1024*               | *(3x3x1024)x10*  |      *1x1x10** (no padding)*    |      *34x34*     
+
+   
 
 >Please note that for the FC-part a provision is made to potentially go for 2 inputs as well (though 
 currently only one input rand_num goes thru), In case in future experiment an additional input is required
