@@ -213,10 +213,8 @@ between the predicted probability distribution and the true distribution.
 
 
 
-### With a recent "deadline-extension", opportunistically adding here, an [implementation](https://github.com/ojhajayant/EVA8/blob/main/session_2.5/EVA8_session_2_5_with_additional_mnist_label_input_final_Jayant_Ojha.ipynb) 
-### which apart from the mnist-image & rand-num inputs takes in current-mnist-label as 
-### an additional input (i.e. the 2nd Fully-connected (FC) part has 2 inputs rand-num & 
-### mnist-label now)
+### With a recent "deadline-extension", opportunistically adding here, an [implementation](https://github.com/ojhajayant/EVA8/blob/main/session_2.5/EVA8_session_2_5_with_additional_mnist_label_input_final_Jayant_Ojha.ipynb) which apart from the mnist-image & rand-num inputs takes in current-mnist-label as an additional input (i.e. the 2nd Fully-connected (FC) part has 2 inputs rand-num & mnist-label now)
+
 ```python
 #it now instantiates the network as below
 model = Net(2).to(device) # The "2nd Part"(the fully-connected(FC)-part)
@@ -232,12 +230,14 @@ output_in1, output_in2 = model(data_in1, #mnist image
                                # & current-mnist-label
                                one_hot_custom(target_in1,
                                               width=10,
-											  device=device))
+					      device=device))
  ```
 ### Under this implementation as well:
+
 - Training happened on the GPU (i.e.CUDA Available? True  device:  cuda  )
 - final validation/test accuracy---99% (for MNIST image input) & 1% (for the random-num+current-mnist-label/sum-out combination)
 - Logs for 10 epoch runs are shown below:
+
 EPOCH: 1
 loss_in1=0.06289205700159073  loss_in2=2.1441330909729004 Accuracy_in1= 51535/60000 (85.89)%Accuracy_in2= 593/60000 (0.99)%batch_id=468: 100%|██████████| 469/469 [00:23<00:00, 20.31it/s]
 
