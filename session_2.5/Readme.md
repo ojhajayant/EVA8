@@ -208,3 +208,112 @@ F.cross_entropy as a loss function was used here. It combines the log_softmax
 function with the negative log likelihood loss, a measure of the difference 
 between the predicted probability distribution and the true distribution.
 
+
+
+
+
+
+### With a recent "deadline-extension", opportunistically adding here, an [implementation](https://github.com/ojhajayant/EVA8/blob/main/session_2.5/EVA8_session_2_5_with_additional_mnist_label_input_final_Jayant_Ojha.ipynb) 
+### which apart from the mnist-image & rand-num inputs takes in current-mnist-label as 
+### an additional input (i.e. the 2nd Fully-connected (FC) part has 2 inputs rand-num & 
+### mnist-label now)
+```python
+#it now instantiates the network as below
+model = Net(2).to(device) # The "2nd Part"(the fully-connected(FC)-part)
+                          # has 2 inputs rand-in + curent-mnist-label.
+						  
+						  :
+						  :
+#while under train_model & test_model functions the following 
+#change takes place (everything else remaining same as the 
+#earlier implementation)
+output_in1, output_in2 = model(data_in1, #mnist image
+                               data_in2, #rand-num
+                               # & current-mnist-label
+                               one_hot_custom(target_in1,
+                                              width=10,
+											  device=device))
+ ```
+### Under this implementation as well:
+- Training happened on the GPU (i.e.CUDA Available? True  device:  cuda  )
+- final validation/test accuracy---99% (for MNIST image input) & 1% (for the random-num+current-mnist-label/sum-out combination)
+- Logs for 10 epoch runs are shown below:
+EPOCH: 1
+loss_in1=0.06289205700159073  loss_in2=2.1441330909729004 Accuracy_in1= 51535/60000 (85.89)%Accuracy_in2= 593/60000 (0.99)%batch_id=468: 100%|██████████| 469/469 [00:23<00:00, 20.31it/s]
+
+Test set: Average loss_in1: 0.0620, Accuracy_in1: 9792/10000 (98%)
+
+
+Test set: Average loss_in2: 2.1526, Accuracy_in2: 104/10000 (1%)
+
+EPOCH: 2
+loss_in1=0.03607624024152756  loss_in2=0.7177146673202515 Accuracy_in1= 58951/60000 (98.25)%Accuracy_in2= 593/60000 (0.99)%batch_id=468: 100%|██████████| 469/469 [00:17<00:00, 27.41it/s]
+
+Test set: Average loss_in1: 0.0342, Accuracy_in1: 9890/10000 (99%)
+
+
+Test set: Average loss_in2: 0.7073, Accuracy_in2: 104/10000 (1%)
+
+EPOCH: 3
+loss_in1=0.023446200415492058  loss_in2=0.11855971813201904 Accuracy_in1= 59277/60000 (98.80)%Accuracy_in2= 593/60000 (0.99)%batch_id=468: 100%|██████████| 469/469 [00:17<00:00, 27.53it/s]
+
+Test set: Average loss_in1: 0.0289, Accuracy_in1: 9902/10000 (99%)
+
+
+Test set: Average loss_in2: 0.1149, Accuracy_in2: 104/10000 (1%)
+
+EPOCH: 4
+loss_in1=0.024031415581703186  loss_in2=0.034561820328235626 Accuracy_in1= 59488/60000 (99.15)%Accuracy_in2= 593/60000 (0.99)%batch_id=468: 100%|██████████| 469/469 [00:16<00:00, 27.73it/s]
+
+Test set: Average loss_in1: 0.0254, Accuracy_in1: 9917/10000 (99%)
+
+
+Test set: Average loss_in2: 0.0361, Accuracy_in2: 104/10000 (1%)
+
+EPOCH: 5
+loss_in1=0.005684105679392815  loss_in2=0.019983984529972076 Accuracy_in1= 59595/60000 (99.33)%Accuracy_in2= 593/60000 (0.99)%batch_id=468: 100%|██████████| 469/469 [00:17<00:00, 26.65it/s]
+
+Test set: Average loss_in1: 0.0246, Accuracy_in1: 9912/10000 (99%)
+
+
+Test set: Average loss_in2: 0.0183, Accuracy_in2: 104/10000 (1%)
+
+EPOCH: 6
+loss_in1=0.018205055966973305  loss_in2=0.011255479417741299 Accuracy_in1= 59718/60000 (99.53)%Accuracy_in2= 593/60000 (0.99)%batch_id=468: 100%|██████████| 469/469 [00:16<00:00, 27.65it/s]
+
+Test set: Average loss_in1: 0.0286, Accuracy_in1: 9907/10000 (99%)
+
+
+Test set: Average loss_in2: 0.0116, Accuracy_in2: 104/10000 (1%)
+
+EPOCH: 7
+loss_in1=0.0009696869528852403  loss_in2=0.0076314411126077175 Accuracy_in1= 59741/60000 (99.57)%Accuracy_in2= 593/60000 (0.99)%batch_id=468: 100%|██████████| 469/469 [00:16<00:00, 27.60it/s]
+
+Test set: Average loss_in1: 0.0251, Accuracy_in1: 9921/10000 (99%)
+
+
+Test set: Average loss_in2: 0.0082, Accuracy_in2: 104/10000 (1%)
+
+EPOCH: 8
+loss_in1=7.546281995018944e-05  loss_in2=0.0060789394192397594 Accuracy_in1= 59830/60000 (99.72)%Accuracy_in2= 593/60000 (0.99)%batch_id=468: 100%|██████████| 469/469 [00:16<00:00, 27.64it/s]
+
+Test set: Average loss_in1: 0.0248, Accuracy_in1: 9922/10000 (99%)
+
+
+Test set: Average loss_in2: 0.0063, Accuracy_in2: 104/10000 (1%)
+
+EPOCH: 9
+loss_in1=0.00016558513743802905  loss_in2=0.004717394709587097 Accuracy_in1= 59841/60000 (99.73)%Accuracy_in2= 593/60000 (0.99)%batch_id=468: 100%|██████████| 469/469 [00:16<00:00, 27.73it/s]
+
+Test set: Average loss_in1: 0.0253, Accuracy_in1: 9919/10000 (99%)
+
+
+Test set: Average loss_in2: 0.0050, Accuracy_in2: 104/10000 (1%)
+
+EPOCH: 10
+loss_in1=0.0038362108170986176  loss_in2=0.004112758673727512 Accuracy_in1= 59874/60000 (99.79)%Accuracy_in2= 593/60000 (0.99)%batch_id=468: 100%|██████████| 469/469 [00:17<00:00, 27.55it/s]
+
+Test set: Average loss_in1: 0.0243, Accuracy_in1: 9932/10000 (99%)
+
+
+Test set: Average loss_in2: 0.0041, Accuracy_in2: 104/10000 (1%)
