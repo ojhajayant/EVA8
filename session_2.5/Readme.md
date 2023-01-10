@@ -92,7 +92,7 @@ The Net class construct hence provides these args:
 
 >num_hidden_fc_features=100 (a hidden in between FC layer requires these, by default 100)
 
-## Evaluation of results we finally got:
+## Evaluation of results:
 - Training happened on the GPU (i.e.CUDA Available? True  device:  cuda  )
 - final validation/test accuracy---99% (for MNIST image input) & 1% (for the random-num/sum-out combination)
 - Logs for 10 epoch runs are shown below:
