@@ -1,4 +1,4 @@
-Session_2.5:
+# Session_2.5:
 
 # Implementation for a neural network that can:
 1.   take 2 inputs :
