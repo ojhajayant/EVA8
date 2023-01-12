@@ -11,7 +11,7 @@ Please refer the [xls sheet](https://github.com/ojhajayant/EVA8/blob/main/sessio
 #### Major Step 1:
 
 This step actually is about calculations related to a "forward propagation", given an intiailized set of weights( $w1=0.15$, $w2=0.2$, $w3=0.25$, $w4=0.3$, $w5=0.4$, $w6=0.45$, $w7=0.5$ & $w8=0.55$), a given set of inputs( $i1=0.05$, $i2=0.1$) along with a given set of target/ground-truth values( $t1=0.01$, $t2=0.99$)
-The equations are as follows:
+From the neural network diagram above, the equations are as follows:
 
 $$ h1 = w1 * i1 + w2 * i2 $$
 
@@ -35,7 +35,7 @@ $$ E1 = ½  *  (t1 - a_{o_1})² $$
 
 $$ E2 = ½  *  (t2 - a_{o_2})² $$
 
-
+Here the L2 loss function is used where for example t1 is the target or ground truth and a_o1 is the NN-prediction.Here E_Total represents sum of E1 & E2, as we set out to train the network while reducing the overall loss.
 
 
 
