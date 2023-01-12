@@ -39,7 +39,8 @@ Here the L2 loss function is used where for example t1 is the target or ground t
 
 ### Major Step 2:
 
-Under this next step, while back propagating the E_Total, the first set of parameters/weights we want to update are: $w5$, $w6$, $w7$ & $w8$.Hence, our purpose through this major-step is to calculate the partial derivative of E_Total w.r.t. $w5$, $w6$, $w7$ & $w8$.In turn, under this step we demonstrate how to calculate just one out of these i.e. the partial derivative of E_Total w.r.t. $w5$, so that in the next major step # 3 we extend the same formation to calculate this partial derivative w.r.t. the remainin other last-level weights(i.e. $w6$, $w7$ & $w8$).
+Under this next step, while back propagating the E_Total, the first set of parameters/weights we want to update are: $w5$, $w6$, $w7$ & $w8$.Our purpose through this major-step is to be able to calculate the partial derivative of E_Total w.r.t. $w5$, $w6$, $w7$ & $w8$.Hence, under this step we demonstrate how to calculate just one out of these i.e. the partial derivative of E_Total w.r.t. $w5$, so that in the next major step # 3, we just extend the same formation, to calculate this partial derivative for E_Total w.r.t. the remaining other last-level weights(i.e. $w6$, $w7$ & $w8$).
+
 The mathematical equations for $w5$ are as follows:
 
 $$ ∂E_total / ∂w5 = ∂(E1 + E2) / ∂w5 $$
