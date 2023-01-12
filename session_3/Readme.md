@@ -7,6 +7,8 @@
 ## Also explain each Major step with required equations.Give snapshots for the loss curve under a list of learning rates: [0.1, 0.2, 0.5, 0.8, 1.0, 2.0] 
 
 Please refer the [xls sheet](https://github.com/ojhajayant/EVA8/blob/main/session_3/BackPropogationCalculation.xlsx) which has calculations based on the 6 "Major-Steps" as described below.Multiple sheets within this workbook, represent calculations for the "convergence" of the neural network, under different learning rates (esp. related to the list:  [0.1, 0.2, 0.5, 0.8, 1.0, 2.0] but under similar intial values of weights, same set of input and target values too.)
+One example screenshot from one of the sheets of the xls sheet is as shown here (for learning rate 1.0)
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_3/Back_Prop_calc_lr_1.0.png "Logo Title Text 1")
 
 #### Major Step 1:
 
