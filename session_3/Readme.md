@@ -135,7 +135,7 @@ $$ ∂E_total / ∂w4 = ((a_{o_1} - t1) * a_{o_1} * (1 - a_{o_1}) * w6 + (a_{o_2
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_3/loss_curve_lr_2.0.png "Logo Title Text 1")
 
-	- observation:  the convergence improves with the increase in the learning rates (at least, for the given set of values)
+	- observation:  the convergence improves with the increase in the learning rates (at least, for the provided set of lr values here)
 
 
 # PART 2:
