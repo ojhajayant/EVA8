@@ -37,7 +37,7 @@ $$ E2 = ½  *  (t2 - a_{o_2})² $$
 
 Here the L2 loss function is used where for example t1 is the target or ground truth and a_o1 is the NN-prediction.Here E_Total represents sum of E1 & E2, as we set out to train the network while reducing the overall loss.
 
-### Major Step 2:
+#### Major Step 2:
 
 Under this next step, while back propagating the E_Total, the first set of parameters/weights we want to update are: $w5$, $w6$, $w7$ & $w8$.Our purpose through this major-step is to be able to calculate the partial derivative of E_Total w.r.t. $w5$, $w6$, $w7$ & $w8$.Hence, under this step we demonstrate how to calculate just one out of these i.e. the partial derivative of E_Total w.r.t. $w5$, so that in the next major step # 3, we just extend the same formation, to calculate this partial derivative for E_Total w.r.t. the remaining other last-level weights(i.e. $w6$, $w7$ & $w8$).
 
@@ -54,8 +54,20 @@ $$ ∂E1 / ∂a_{o_1}  = ∂(½ * (t1 - a_{o_1})²) / ∂a_{o_1} = a_{o_1} - t1 
 $$ ∂a_{o_1}/∂o1 = ∂(σ(o1))/∂o1 = a_{o_1} * (1 - a_{o_1} ) $$
 					
 $$ ∂o1 / ∂w5 = a_{h_1} $$
+
+Please note in the 2nd equation above, $ ∂E_total / ∂w5 $ became $ ∂E1 / ∂w5 $ as for $w5$ $E2$ wasn't involved.And 3rd equation above represents our intution in mathematical terms (i.e. chain-rule) & finally th last 3 equations in this step represent the 3 multiplicands under the chain of derivatives.
 					
 
+#### Major Step 3:
+
+Under this next step, we calculate the final value for the derivative of E_Total w.r.t. $w5$ and extend the same to $w6$ to $w8$
+
+$$ ∂E_total / ∂w5 = (a_{o_1} - t1) * a_{o_1} * (1 - a_{o_1} ) * a_{h_1} $$ 					
+$$ ∂E_total / ∂w6 = (a_{o_1} - t1) * a_{o_1} * (1 - a_{o_1} ) * a_{h_2}	$$				
+$$ ∂E_total / ∂w7 = (a_{o_2} - t2) * a_{o_2} * (1 - a_{o_2} ) * a_{h_1}	$$				
+$$ ∂E_total / ∂w8 = (a_{o_2} - t2) * a_{o_2} * (1 - a_{o_2} ) * a_{h_1}	$$				
+
+					
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_3/loss_curve_lr_0.1.png "Logo Title Text 1")
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_3/loss_curve_lr_0.2.png "Logo Title Text 1")
