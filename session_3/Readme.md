@@ -2,9 +2,9 @@ Session_3:
 
 PART 1:
 
-## For a Neural Network, with weights initialized as shown in the diagram below, write an excel-sheet showing the calculation for BackPropagation:
+# For a Neural Network, with weights initialized as shown in the diagram below, write an excel-sheet showing the calculation for BackPropagation:
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_3/Neural_Network_diagram.png "Logo Title Text 1")
-## Also explain each Major step with required equations.Give snapshots for the loss curve under a list of learning rates: [0.1, 0.2, 0.5, 0.8, 1.0, 2.0] 
+# Also explain each Major step with required equations.Give snapshots for the loss curve under a list of learning rates: [0.1, 0.2, 0.5, 0.8, 1.0, 2.0] 
 
 Please refer the [xls sheet](https://github.com/ojhajayant/EVA8/blob/main/session_2.5/EVA8_session_2_5_final_Jayant_Ojha.ipynb) 
 
@@ -39,31 +39,21 @@ Here the L2 loss function is used where for example t1 is the target or ground t
 
 ### Major Step 2:
 
-Under this next step, we want to back-propagate by a single step behind upto the weights $w5$, $w6$ calculate the partial derivative of E_
+Under this next step, while back propagating the E_Total, the first set of parameters/weights we want to update are: $w5$, $w6$, $w7$ & $w8$.Hence, our purpose through this major-step is to calculate the partial derivative of E_Total w.r.t. $w5$, $w6$, $w7$ & $w8$.In turn, under this step we demonstrate how to calculate just one out of these i.e. the partial derivative of E_Total w.r.t. $w5$, so that in the next major step # 3 we extend the same formation to calculate this partial derivative w.r.t. the remainin other last-level weights(i.e. $w6$, $w7$ & $w8$).
+The mathematical equations for $w5$ are as follows:
 
-$$ h1 = w1 * i1 + w2 * i2 $$
-
-$$ h2 = w3 * i1 + w4 * i2 $$
-
-$$ a_{h_1} = σ(h1) = 1/(1 + e^{-h1}) $$
-
-$$ a_{h_2} = σ(h2) = 1/(1 + e^{-h2}) $$
-
-$$ o1 = w5 * a_{h_1} + w6 * a_{h_2} $$
-
-$$ o2 = w7 * a_{h_1} + w8 * a_{h_2} $$
-
-$$ a_{o_1} = σ(o1) = 1/(1 + e^{-o1}) $$
-
-$$ a_{o_2} = σ(o2) = 1/(1 + e^{-o2}) $$
-
-$$ E_Total = E1 + E2 $$
-
-$$ E1 = ½  *  (t1 - a_{o_1})² $$
-
-$$ E2 = ½  *  (t2 - a_{o_2})² $$
-
-Here the L2 loss function is used where for example t1 is the target or ground truth and a_o1 is the NN-prediction.Here E_Total represents sum of E1 & E2, as we set out to train the network while reducing the overall loss.
+$$ ∂E_total/∂w5 = ∂(E1+E2)/∂w5 $$
+					
+$$ ∂E_total/∂w5 = ∂E1/∂w5 $$
+					
+$$ ∂E_total/∂w5 = ∂E1/∂w5 = (∂E1/∂a_o1) * (∂a_o1/∂o1) * (∂o1/∂w5) $$
+					
+$$ ∂E1/∂a_o1  = ∂(½ * (t1 - a_o1)²)/∂a_o1=a_o1-t1 $$
+					
+$$ ∂a_o1/∂o1 = ∂(σ(o1))/∂o1 = a_o1*(1-a_o1) $$
+					
+$$ ∂o1/∂w5 = a_h1$$
+					
 
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_3/loss_curve_lr_0.1.png "Logo Title Text 1")
