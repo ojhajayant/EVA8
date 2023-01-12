@@ -62,10 +62,14 @@ Please note in the 2nd equation above, $ ∂E_total / ∂w5 $ became $ ∂E1 / �
 
 Under this next step, we calculate the final value for the derivative of E_Total w.r.t. $w5$ and extend the same to $w6$ to $w8$
 
-$$ ∂E_total / ∂w5 = (a_{o_1} - t1) * a_{o_1} * (1 - a_{o_1} ) * a_{h_1} $$ 					
-$$ ∂E_total / ∂w6 = (a_{o_1} - t1) * a_{o_1} * (1 - a_{o_1} ) * a_{h_2}	$$				
-$$ ∂E_total / ∂w7 = (a_{o_2} - t2) * a_{o_2} * (1 - a_{o_2} ) * a_{h_1}	$$				
-$$ ∂E_total / ∂w8 = (a_{o_2} - t2) * a_{o_2} * (1 - a_{o_2} ) * a_{h_1}	$$				
+$$ ∂E_total / ∂w5 = (a_{o_1} - t1) * a_{o_1} * (1 - a_{o_1} ) * a_{h_1} $$ 	
+
+$$ ∂E_total / ∂w6 = (a_{o_1} - t1) * a_{o_1} * (1 - a_{o_1} ) * a_{h_2}	$$
+
+$$ ∂E_total / ∂w7 = (a_{o_2} - t2) * a_{o_2} * (1 - a_{o_2} ) * a_{h_1}	$$	
+
+$$ ∂E_total / ∂w8 = (a_{o_2} - t2) * a_{o_2} * (1 - a_{o_2} ) * a_{h_1}	$$
+
 
 					
 
