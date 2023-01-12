@@ -6,7 +6,7 @@
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_3/Neural_Network_diagram.png "Logo Title Text 1")
 ## Also explain each Major step with required equations.Give snapshots for the loss curve under a list of learning rates: [0.1, 0.2, 0.5, 0.8, 1.0, 2.0] 
 
-Please refer the [xls sheet](https://github.com/ojhajayant/EVA8/blob/main/session_2.5/EVA8_session_2_5_final_Jayant_Ojha.ipynb) 
+Please refer the [xls sheet](https://github.com/ojhajayant/EVA8/blob/main/session_2.5/EVA8_session_2_5_final_Jayant_Ojha.ipynb) which has calculations based on the 6 "Major-Steps" as described below.Multiple sheets within this workbook, represent calculations for the "convergence" of the neural network, under different learning rates (esp. related to the list:  [0.1, 0.2, 0.5, 0.8, 1.0, 2.0] but under similar intial values of weights, same set of input and target values too.)
 
 #### Major Step 1:
 
@@ -111,23 +111,31 @@ $$ ∂E_total / ∂w3 = ((a_{o_1} - t1) * a_{o_1} * (1 - a_{o_1}) * w6 + (a_{o_2
 										
 $$ ∂E_total / ∂w4 = ((a_{o_1} - t1) * a_{o_1} * (1 - a_{o_1}) * w6 + (a_{o_2} - t2) * a_{o_2} * (1 - a_{o_2}) * w8) * a_{h_2} * (1 - a_{h_2}) * i2	$$									
 
-
+#### Loss Curve with learning rate ɳ = 0.1 : 
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_3/loss_curve_lr_0.1.png "Logo Title Text 1")
+
+#### Loss Curve with learning rate ɳ = 0.2 : 
+
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_3/loss_curve_lr_0.2.png "Logo Title Text 1")
+
+#### Loss Curve with learning rate ɳ = 0.5 : 
+
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_3/loss_curve_lr_0.5.png "Logo Title Text 1")
+
+#### Loss Curve with learning rate ɳ = 0.8 : 
+
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_3/loss_curve_lr_0.8.png "Logo Title Text 1")
+
+#### Loss Curve with learning rate ɳ = 1.0 : 
+
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_3/loss_curve_lr_1.0.png "Logo Title Text 1")
+
+#### Loss Curve with learning rate ɳ = 2.0 : 
+
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_3/loss_curve_lr_2.0.png "Logo Title Text 1")
 
-
-## xyz:
-
-### ucw:
-Tfggh:
- 
-
-##### cvg
+	- observation:  the convergence increases with the increase in the learning rates (for the given set of values)
 
 
-PART 2:
+# PART 2:
