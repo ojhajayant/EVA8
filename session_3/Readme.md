@@ -1,6 +1,6 @@
-Session_3:
+# Session_3:
 
-PART 1:
+# PART 1:
 
 ## For a Neural Network, with weights initialized as shown in the diagram below, write an excel-sheet showing the calculation for BackPropagation:
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_3/Neural_Network_diagram.png "Logo Title Text 1")
