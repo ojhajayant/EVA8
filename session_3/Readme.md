@@ -101,7 +101,7 @@ $$ ∂E_total / ∂w4 = (∂E_total / ∂a_{h_2} ) * (∂a_{h_2} / ∂h2 ) * (�
 			
 	
 #### Major Step 6:
-Under this final step we expand the equations obtained under step-4 to get the final set of equations for the partial derivative of E_Total w.r.t. $w1$, $w2$, $w3$ & $w4$ as given below:
+Under this final step we expand the equations obtained under step-5 to get the final set of equations for the partial derivative of E_Total w.r.t. $w1$, $w2$, $w3$ & $w4$ as given below:
 
 $$ ∂E_total / ∂w1 = ((a_{o_1} - t1) *  a_{o_1} * (1 - a_{o_1}) * w5 + (a_{o_2} - t2) * a_{o_2} * (1 - a_{o_2}) * w7) * a_{h_1} * (1 - a_{h_1}) * i1 $$
 										
