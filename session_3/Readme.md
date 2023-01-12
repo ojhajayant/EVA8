@@ -13,27 +13,27 @@ Please refer the [xls sheet](https://github.com/ojhajayant/EVA8/blob/main/sessio
 This step actually is about calculations related to a "forward propagation", given an intiailized set of weights( $w1=0.15$, $w2=0.2$, $w3=0.25$, $w4=0.3$, $w5=0.4$, $w6=0.45$, $w7=0.5$ & $w8=0.55$), a given set of inputs( $i1=0.05$, $i2=0.1$) along with a given set of target/ground-truth values( $t1=0.01$, $t2=0.99$)
 The equations are as follows:
 
-$$ h1 = w_1 i_1 + w2*i2 $$	
+$$ h_1 = w_1 i_1 + w_2 i_2 $$	
 
-$$ h2 = w3*i1 + w4*i2 $$	
+$$ h_2 = w_3 i_1 + w_4 i_2 $$	
 
-$$ a_h1 = σ(h1) = 1/(1 + exp(-h1)) $$
+$$ a__h_1 = σ(h_1) = 1 \over (1 + exp(-h_1)) $$
 
-$$ a_h2 = σ(h2) = 1/(1 + exp(-h2)) $$		
+$$ a__h_2 = σ(h_2) = 1 \over (1 + exp(-h_2)) $$		
 
-$$ o1=w5a_h1 + w6a_h2 $$
+$$ o_1 = w_5 a__h_1 + w_6 a__h_2 $$
 
-$$ o2=w7a_h1 + w8a_h2 $$		
+$$ o_2 = w_7 a__h_1 + w_8 a__h_2 $$		
 
-$$ a_o1=σ(o1) = 1/(1 + exp(-o1)) $$		
+$$ a__o_1 = σ(o_1) = 1 \over (1 + exp(-o_1)) $$		
 
-$$ a_o2=σ(o2) = 1/(1 + exp(-o2)) $$		
+$$ a__o_2 = σ(o_2) = 1 \over (1 + exp(-o_2)) $$		
 
-$$ E_Total=E1+E2 $$	
+$$ E__Total = E_1 + E_2 $$	
 
-$$ E1=½ * (t1 - a_o1)² $$	
+$$ E_1 = ½ * (t_1 - a__o_1)² $$	
 
-$$ E2 = ½ * (t2 - a_o2)² $$		
+$$ E_2 = ½ * (t_2 - a__o_2)² $$		
 
 
 
