@@ -84,7 +84,22 @@ $$ ∂E_total / ∂a_{h_1} = (a_{o_1} - t1 ) * a_{o_1} * (1 - a_{o_1} ) * w5  + 
 $$ ∂E_total / ∂a_{h_2} = (a_{o_1} - t1 ) * a_{o_1} * (1 - a_{o_1} ) * w6 + (a_{o_2} - t2) * a_{o_2} * (1 - a_{o_2} ) * w8 $$
 								
  
-					
+				
+#### Major Step 5:
+
+Under this next step, while back propagating the E_Total behind the hidden layer, the next set of parameters/weights we want to update are: $w1$, $w2$, $w3$ & $w4$.Our purpose through this major-step is to be able to calculate the partial derivative of E_Total w.r.t. $w1$, $w2$, $w3$ & $w4$.Under this step we represent each of ∂E_total/∂w1 (and others w.r.t. $w2$, $w3$ & $w4$) as set of 4 chain rule equations where first represents: ∂E_total/∂w1 equal to (∂E_total/∂a_h1)*(∂a_h1/∂h1)*(∂h1/∂w1) and same extends to other 3.
+
+
+
+$$ ∂E_total / ∂w1 = (∂E_total / ∂a_h1 ) * (∂a_h1 / ∂h1 ) * (∂h1 / ∂w1 )	$$
+				
+$$ ∂E_total / ∂w2 = (∂E_total / ∂a_h1 ) * (∂a_h1 / ∂h1 ) * (∂h1 / ∂w2 )	$$	
+			
+$$ ∂E_total / ∂w3 = (∂E_total / ∂a_h2 ) * (∂a_h2 / ∂h2 ) * (∂h2 / ∂w3 )	 $$
+				
+$$ ∂E_total / ∂w4 = (∂E_total / ∂a_h2 ) * (∂a_h2 / ∂h2 ) * (∂h2 / ∂w4 )	 $$	
+			
+	
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_3/loss_curve_lr_0.1.png "Logo Title Text 1")
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_3/loss_curve_lr_0.2.png "Logo Title Text 1")
