@@ -15,9 +15,9 @@ The equations are as follows:
 
 $$ h1 = w1 * i1 + w2 * i2 $$
 
-$$h2 = w3*i1 + w4*i2$$
+$$ h2 = w3 * i1 + w4 * i2 $$
 
-a_h1 = σ(h1) = 1/(1 + e^{-h1})
+$$ a_h1 = σ(h1) = 1/(1 + e^{-h1}) $$
 
 a_h2 = σ(h2) = 1/(1 + e^{-h2})
 
