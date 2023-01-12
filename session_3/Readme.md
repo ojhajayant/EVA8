@@ -400,9 +400,15 @@ Input Channels/Image  |  Conv2d/Transform      | Output Channels | RF
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_3/loss_01.png "Logo Title Text 1")
 
 	- First observation: with total 3,816 parameters, the max validation accuracy reached: ~98.16%
-	- The logs and accuracy plot show that there is some overfitting in terms of the accuracy plot, that the train and test accuracies seem to be running in close step/embrace. With not much "potential" for the test/validation accuracy to increase, with a corresponding increase in training accuracy. 
-	- Additionally, with required 20 epochs, the "network capacity" seems to be NOT sufficient to meet the goal. 
-	- But, despite an urgent need for "capacity-boost" thru increased channels, we would STILL like to see, if with an "incremental" addition of Batch-Norm, Dropout, what extra effects/benefits or disadvantages could be seen?
+	- The logs and accuracy plot show that there is some overfitting in terms of the accuracy plot, 
+	  that the train and test accuracies seem to be running in close step/embrace. With not much 
+	  "potential" for the test/validation accuracy to increase, with a corresponding increase in 
+	  training accuracy. 
+	- Additionally, with required 20 epochs, the "network capacity" seems to be NOT sufficient to 
+	  meet the goal. 
+	- But, despite an urgent need for "capacity-boost" thru increased channels, we would STILL 
+	  like to see, if with an "incremental" addition of Batch-Norm, Dropout, what extra 
+	  effects/benefits or disadvantages could be seen?
 
 
 #### 2nd NW: 
@@ -437,10 +443,16 @@ Input Channels/Image  |  Conv2d/Transform      | Output Channels | RF
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_3/loss_02.png "Logo Title Text 1")
 
 
-	- First observation:  Total params: 3,944 (which is expectedly, higher as compared to the 1st NW) & the max validation accuracy reaches: ~98.95%
-	- we got little better in terms of the reached accuracy but expectedly, far from the required accuracy goal.
-	- Also in terms of the accuracy plot & logs, we could see that the further potential for increase for the validation accuracy has not yet opened up (it is still overfitting...i.e. the training accuracy has reached 99.0% but the validation acuracy still under ~98.95%, hence not much scope for further increase, with a corresponding increase in training accuracy )
-	- just like the earlier NW, this one can't meet the goal within the required 20 epochs(capacity boost definitely required)
+	- First observation:  Total params: 3,944 (which is expectedly, higher as compared to the 1st NW)
+	  & the max validation accuracy reaches: ~98.95%
+	- we got little better in terms of the reached accuracy but expectedly, far from the required 
+	  accuracy goal.
+	- Also in terms of the accuracy plot & logs, we could see that the further potential for increase
+	  for the validation accuracy has not yet opened up (it is still overfitting...i.e. the training
+	  accuracy has reached 99.0% but the validation acuracy still under ~98.95%, hence not much scope 
+	  for further increase, with a corresponding increase in training accuracy )
+	- just like the earlier NW, this one can't meet the goal within the required 20 epochs(capacity
+	  boost definitely required)
 
 #### 3rd NW:
 
@@ -480,10 +492,20 @@ Input Channels/Image  |  Conv2d/Transform      | Output Channels | RF
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_3/loss_03.png "Logo Title Text 1")
 
 
-	- First observation:  Total params: 3,944 (which is expectedly,same as compared to the last NW as dropout doesn't add params) & the max validation accuracy reaches: ~98.39% (though this seems almost comparable to the achieved max in last iteration, but in case of adding Dropout, we have considerably overcome the overfitting issue, by opening up the gap between training and test accuracies...i.e. now we can see that the test accuracy value like ~98% is achieved while the training accuracy is still at ~96%, which has opened up the potential for further increase in the validation accuracy, given we have a required number of epochs and NW-capacity with us.
-	- Also in terms of the accuracy plot, both the train and test accuracies seem to be maintaining almost consistent gap (training accuracy growth is looking stagnant though, but some scope is open)
-	- As a final step for this architecture-option we are required to the given Learning rate value hence that aspect won't be explored further.
-	- But to achieve the required goal we will have to go for a capacity increase now, the next iteration tries to do the same.
+	- First observation:  Total params: 3,944 (which is expectedly,same as compared to the last NW as
+	  dropout doesn't add params) & the max validation accuracy reaches: ~98.39% (though this seems 
+	  almost comparable to the achieved max in last iteration, but in case of adding Dropout, we have
+	  considerably overcome the overfitting issue, by opening up the gap between training and test 
+	  accuracies...i.e. now we can see that the test accuracy value like ~98% is achieved while the 
+	  training accuracy is still at ~96%, which has opened up the potential for further increase in 
+	  the validation accuracy, given we have a required number of epochs and NW-capacity with us.
+	- Also in terms of the accuracy plot, both the train and test accuracies seem to be maintaining 
+	  almost consistent gap (training accuracy growth is looking stagnant though, but some scope is
+	  open)
+	- As a final step for this architecture-option we are required to the given Learning rate value 
+	  hence that aspect won't be explored further.
+	- But to achieve the required goal we will have to go for a capacity increase now, the next 
+	  iteration tries to do the same.
 
 #### 4th NW:
 
@@ -523,6 +545,8 @@ Input Channels/Image  |  Conv2d/Transform      | Output Channels | RF
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_3/loss_04.png "Logo Title Text 1")
 
 
-	- First observation:  Total params: 14,112 (which is expected,given higher NW capacity) & the max validation accuracy reaches: ~99.42%
-	- This case meets the required goal of getting an accuracy of 99.4% (appeared 2 times during training-epochs), the parameters: 14,112 < 20K (requirement) and came under 20 epochs.
+	- First observation:  Total params: 14,112 (which is expected,given higher NW capacity) & the max
+	  validation accuracy reaches: ~99.42%
+	- This case meets the required goal of getting an accuracy of 99.4% (appeared 2 times during 
+	  training-epochs), the parameters: 14,112 < 20K (requirement) and came under 20 epochs.
 
