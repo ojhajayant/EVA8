@@ -55,7 +55,7 @@ $$ ∂a_{o_1}/∂o1 = ∂(σ(o1))/∂o1 = a_{o_1} * (1 - a_{o_1} ) $$
 					
 $$ ∂o1 / ∂w5 = a_{h_1} $$
 
-Please note in the 2nd equation above, $ ∂E_total / ∂w5 $ became $ ∂E1 / ∂w5 $ as for $w5$ $E2$ wasn't involved.And 3rd equation above represents our intution in mathematical terms (i.e. chain-rule) & finally th last 3 equations in this step represent the 3 multiplicands under the chain of derivatives.
+Please note in the 2nd equation above, $∂E_total / ∂w5$ became $∂E1 / ∂w5$ as for $w5$ $E2$ wasn't involved.And 3rd equation above represents our intution in mathematical terms (i.e. chain-rule) & finally th last 3 equations in this step represent the 3 multiplicands under the chain of derivatives.
 					
 
 #### Major Step 3:
