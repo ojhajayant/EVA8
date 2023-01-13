@@ -12,7 +12,7 @@ One example screenshot from one of the sheets of the xls sheet is as shown here 
 
 #### Major Step 1:
 
-This step actually is about calculations related to a "forward propagation", given an intiailized set of weights( $w1=0.15$, $w2=0.2$, $w3=0.25$, $w4=0.3$, $w5=0.4$, $w6=0.45$, $w7=0.5$ & $w8=0.55$), a given set of inputs( $i1=0.05$, $i2=0.1$) along with a given set of target/ground-truth values( $t1=0.01$, $t2=0.99$)
+This step actually is about calculations related to a "forward propagation", given an initialized set of weights( $w1=0.15$, $w2=0.2$, $w3=0.25$, $w4=0.3$, $w5=0.4$, $w6=0.45$, $w7=0.5$ & $w8=0.55$), a given set of inputs( $i1=0.05$, $i2=0.1$) along with a given set of target/ground-truth values( $t1=0.01$, $t2=0.99$)
 From the neural network diagram above, the equations are as follows:
 
 $$ h1 = w1 * i1 + w2 * i2 $$
