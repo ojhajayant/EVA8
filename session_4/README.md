@@ -128,7 +128,7 @@ In this 2nd attempt too, the network structure /architecture hasn't changed.Unde
 
 ### Third Attempt:
 
-In this 2nd attempt too, the network structure /architecture hasn't changed. During one experiment on the learning rate sweeps, one learning rate region below 0.07 'flashed' a better accuracy number, hence using just the StepLR way with step size 1, with gamma such that every epoch the reduction in learning rate would be 0.1/TOTAL_EPOCHS:
+In this 3rd attempt too, the network structure /architecture hasn't changed. During one experiment on the learning rate sweeps, one learning rate region below 0.07 'flashed' a better accuracy number, hence using just the StepLR way with step size 1, with gamma such that every epoch the reduction in learning rate would be 0.1/TOTAL_EPOCHS:
 ```
 (i.e. 
 with init_learning_rate = 0.07
