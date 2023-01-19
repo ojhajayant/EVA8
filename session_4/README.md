@@ -7,7 +7,7 @@
 
 #### Given below is the description of 3 attempts, made to achieve the required goals (meeting 99.4%+ accuracy, under the required parameters: <=10K and within 15 epochs) :
 
-##### First Attempt:
+### First Attempt:
 
 Please refer the [notebook](https://github.com/ojhajayant/EVA8/blob/main/session_4/EVA8_session4_assignment_1st_attempt.ipynb)
 
@@ -77,7 +77,8 @@ Given below is the number of parameters thus obtained, which is well under 8k.
 Also please note that out of all the other tested % ranges for dropout, it was found for this NW that 2.9% dropout worked best.
 
 ###### Targets:
-	- expect the max Validation Accuracy to reach at least: ~99.1% (i.e. 0.1s in the decimal places, as we are in this case starting out with both BatchNorm + DropOut included in the first baseline architecture)
+	- expect the max Validation Accuracy to reach at least: ~99.1% (i.e. 0.1s in the decimal places, as we are in this case
+	  starting out with both BatchNorm + DropOut included in the first baseline architecture)
 	- The total params in all these attempts has to be under 10K.
 ###### Results (1st Attempt):
 	- max Validation Accuracy reached: 99.14% 
@@ -86,13 +87,17 @@ Also please note that out of all the other tested % ranges for dropout, it was f
   
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_4/curves_attempt1.png "Logo Title Text 1")
 ##### Analysis:
-	- Actually, for the given Network capacity & limited number of epochs,  with both BatchNorm & Dropout included, we are going good here.There isn't much overfitting, but without added image augmentation and/or learning rate tunings we can't hit the target on accuracy.Actually, under a limited scope of 15 epochs and comparing with what some addition of proper image augmenation and/or LR-tuning can do to the validation accuracy (in relation to the training accuracy), we can still call this a case of "overfiting".
+	- Actually, for the given Network capacity & limited number of epochs,  with both BatchNorm & Dropout included, we are
+	  going good here.There isn't much overfitting, but without added image augmentation and/or learning rate tunings we 
+	  can't hit the target on accuracy.Actually, under a limited scope of 15 epochs and comparing with what some addition 
+	  of proper image augmenation and/or LR-tuning can do to the validation accuracy (in relation to the training accuracy),
+	  we can still call this a case of "overfiting".
 	- But, we would now on, in next attempts like to see, how with added Image augmentation the NW-performance gets affected.
 
 ##### File Link:  [notebook](https://github.com/ojhajayant/EVA8/blob/main/session_4/EVA8_session4_assignment_1st_attempt.ipynb) 
 
 
-##### Second Attempt:
+### Second Attempt:
 
 Please refer the [notebook](https://github.com/ojhajayant/EVA8/blob/main/session_4/EVA8_session4_assignment_2nd_attempt.ipynb)
 
@@ -110,13 +115,18 @@ In this 2nd attempt too, the network structure /architecture hasn't changed.Unde
   
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_4/curves_attempt2.png "Logo Title Text 1")
 ##### Analysis:
-	- Under this 2nd attempt, a torchvision transform is applied on the images, that randomly rotates an image by a random angle within the range of (-7 degrees, +7 degrees), with the choice made here. The rotation is applied randomly to the image on the specified degree range. For example, if degrees=7 as is the case here, the image will be rotated by a random angle between -7 and 7 degrees. We find that as compared to the first attempt, we have overcome the overfitting a lot and reached test accuracies up to 99.33% while train accuracy still under 99%.
-	- Hence a scope further opens up for us to try out LR-tuning on top of the same in the next (last) attempt to push things further ahead.
+	- Under this 2nd attempt, a torchvision transform is applied on the images, that randomly rotates an image by a random
+	  angle within the range of (-7 degrees, +7 degrees), with the choice made here. The rotation is applied randomly to 
+	  the image on the specified degree range. For example, if degrees=7 as is the case here, the image will be rotated by 
+	  a random angle between -7 and 7 degrees. We find that as compared to the first attempt, we have overcome the overfitting 
+	  a lot and reached test accuracies up to 99.33% while train accuracy still under 99%.
+	- Hence a scope further opens up for us to try out LR-tuning on top of the same in the next (last) attempt to push things
+	  further ahead.
 
 ##### File Link:  [notebook](https://github.com/ojhajayant/EVA8/blob/main/session_4/EVA8_session4_assignment_2nd_attempt.ipynb) 
 
 
-##### Third Attempt:
+### Third Attempt:
 
 In this 2nd attempt too, the network structure /architecture hasn't changed. During one experiment on the learning rate sweeps, one learning rate region below 0.07 'flashed' a better accuracy number, hence using just the StepLR way with step size 1, with gamma such that every epoch the reduction in learning rate would be 0.1/TOTAL_EPOCHS:
 ```
@@ -140,15 +150,18 @@ Please refer the [notebook](https://github.com/ojhajayant/EVA8/blob/main/session
   
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_4/curves_attempt3.png "Logo Title Text 1")
 ##### Analysis:
-	- During experiments on learning rate sweeps, one learning rate region below 0.07 'flashed' a better accuracy number, hence using just the StepLR way with step size 1, with gamma such that every epoch the 
-reduction in learning rate would be 0.1/TOTAL_EPOCHS:
+	- During experiments on learning rate sweeps, one learning rate region below 0.07 'flashed' a better accuracy number,
+	  hence using just the StepLR way with step size 1, with gamma such that every epoch the reduction in learning rate 
+	  would be 0.1/TOTAL_EPOCHS:
 
 ```
 (i.e. 
 with init_learning_rate = 0.07
 gamma x init_learning_rate = (init_learning_rate - (0.1/TOTAL_EPOCHS)   while step_size = 1)
 ```
-	- Guided by such equation on gamma the LR swept thru ranges as: LR: [0.07, 0.06333333333333334, 0.057301587301587305, 0.0518442932728647.....] In this range during last few epochs, and once in betwen, it flashed these 99.4+% accuracies.
+	- Guided by such equation on gamma the LR swept thru ranges as: LR: [0.07, 0.06333333333333334, 0.057301587301587305,
+	  0.0518442932728647.....] In this range during last few epochs, and once in betwen, it flashed these 99.4+% 
+	  accuracies.
 
 ##### File Link:  [notebook](https://github.com/ojhajayant/eva/blob/master/week5/S5_assignment_3rd_attempt.ipynb) 
 
