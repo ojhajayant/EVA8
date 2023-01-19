@@ -163,5 +163,5 @@ gamma x init_learning_rate = (init_learning_rate - (0.1/TOTAL_EPOCHS)   while st
 	  0.0518442932728647.....] In this range during last few epochs, and once in betwen, it flashed these 99.4+% 
 	  accuracies.
 
-##### File Link:  [notebook](https://github.com/ojhajayant/eva/blob/master/week5/S5_assignment_3rd_attempt.ipynb) 
+##### File Link:  [notebook](https://github.com/ojhajayant/EVA8/blob/main/session_4/EVA8_session4_assignment_3rd_attempt.ipynb) 
 
