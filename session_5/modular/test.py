@@ -10,8 +10,8 @@ import sys
 import torch
 import torch.nn.functional as F
 
-from week7.modular import cfg
-from week7.modular import utils
+from session_5.modular import cfg
+from session_5.modular import utils
 
 sys.path.append('./')
 # args = cfg.parser.parse_args(args=[])
