@@ -1,17 +1,15 @@
 #!/usr/bin/env python
 """EVA8_session4_assignment_3rd_attempt.py: This contains the model
-definition used in session5&6 to be trained on MNIST dataset. """
+definition used in session 4 & 5 to be trained on MNIST dataset. """
 from __future__ import print_function
 
 import sys
 import torch.nn as nn
 import torch.nn.functional as F
-from session_5.modular import cfg
 
 sys.path.append('./')
 
-args = cfg.parser.parse_args(args=[])
-dropout_value = args.dropout
+dropout_value = 0.029
 
 
 class Net(nn.Module):
