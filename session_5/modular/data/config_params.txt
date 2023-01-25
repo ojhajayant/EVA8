@@ -1,0 +1,1 @@
+{"cmd": "train", "IPYNB_ENV": "False", "SEED": 1, "batch_size": 128, "epochs": 1, "lr": 0.01, "cuda": false, "dropout": 0.029, "normalization": "batch", "l1_weight": 2.5e-05, "l2_weight_decay": 0.0002125, "L1": true, "L2": false, "data": "./data/", "best_model_path": "./saved_models/", "prefix": "data", "best_model": "MNIST_model.h5", "dataset": "MNIST"}
