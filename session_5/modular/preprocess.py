@@ -12,7 +12,7 @@ import numpy as np
 import torch
 from torchvision import datasets, transforms
 
-from week7.modular import cfg
+from session_5.modular import cfg
 
 sys.path.append('./')
 global args
