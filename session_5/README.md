@@ -1,6 +1,6 @@
 # Session_5
 
-# Make 3 versions of 4th Session assignment's best model :
+### Make 3 versions of 4th Session assignment's best model :
 > 1. Network with Group Normalization
 
 > 2. Network with Layer Normalization
