@@ -157,7 +157,11 @@ The snapshot just below represents all the calculated values for the mean and va
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/all_normalization_calculated.png "Logo Title Text 1")
 
+The snapshot below represents, how for batch normalization, one of the mean values, for one of the channels out of 4 across different batch images is calculated.Same can be extended to mean values for the remaining 3 more channels.
+
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/one_sample_mean_under_batch_norm_calculated.png "Logo Title Text 1")
+
+The snapshot below represents, how for batch normalization, one of the variance values, for one of the channels out of 4 across different batch images is calculated.Same can be extended to variance values for the remaining 3 more channels.
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/one_sample_var_under_batch_norm_calculated.png "Logo Title Text 1")
 
