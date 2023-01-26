@@ -131,14 +131,22 @@ Consolidated validation loss plot for 3 iterations:
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/model_consolidated_test_loss.png "Logo Title Text 1")
 
-###  misclassified images:
+###  Misclassified images:
+
+For Best saved Model with Group Normalization alone:
+
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/misclassified_grp_norm_l1_0.png "Logo Title Text 1")
 
+
+For Best saved Model with Layer Normalization alone:
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/misclassified_layer_norm_l1_0.png "Logo Title Text 1")
 
 
+For Best saved Model with Batch Normalization & L1:
+
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/misclassified_batch_norm_l1_1.png "Logo Title Text 1")
+
 
 
 Please refer the [xls sheet](https://github.com/ojhajayant/EVA8/blob/main/session_5/Normalizations.xlsx) which has calculations on batch, layer & group normalizations.
