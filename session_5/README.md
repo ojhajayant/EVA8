@@ -132,6 +132,31 @@ def train(model, device, train_loader, optimizer, epoch, L1=False):
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/misclassified_batch_norm_l1_1.png "Logo Title Text 1")
 
 
+Please refer the [xls sheet]([https://github.com/ojhajayant/EVA8/blob/main/session_3/BackPropogationCalculation.xlsx](https://github.com/ojhajayant/EVA8/blob/main/session_5/Normalizations.xlsx)) which has calculations on batch, layer & group normalizations.
+
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/all_normalization_calculated.png "Logo Title Text 1")
+
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/one_sample_mean_under_batch_norm_calculated.png "Logo Title Text 1")
+
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/one_sample_var_under_batch_norm_calculated.png "Logo Title Text 1")
+
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/one_sample_mean_under_layer_norm_calculated.png "Logo Title Text 1")
+
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/one_sample_var_under_layer_norm_calculated.png "Logo Title Text 1")
+
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/one_sample_mean_for_grp_1_under_group_norm_calculated.png "Logo Title Text 1")
+
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/one_sample_mean_for_grp_2_under_group_norm_calculated.png "Logo Title Text 1")
+
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/one_sample_var_for_grp_1_under_group_norm_calculated.png "Logo Title Text 1")
+
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/one_sample_var_for_grp_2_under_group_norm_calculated.png "Logo Title Text 1")
+
+
+
+
+
+
 
 
 
