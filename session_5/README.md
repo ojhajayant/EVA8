@@ -169,6 +169,8 @@ The snapshot below represents, how for layer normalization, one of the mean valu
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/one_sample_mean_under_layer_norm_calculated.png "Logo Title Text 1")
 
+The snapshot below represents, how for layer normalization, one of the variance values is calculated for all the channels of Nth layer, for a single mini-batch sample. Same can be extended to remaining 3 mini-batch samples.Hence for layer-normalization here, we end up having 4 variance values for a batch size of 4 images.
+
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/one_sample_var_under_layer_norm_calculated.png "Logo Title Text 1")
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/one_sample_mean_for_grp_1_under_group_norm_calculated.png "Logo Title Text 1")
