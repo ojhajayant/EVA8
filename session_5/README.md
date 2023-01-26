@@ -157,11 +157,11 @@ Please refer the [xls sheet](https://github.com/ojhajayant/EVA8/blob/main/sessio
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/one_sample_var_for_grp_2_under_group_norm_calculated.png "Logo Title Text 1")
 
 
-![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/confusion_matrix%20%26%20classification_rpt_grp_norm_l1_0.png"Logo Title Text 1")
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/confusion_matrix%20%26%20classification_rpt_grp_norm_l1_0.png "Logo Title Text 1")
 
-![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/confusion_matrix%20%26%20classification_rpt_layer_norm_l1_0.png"Logo Title Text 1")
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/confusion_matrix%20%26%20classification_rpt_layer_norm_l1_0.png "Logo Title Text 1")
 
-![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/confusion_matrix%20%26%20classification_rpt_batch_norm_l1_1.png"Logo Title Text 1")
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/confusion_matrix%20%26%20classification_rpt_batch_norm_l1_1.png "Logo Title Text 1")
 
 
 
