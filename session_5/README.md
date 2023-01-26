@@ -122,7 +122,12 @@ def train(model, device, train_loader, optimizer, epoch, L1=False):
 
 
 ###  2 graphs to show the validation accuracy change and loss change:
+
+Consolidated validation accuracy plot for 3 iterations:
+
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/model_consolidated_test_acc.png "Logo Title Text 1")
+
+Consolidated validation loss plot for 3 iterations:
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/model_consolidated_test_loss.png "Logo Title Text 1")
 
