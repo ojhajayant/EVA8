@@ -128,7 +128,11 @@ def train(model, device, train_loader, optimizer, epoch, L1=False):
 
 ###  misclassified images:
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/misclassified_grp_norm_l1_0.png "Logo Title Text 1")
+
+
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/misclassified_layer_norm_l1_0.png "Logo Title Text 1")
+
+
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/misclassified_batch_norm_l1_1.png "Logo Title Text 1")
 
 
