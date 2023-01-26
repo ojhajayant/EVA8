@@ -204,6 +204,12 @@ For Best saved Model with Batch Normalization & L1:
 
 
 
+	- First observation: the parameters under Layer Normaliztion option shot up to 53,670 unlike the Group & Batch normalization options (7,684 each)
+	- The logs and accuracy plot comparisons put the L1+BN option as best one as compared to the other two, while the one with Group norm fared worst among these.
+	
+
+
+
 
 
 
