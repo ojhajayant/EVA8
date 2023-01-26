@@ -27,7 +27,7 @@ Please refer the [notebook]([https://github](https://github.com/ojhajayant/EVA8/
 
 Please refer the [model.py] (https://github.com/ojhajayant/EVA8/blob/main/session_5/modular/models/model.py)
 
-First of all, for importing the single model file named "model.py" under which model class named "EVA8_session4_assignment_model" is 1defined, with capabilities to have either of Batch/Layer/Group normalization, we have to put it as a package-element at the github (so that we can do a pip-install as below and can import it as a package element later on, in the colab notebook as below)
+First of all, for importing the single model file named "model.py" under which model class named "EVA8_session4_assignment_model" is defined, with capabilities to have either of Batch/Layer/Group normalization, we have to put it as a package-element at the github (so that we can do a pip-install as below and can import it as a package element later on, in the colab notebook as below)
 
 ```python
 !pip install git+https://git@github.com/ojhajayant/EVA8.git --upgrade 
