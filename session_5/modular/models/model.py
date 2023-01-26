@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""EVA8_session4_assignment_3rd_attempt.py: This contains the model
+"""model.py: This contains the model
 definition used in session 4 & 5 to be trained on MNIST dataset. """
 from __future__ import print_function
 
