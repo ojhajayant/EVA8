@@ -203,6 +203,7 @@ For Best saved Model (MNIST_model_epoch-19_L1-1_batch-Norm_val_acc-99.47) with B
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/misclassified_batch_norm_l1_1.png "Logo Title Text 1")
 
 
+### How to calculate  µ & σ², while performing the 3 normalizations techniques (BN/LN/GN):
 
 Please refer the [xls sheet](https://github.com/ojhajayant/EVA8/blob/main/session_5/Normalizations.xlsx) which has calculations on batch, layer & group normalizations.
 This sheet shows an Nth Layer (which has in turn 4 channels of 3x3 size, as an example) for a mini-batch size of 4 images.Overall, during the process of either of batch,layer or group normalizations we want to know, across what pixel values are we calculating our mean and variances.Following snaps below try to illustrate that itself.
