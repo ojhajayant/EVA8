@@ -152,7 +152,7 @@ For Best saved Model with Batch Normalization & L1:
 Please refer the [xls sheet](https://github.com/ojhajayant/EVA8/blob/main/session_5/Normalizations.xlsx) which has calculations on batch, layer & group normalizations.
 This sheet shows an Nth Layer (which has in turn 4 channels of 3x3 size, as an example) for a mini-batch size of 4 images.Overall, during the process of either of batch,layer or group normalizations we want to know, across what pixel values are we calculating our mean and variances.Following snaps below try to illustrate that itself.
 
-The snapshot just below represents all the calculated values for the mean and variance under batch, layer & group normalizations.Please note that as the randinbetween formula used in the xls changes some values shown during the following steps during clicks on various cells, but overall for any given snapshot in following diagrams its all correct (which can in turn be verified in the uploaded [xls sheet](https://github.com/ojhajayant/EVA8/blob/main/session_5/Normalizations.xlsx) too.)
+The snapshot just below represents all the calculated values for the mean and variance under batch, layer & group normalizations.Please note that as the randinbetween formula used in the 3x3 channel pixel values, changes some values shown during the following steps during clicks on various cells, but overall for any given snapshot in following diagrams its all correct (which can in turn be verified in the uploaded [xls sheet](https://github.com/ojhajayant/EVA8/blob/main/session_5/Normalizations.xlsx) too.)
 
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/all_normalization_calculated.png "Logo Title Text 1")
