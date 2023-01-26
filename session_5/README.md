@@ -23,7 +23,7 @@
 
 Please refer the [notebook](https://github.com/ojhajayant/EVA8/blob/main/session_5/EVA8_session5_assignment.ipynb) for this assignment solution.
 
-#### Model with batch/group/layer norm options:
+#### Few details on the Model with batch/group/layer norm options:
 
 Please refer the [model.py](https://github.com/ojhajayant/EVA8/blob/main/session_5/modular/models/model.py)
 
