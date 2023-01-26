@@ -136,7 +136,7 @@ def train(model, device, train_loader, optimizer, epoch, L1=False):
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/misclassified_batch_norm_l1_1.png "Logo Title Text 1")
 
 
-Please refer the [xls sheet]([https://github.com/ojhajayant/EVA8/blob/main/session_3/BackPropogationCalculation.xlsx](https://github.com/ojhajayant/EVA8/blob/main/session_5/Normalizations.xlsx)) which has calculations on batch, layer & group normalizations.
+Please refer the [xls sheet](https://github.com/ojhajayant/EVA8/blob/main/session_5/Normalizations.xlsx) which has calculations on batch, layer & group normalizations.
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/all_normalization_calculated.png "Logo Title Text 1")
 
