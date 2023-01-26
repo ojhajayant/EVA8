@@ -21,7 +21,7 @@
 > Find 10 misclassified images for each of the 3 models, and show them as a 5x2 image matrix in 3 separately annotated images.  Achieve 99.4% (must be consistently shown in last few epochs, and not a one-time achievement) in  less than or equal to 15 Epochs, with less than 10000 Parameters (additional credits for doing this in less than 8000 parameters) and do this in exactly 3 steps!
 
 
-Please refer the [notebook](https://github](https://github.com/ojhajayant/EVA8/blob/main/session_5/EVA8_session5_assignment.ipynb) for this assignment solution.
+Please refer the [notebook](https://github.com/ojhajayant/EVA8/blob/main/session_5/EVA8_session5_assignment.ipynb) for this assignment solution.
 
 #### Model with batch/group/layer norm options:
 
