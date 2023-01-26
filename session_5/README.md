@@ -208,8 +208,8 @@ For Best saved Model (MNIST_model_epoch-19_L1-1_batch-Norm_val_acc-99.47) with B
 
 	- First observation: the parameters under Layer Normaliztion option shot up to 53,670 unlike 
 	  the Group & Batch normalization options (7,684 each)
-	- The logs and accuracy plot comparisons put the L1+BN option as best one as compared to the
-	  other two, while the one with Layer norm fared worst among these.
+	- The logs and accuracy plot comparisons put the L1+BN option as best one(~99.47%) as compared to the
+	  other two, while the one with Layer norm fared worst (~99.37%) among these.
 	
 
 
