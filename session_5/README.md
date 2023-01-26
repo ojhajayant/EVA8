@@ -77,7 +77,7 @@ class EVA8_session4_assignment_model(nn.Module):
 
  ```
  
-Just to repeat, as also described in session 4, here is the layering, which is being used to achieve the receptive-field and parameter targets.
+Just to repeat, as also described in session 4 (but with slight modifications under the BN/LN/GN aspect), here is the layering, which is being used to achieve the receptive-field and parameter targets.
 
 Input Channels/Image  |  Conv2d/Transform      | Output Channels | RF
 ---------------------|--------------|----------------------|----------------------
