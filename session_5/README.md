@@ -87,7 +87,9 @@ class EVA8_session4_assignment_model(nn.Module):
 	  
 Here is how the L1 is implemented: 	  
 ```python
-
+l1_weight = 0.000025 ##Appears to be the best with the reference NW we have used here
+:
+:
 def l1_penalty(x):
     #L1 regularization adds an L1 penalty equal
     #to the absolute value of the magnitude of coefficients
