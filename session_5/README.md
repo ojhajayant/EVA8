@@ -135,17 +135,17 @@ Consolidated validation loss plot for 3 iterations:
 
 ###  Misclassified images:
 
-For Best saved Model with Group Normalization alone:
+For Best saved Model (MNIST_model_epoch-20_L1-0_group-Norm_val_acc-99.41) with Group Normalization alone:
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/misclassified_grp_norm_l1_0.png "Logo Title Text 1")
 
 
-For Best saved Model with Layer Normalization alone:
+For Best saved Model (MNIST_model_epoch-18_L1-0_layer-Norm_val_acc-99.37) with Layer Normalization alone:
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/misclassified_layer_norm_l1_0.png "Logo Title Text 1")
 
 
-For Best saved Model with Batch Normalization & L1:
+For Best saved Model (MNIST_model_epoch-19_L1-1_batch-Norm_val_acc-99.47) with Batch Normalization & L1:
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/misclassified_batch_norm_l1_1.png "Logo Title Text 1")
 
@@ -193,14 +193,14 @@ The snapshot below represents the calculation for group normalization, where as 
 
 ###  Confusion Matrix & Classification Reports:
 
-For Best saved Model with Group Normalization alone:
+For Best saved Model (MNIST_model_epoch-20_L1-0_group-Norm_val_acc-99.41) with Group Normalization alone:
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/confusion_matrix%20%26%20classification_rpt_grp_norm_l1_0.png "Logo Title Text 1")
 
-For Best saved Model with Layer Normalization alone:
+For Best saved Model (MNIST_model_epoch-18_L1-0_layer-Norm_val_acc-99.37) with Layer Normalization alone:
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/confusion_matrix%20%26%20classification_rpt_layer_norm_l1_0.png "Logo Title Text 1")
 
-For Best saved Model with Batch Normalization & L1:
+For Best saved Model (MNIST_model_epoch-19_L1-1_batch-Norm_val_acc-99.47) with Batch Normalization & L1:
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/confusion_matrix%20%26%20classification_rpt_batch_norm_l1_1.png "Logo Title Text 1")
 
