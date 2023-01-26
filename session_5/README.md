@@ -157,13 +157,15 @@ The snapshot just below represents all the calculated values for the mean and va
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/all_normalization_calculated.png "Logo Title Text 1")
 
-The snapshot below represents, how for batch normalization, one of the mean values, for one of the channels out of 4 across different batch images is calculated.Same can be extended to mean values for the remaining 3 more channels.
+The snapshot below represents, how for batch normalization, one of the mean values, for one of the channels out of 4 across different batch images is calculated.Same can be extended to mean values for the remaining 3 more channels.Hence for batch-normalization here, we end up having 4 mean values for 4 channels.
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/one_sample_mean_under_batch_norm_calculated.png "Logo Title Text 1")
 
-The snapshot below represents, how for batch normalization, one of the variance values, for one of the channels out of 4 across different batch images is calculated.Same can be extended to variance values for the remaining 3 more channels.
+The snapshot below represents, how for batch normalization, one of the variance values, for one of the channels out of 4 across different batch images is calculated.Same can be extended to variance values for the remaining 3 more channels.Hence for batch-normalization here, we end up having 4 variance values for 4 channels.
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/one_sample_var_under_batch_norm_calculated.png "Logo Title Text 1")
+
+The snapshot below represents, how for layer normalization, one of the mean values is calculated for all the channels of Nth layer, for a single mini-batch sample. Same can be extended to remaining 3 mini-batch samples.Hence for layer-normalization here, we end up having 4 mean values for a batch size of 4 images.
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/one_sample_mean_under_layer_norm_calculated.png "Logo Title Text 1")
 
