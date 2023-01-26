@@ -165,19 +165,27 @@ The snapshot below represents, how for batch normalization, one of the variance 
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/one_sample_var_under_batch_norm_calculated.png "Logo Title Text 1")
 
-The snapshot below represents, how for layer normalization, one of the mean values is calculated for all the channels of Nth layer, for a single mini-batch sample. Same can be extended to remaining 3 mini-batch samples.Hence for layer-normalization here, we end up having 4 mean values for a batch size of 4 images.
+The snapshot below represents, how for layer normalization, one of the mean values is calculated for all the 4 channels of Nth layer, for a single mini-batch sample. Same can be extended to remaining 3 mini-batch samples.Hence for layer-normalization here, we end up having 4 mean values for a batch size of 4 images.
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/one_sample_mean_under_layer_norm_calculated.png "Logo Title Text 1")
 
-The snapshot below represents, how for layer normalization, one of the variance values is calculated for all the channels of Nth layer, for a single mini-batch sample. Same can be extended to remaining 3 mini-batch samples.Hence for layer-normalization here, we end up having 4 variance values for a batch size of 4 images.
+The snapshot below represents, how for layer normalization, one of the variance values is calculated for all the 4 channels of Nth layer, for a single mini-batch sample. Same can be extended to remaining 3 mini-batch samples.Hence for layer-normalization here, we end up having 4 variance values for a batch size of 4 images.
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/one_sample_var_under_layer_norm_calculated.png "Logo Title Text 1")
 
+The snapshot below represents the example for group normalization, where as an example, the 4 channels under different mini-batch image samples are divided under 2 groups.The snapshot below, specifically shows how the mean is calculated for the first mini-batch sample under the 1st such group of channels. Same can be extended to the first groups for remaining 3 mini batch image samples too.
+
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/one_sample_mean_for_grp_1_under_group_norm_calculated.png "Logo Title Text 1")
+
+The snapshot below represents the example for group normalization, where as an example, the 4 channels under different mini-batch image samples are divided under 2 groups.The snapshot below, specifically shows how the mean is calculated for the first mini-batch sample under the 2nd such group of channels. Same can be extended to the 2nd groups for remaining 3 mini batch image samples too.
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/one_sample_mean_for_grp_2_under_group_norm_calculated.png "Logo Title Text 1")
 
+The snapshot below represents the example for group normalization, where as an example, the 4 channels under different mini-batch image samples are divided under 2 groups.The snapshot below, specifically shows how the variance is calculated for the first mini-batch sample under the 1st such group of channels. Same can be extended to the first groups for remaining 3 mini batch image samples too.
+
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/one_sample_var_for_grp_1_under_group_norm_calculated.png "Logo Title Text 1")
+
+The snapshot below represents the example for group normalization, where as an example, the 4 channels under different mini-batch image samples are divided under 2 groups.The snapshot below, specifically shows how the variance is calculated for the first mini-batch sample under the 2nd such group of channels. Same can be extended to the 2nd groups for remaining 3 mini batch image samples too.
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_5/one_sample_var_for_grp_2_under_group_norm_calculated.png "Logo Title Text 1")
 
