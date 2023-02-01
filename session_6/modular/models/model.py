@@ -12,7 +12,7 @@ sys.path.append('./')
 dropout_value = 0.029
 
 
-class Net1(nn.Module):
+class EVA8_session6_assignment_model(nn.Module):
     def __init__(self):
         super(Net1, self).__init__()
         # C1 Block
