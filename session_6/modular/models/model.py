@@ -101,17 +101,14 @@ class EVA8_session6_assignment_model(nn.Module):
         x = self.convblock1(x)
         x = self.convblock2(x)
         # TRANSITION BLOCK 1
-        x = self.pool1(x)
         x = self.convblock3(x)
         # C2 Block
         x = self.convblock4(x)
         # TRANSITION BLOCK 2
-        x = self.pool2(x)
         x = self.convblock5(x)
         # C3 Block
         x = self.convblock6(x)
         # TRANSITION BLOCK 3
-        x = self.pool3(x)
         x = self.convblock7(x)
         # C4 Block
         x = self.convblock8(x)
