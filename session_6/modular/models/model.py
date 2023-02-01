@@ -12,175 +12,112 @@ sys.path.append('./')
 dropout_value = 0.029
 
 
-class EVA8_session4_assignment_model(nn.Module):
-    def __init__(self, normalization='batch'):
-        super(EVA8_session4_assignment_model, self).__init__()
-        self.normalization = normalization
-
-        # Input Block
-        # For nn.Sequential construct to work, it needs a "list" of layers,
-        # hence start out with the conv2d layer, as the first element of such
-        # "list" and keep appending Norm/Dropout/Relu extra layers to it.
-        input_block_conv_layer_0 = [nn.Conv2d(in_channels=1, out_channels=10,
-                                              kernel_size=(3, 3),
-                                              padding=0, bias=False)]
-        if self.normalization == 'batch':
-            input_block_conv_layer_0.append(nn.BatchNorm2d(10))
-        elif self.normalization == 'layer':
-            input_block_conv_layer_0.append(nn.LayerNorm([10, 26, 26]))
-        elif self.normalization == 'group':
-            input_block_conv_layer_0.append(nn.GroupNorm(5, 10))
-
-        input_block_conv_layer_0.append(nn.Dropout(dropout_value))
-        input_block_conv_layer_0.append(nn.ReLU())
-        self.convblock1 = nn.Sequential(*input_block_conv_layer_0)  # input_size
-        # = 28 output_size = 26 receptive_field = 3
-
-        # CONVOLUTION BLOCK 1
-        # For nn.Sequential construct to work, it needs a "list" of layers,
-        # hence start out with the conv2d layer, as the first element of such
-        # "list" and keep appending Norm/Dropout/Relu extra layers to it.
-        block_1_conv_layer_0 = [nn.Conv2d(in_channels=10, out_channels=10,
-                                          kernel_size=(3, 3),
-                                          padding=0, bias=False)]
-        if self.normalization == 'batch':
-            block_1_conv_layer_0.append(nn.BatchNorm2d(10))
-        elif self.normalization == 'layer':
-            block_1_conv_layer_0.append(nn.LayerNorm([10, 24, 24]))
-        elif self.normalization == 'group':
-            block_1_conv_layer_0.append(nn.GroupNorm(5, 10))
-
-        block_1_conv_layer_0.append(nn.Dropout(dropout_value))
-        block_1_conv_layer_0.append(nn.ReLU())
-        self.convblock2 = nn.Sequential(*block_1_conv_layer_0)  # input_size =
-        # 26 output_size = 24 receptive_field = 5
-
-        # For nn.Sequential construct to work, it needs a "list" of layers,
-        # hence start out with the conv2d layer, as the first element of such
-        # "list" and keep appending Norm/Dropout/Relu extra layers to it.
-        block_1_conv_layer_1 = [nn.Conv2d(in_channels=10, out_channels=15,
-                                          kernel_size=(3, 3),
-                                          padding=0, bias=False)]
-        if self.normalization == 'batch':
-            block_1_conv_layer_1.append(nn.BatchNorm2d(15))
-        elif self.normalization == 'layer':
-            block_1_conv_layer_1.append(nn.LayerNorm([15, 22, 22]))
-        elif self.normalization == 'group':
-            block_1_conv_layer_1.append(nn.GroupNorm(5, 15))
-
-        block_1_conv_layer_1.append(nn.Dropout(dropout_value))
-        block_1_conv_layer_1.append(nn.ReLU())
-        self.convblock3 = nn.Sequential(*block_1_conv_layer_1)  # input_size =
-        # 24 output_size = 22 receptive_field = 7
+class Net1(nn.Module):
+    def __init__(self):
+        super(Net1, self).__init__()
+        # C1 Block
+        self.convblock1 = nn.Sequential(
+            nn.Conv2d(in_channels=3, out_channels=32, kernel_size=(3, 3),
+                      padding=1, bias=False),
+            nn.BatchNorm2d(32),
+            nn.Dropout(dropout_value),
+            nn.ReLU(),
+        )  # input:32x32x3, output:32x32x32, RF:3x3
+        self.convblock2 = nn.Sequential(
+            nn.Conv2d(in_channels=32, out_channels=64, kernel_size=(3, 3),
+                      stride=(2, 2), padding=1, bias=False, dilation=(2, 2)),
+            nn.BatchNorm2d(64),
+            nn.Dropout(dropout_value),
+            nn.ReLU(),
+        )  # input:32x32x32, output:15x15x64, RF:7x7
 
         # TRANSITION BLOCK 1
-        self.pool1 = nn.MaxPool2d(2, 2)  # input_size = 22 output_size = 11
-        # receptive_field = 8
+        self.convblock3 = nn.Sequential(
+            nn.Conv2d(in_channels=64, out_channels=32, kernel_size=(1, 1),
+                      padding=1, bias=False),
+            nn.BatchNorm2d(32),
+            nn.Dropout(dropout_value),
+            nn.ReLU(),
+        )  # input:15x15x64, output:17x17x32, RF:7x7
 
-        # For nn.Sequential construct to work, it needs a "list" of layers,
-        # hence start out with the conv2d layer, as the first element of such
-        # "list" and keep appending Norm/Dropout/Relu extra layers to it.
-        transition_layer_conv_layer_0 = [nn.Conv2d(in_channels=15,
-                                                   out_channels=10,
-                                                   kernel_size=(1, 1),
-                                                   padding=0, bias=False)]
-        if self.normalization == 'batch':
-            transition_layer_conv_layer_0.append(nn.BatchNorm2d(10))
-        elif self.normalization == 'layer':
-            transition_layer_conv_layer_0.append(nn.LayerNorm([10, 11, 11]))
-        elif self.normalization == 'group':
-            transition_layer_conv_layer_0.append(nn.GroupNorm(5, 10))
+        # C2 Block
+        self.convblock4 = nn.Sequential(
+            nn.Conv2d(in_channels=32, out_channels=64, kernel_size=(3, 3),
+                      stride=(2, 2), padding=1, bias=False, dilation=(2, 2)),
+            nn.BatchNorm2d(64),
+            nn.Dropout(dropout_value),
+            nn.ReLU(),
+        )  # input:17x17x32, output:8x8x64, RF:15x15
 
-        transition_layer_conv_layer_0.append(nn.Dropout(dropout_value))
-        transition_layer_conv_layer_0.append(nn.ReLU())
-        self.convblock4 = nn.Sequential(*transition_layer_conv_layer_0)  #
-        # input_size = 11 output_size = 11 receptive_field = 8
+        # TRANSITION BLOCK 2
+        self.convblock5 = nn.Sequential(
+            nn.Conv2d(in_channels=64, out_channels=32, kernel_size=(1, 1),
+                      padding=1, bias=False),
+            nn.BatchNorm2d(32),
+            nn.Dropout(dropout_value),
+            nn.ReLU(),
+        )  # input:8x8x64, output:10x10x32, RF:15x15
 
-        # CONVOLUTION BLOCK 2
-        # For nn.Sequential construct to work, it needs a "list" of layers,
-        # hence start out with the conv2d layer, as the first element of such
-        # "list" and keep appending Norm/Dropout/Relu extra layers to it.
-        block_2_conv_layer_0 = [nn.Conv2d(in_channels=10, out_channels=10,
-                                          kernel_size=(3, 3),
-                                          padding=0, bias=False)]
-        if self.normalization == 'batch':
-            block_2_conv_layer_0.append(nn.BatchNorm2d(10))
-        elif self.normalization == 'layer':
-            block_2_conv_layer_0.append(nn.LayerNorm([10, 9, 9]))
-        elif self.normalization == 'group':
-            block_2_conv_layer_0.append(nn.GroupNorm(5, 10))
+        # C3 Block
+        self.convblock6 = nn.Sequential(
+            nn.Conv2d(in_channels=32, out_channels=64, kernel_size=(3, 3),
+                      stride=(2, 2), padding=1, bias=False, dilation=(2, 2)),
+            nn.BatchNorm2d(64),
+            nn.Dropout(dropout_value),
+            nn.ReLU(),
+        )  # input:10x10x32, output:4x4x64, RF:31x31
 
-        block_2_conv_layer_0.append(nn.Dropout(dropout_value))
-        block_2_conv_layer_0.append(nn.ReLU())
-        self.convblock5 = nn.Sequential(*block_2_conv_layer_0)  # input_size =
-        # 11 output_size = 9 receptive_field = 12
+        # TRANSITION BLOCK 3
+        self.convblock7 = nn.Sequential(
+            nn.Conv2d(in_channels=64, out_channels=32, kernel_size=(1, 1),
+                      padding=1, bias=False),
+            nn.BatchNorm2d(32),
+            nn.Dropout(dropout_value),
+            nn.ReLU(),
+        )  # input:4x4x64, output:6x6x32, RF:31x31
 
-        # For nn.Sequential construct to work, it needs a "list" of layers,
-        # hence start out with the conv2d layer, as the first element of such
-        # "list" and keep appending Norm/Dropout/Relu extra layers to it.
-        block_2_conv_layer_1 = [nn.Conv2d(in_channels=10, out_channels=10,
-                                          kernel_size=(3, 3),
-                                          padding=0, bias=False)]
-        if self.normalization == 'batch':
-            block_2_conv_layer_1.append(nn.BatchNorm2d(10))
-        elif self.normalization == 'layer':
-            block_2_conv_layer_1.append(nn.LayerNorm([10, 7, 7]))
-        elif self.normalization == 'group':
-            block_2_conv_layer_1.append(nn.GroupNorm(5, 10))
-
-        block_2_conv_layer_1.append(nn.Dropout(dropout_value))
-        block_2_conv_layer_1.append(nn.ReLU())
-        self.convblock6 = nn.Sequential(*block_2_conv_layer_1)  #
-        # input_size = 9 output_size = 7 receptive_field = 16
-
-        # For nn.Sequential construct to work, it needs a "list" of layers,
-        # hence start out with the conv2d layer, as the first element of such
-        # "list" and keep appending Norm/Dropout/Relu extra layers to it.
-        block_2_conv_layer_2 = [nn.Conv2d(in_channels=10, out_channels=32,
-                                          kernel_size=(3, 3),
-                                          padding=0, bias=False)]
-        if self.normalization == 'batch':
-            block_2_conv_layer_2.append(nn.BatchNorm2d(32))
-        elif self.normalization == 'layer':
-            block_2_conv_layer_2.append(nn.LayerNorm([32, 5, 5]))
-        elif self.normalization == 'group':
-            block_2_conv_layer_2.append(nn.GroupNorm(4, 32))
-        block_2_conv_layer_2.append(nn.Dropout(dropout_value))
-        block_2_conv_layer_2.append(nn.ReLU())
-        self.convblock7 = nn.Sequential(*block_2_conv_layer_2)  # input_size =
-        # 7 output_size = 5 receptive_field = 20
+        # C4 Block
+        self.convblock8 = nn.Sequential(
+            nn.Conv2d(in_channels=32, out_channels=128, kernel_size=(3, 3),
+                      padding=1, bias=False),
+            nn.BatchNorm2d(128),
+            nn.Dropout(dropout_value),
+            nn.ReLU(),
+        )  # input:6x6x32, output:6x6x128, RF:47x47
 
         # OUTPUT BLOCK
         self.gap = nn.Sequential(
-            nn.AvgPool2d(kernel_size=5)
-        )  # input_size = 5 output_size = 1 receptive_field = 28
+            nn.AvgPool2d(kernel_size=6)
+        )  # input:6x6x128, output:1x1x128, RF:87x87
 
-        self.convblock8 = nn.Sequential(
-            nn.Conv2d(in_channels=32, out_channels=10, kernel_size=(1, 1),
+        self.convblock9 = nn.Sequential(
+            nn.Conv2d(in_channels=128, out_channels=10, kernel_size=(1, 1),
                       padding=0, bias=False),
-            # No BatchNorm/DropOut/ReLU
-        )  # input_size = 1 output_size = 1 receptive_field = 28
+        )  # input:1x1x128, output:1x1x10,
 
     def forward(self, x):
-        # INPUT BLOCK LAYER
+        # C1 Block
         x = self.convblock1(x)
-
-        # CONVOLUTION BLOCK 1
         x = self.convblock2(x)
-        x = self.convblock3(x)
-
         # TRANSITION BLOCK 1
         x = self.pool1(x)
+        x = self.convblock3(x)
+        # C2 Block
         x = self.convblock4(x)
-
-        # CONVOLUTION BLOCK 2
+        # TRANSITION BLOCK 2
+        x = self.pool2(x)
         x = self.convblock5(x)
+        # C3 Block
         x = self.convblock6(x)
+        # TRANSITION BLOCK 3
+        x = self.pool3(x)
         x = self.convblock7(x)
-
+        # C4 Block
+        x = self.convblock8(x)
         # OUTPUT BLOCK
         x = self.gap(x)
-        x = self.convblock8(x)
-
+        x = self.convblock9(x)
+        # Reshape
         x = x.view(-1, 10)
-        return F.log_softmax(x, dim=-1)
+        return F.log_softmax(x, dim=-1)  # torch.nn.CrossEntropyLoss:criterion
+        # combines nn.LogSoftmax() and nn.NLLLoss() in one single class.
