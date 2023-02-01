@@ -9,7 +9,7 @@ import torch.nn.functional as F
 
 sys.path.append('./')
 
-dropout_value = 0.029
+dropout_value = 0.05
 
 
 class EVA8_session6_assignment_model(nn.Module):
@@ -79,9 +79,9 @@ class EVA8_session6_assignment_model(nn.Module):
 
         # C4 Block
         self.convblock8 = nn.Sequential(
-            nn.Conv2d(in_channels=32, out_channels=128, kernel_size=(3, 3),
+            nn.Conv2d(in_channels=32, out_channels=48, kernel_size=(3, 3),
                       padding=1, bias=False),
-            nn.BatchNorm2d(128),
+            nn.BatchNorm2d(48),
             nn.Dropout(dropout_value),
             nn.ReLU(),
         )  # input:6x6x32, output:6x6x128, RF:47x47
@@ -92,7 +92,7 @@ class EVA8_session6_assignment_model(nn.Module):
         )  # input:6x6x128, output:1x1x128, RF:87x87
 
         self.convblock9 = nn.Sequential(
-            nn.Conv2d(in_channels=128, out_channels=10, kernel_size=(1, 1),
+            nn.Conv2d(in_channels=48, out_channels=10, kernel_size=(1, 1),
                       padding=0, bias=False),
         )  # input:1x1x128, output:1x1x10,
 
