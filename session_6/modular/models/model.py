@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """model.py: This contains the model
-definition used in session 4 & 5 to be trained on MNIST dataset. """
+definition used in session 6 to be trained on CIFAR10 dataset. """
 from __future__ import print_function
 
 import sys
