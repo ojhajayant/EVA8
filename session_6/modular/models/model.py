@@ -13,8 +13,9 @@ dropout_value = 0.029
 
 
 class EVA8_session6_assignment_model(nn.Module):
-    def __init__(self):
-        super(Net1, self).__init__()
+    def __init__(self, normalization='batch'):
+        super(EVA8_session6_assignment_model, self).__init__()
+        self.normalization = normalization
         # C1 Block
         self.convblock1 = nn.Sequential(
             nn.Conv2d(in_channels=3, out_channels=32, kernel_size=(3, 3),
