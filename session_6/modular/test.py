@@ -47,6 +47,7 @@ def test(model, device, test_loader, optimizer, epoch):
     is_best = acc1 > cfg.current_best_acc
     cfg.last_best_acc = cfg.current_best_acc
     cfg.current_best_acc = max(acc1, cfg.current_best_acc)
+    model_name = ''
     # Prepare model saving directory.
     if is_best:
         save_dir = os.path.join(os.getcwd(), args.best_model_path)
