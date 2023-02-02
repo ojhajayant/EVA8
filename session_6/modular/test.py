@@ -70,4 +70,4 @@ def test(model, device, test_loader, optimizer, epoch):
             'optimizer': optimizer.state_dict(),
         }, is_best, filename=filepath)
     cfg.test_acc.append(100. * correct / len(test_loader.dataset))
-    return cfg.current_best_acc, test_loss
+    return cfg.current_best_acc, test_loss, model_name
