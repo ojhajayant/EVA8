@@ -558,7 +558,7 @@ Test set: Average loss: 0.4315, Accuracy: 8500/10000 (85.00%)
 
 Please refer [model.py](https://github.com/ojhajayant/EVA8/blob/main/session_6/modular/models/model.py)
 
-First of all, for importing the single model file named "model.py" under which model class named "EVA8_session6_assignment_model" is defined.Other earlier and upcoming neural network class definitions can reside here.
+First of all, for importing the single model file named "model.py" under which model class named "EVA8_session6_assignment_model" is defined.Other earlier and upcoming neural network class definitions can also reside here.
 Also different other required components have been now made modular in nature.
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_6/modular_struct.png "Logo Title Text 1")
