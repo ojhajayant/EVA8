@@ -28,6 +28,7 @@ Please refer the [notebook](https://github.com/ojhajayant/EVA8/blob/main/session
 
 Logs:
 
+```
 Model training starts on CIFAR10 dataset
 EPOCH: 1
 LR: 0.07
@@ -547,6 +548,8 @@ LR: 0.01686150658863147
 Loss=0.23929697275161743 Batch_id=781 Accuracy=80.57: 100%|██████████| 782/782 [00:10<00:00, 74.89it/s]
 
 Test set: Average loss: 0.4315, Accuracy: 8500/10000 (85.00%)
+
+```
 
 
 
