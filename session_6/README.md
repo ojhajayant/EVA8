@@ -581,7 +581,7 @@ Successfully installed eva8-0.0.0
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_6/RF_calc_layering.png "Logo Title Text 1")
 ######    Please Note that this model has been structured as:
-                            C1-T1-C2-T2-C3-T3-C4-O
+                            C1-T1-C2-T2-C3-T3-C4-O  (SeparableConv2d class has been implemented & used to layer the same)
 							
     > C1, C2 & C3 BLOCKS:
 	
