@@ -103,22 +103,22 @@ class EVA8_session6_assignment_model(nn.Module):
 
         # C4 Block
         self.convblock10 = nn.Sequential(
-            SeparableConv2d(in_channels=64, out_channels=256, kernel_size=(3, 3),
+            SeparableConv2d(in_channels=64, out_channels=128, kernel_size=(3, 3),
                       padding=1, bias=False),
-            nn.BatchNorm2d(256),
+            nn.BatchNorm2d(128),
             nn.Dropout(dropout_value),
             nn.ReLU(),
-        )  # input:6x6x64, output:6x6x256, RF:51x51
+        )  # input:6x6x64, output:6x6x128, RF:51x51
 
         # OUTPUT BLOCK
         self.gap = nn.Sequential(
             nn.AvgPool2d(kernel_size=6)
-        )  # input:6x6x256, output:1x1x256, RF:71x71
+        )  # input:6x6x128, output:1x1x128, RF:71x71
 
         self.convblock11 = nn.Sequential(
-            SeparableConv2d(in_channels=256, out_channels=10, kernel_size=(1, 1),
+            SeparableConv2d(in_channels=128, out_channels=10, kernel_size=(1, 1),
                       padding=0, bias=False),
-        )  # input:1x1x256, output:1x1x10,
+        )  # input:1x1x128, output:1x1x10,
 
     def forward(self, x):
         # C1 Block
