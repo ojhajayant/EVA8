@@ -26,6 +26,86 @@ Please refer the [notebook](https://github.com/ojhajayant/EVA8/blob/main/session
 - total number of parameters---98,779
 - 85% validation/test accuracy @ 64th Epoch.
 
+```
+----------------------------------------------------------------
+        Layer (type)               Output Shape         Param #
+================================================================
+            Conv2d-1            [-1, 3, 32, 32]              27
+            Conv2d-2           [-1, 64, 32, 32]             192
+   SeparableConv2d-3           [-1, 64, 32, 32]               0
+       BatchNorm2d-4           [-1, 64, 32, 32]             128
+           Dropout-5           [-1, 64, 32, 32]               0
+              ReLU-6           [-1, 64, 32, 32]               0
+            Conv2d-7           [-1, 64, 16, 16]             576
+            Conv2d-8          [-1, 128, 16, 16]           8,192
+   SeparableConv2d-9          [-1, 128, 16, 16]               0
+      BatchNorm2d-10          [-1, 128, 16, 16]             256
+          Dropout-11          [-1, 128, 16, 16]               0
+             ReLU-12          [-1, 128, 16, 16]               0
+           Conv2d-13          [-1, 128, 16, 16]             128
+           Conv2d-14           [-1, 64, 16, 16]           8,192
+  SeparableConv2d-15           [-1, 64, 16, 16]               0
+      BatchNorm2d-16           [-1, 64, 16, 16]             128
+          Dropout-17           [-1, 64, 16, 16]               0
+             ReLU-18           [-1, 64, 16, 16]               0
+           Conv2d-19           [-1, 64, 16, 16]             576
+           Conv2d-20          [-1, 128, 16, 16]           8,192
+  SeparableConv2d-21          [-1, 128, 16, 16]               0
+      BatchNorm2d-22          [-1, 128, 16, 16]             256
+          Dropout-23          [-1, 128, 16, 16]               0
+             ReLU-24          [-1, 128, 16, 16]               0
+           Conv2d-25            [-1, 128, 8, 8]           1,152
+           Conv2d-26            [-1, 128, 8, 8]          16,384
+  SeparableConv2d-27            [-1, 128, 8, 8]               0
+      BatchNorm2d-28            [-1, 128, 8, 8]             256
+          Dropout-29            [-1, 128, 8, 8]               0
+             ReLU-30            [-1, 128, 8, 8]               0
+           Conv2d-31            [-1, 128, 8, 8]             128
+           Conv2d-32             [-1, 64, 8, 8]           8,192
+  SeparableConv2d-33             [-1, 64, 8, 8]               0
+      BatchNorm2d-34             [-1, 64, 8, 8]             128
+          Dropout-35             [-1, 64, 8, 8]               0
+             ReLU-36             [-1, 64, 8, 8]               0
+           Conv2d-37             [-1, 64, 8, 8]             576
+           Conv2d-38            [-1, 128, 8, 8]           8,192
+  SeparableConv2d-39            [-1, 128, 8, 8]               0
+      BatchNorm2d-40            [-1, 128, 8, 8]             256
+          Dropout-41            [-1, 128, 8, 8]               0
+             ReLU-42            [-1, 128, 8, 8]               0
+           Conv2d-43            [-1, 128, 6, 6]           1,152
+           Conv2d-44            [-1, 128, 6, 6]          16,384
+  SeparableConv2d-45            [-1, 128, 6, 6]               0
+      BatchNorm2d-46            [-1, 128, 6, 6]             256
+          Dropout-47            [-1, 128, 6, 6]               0
+             ReLU-48            [-1, 128, 6, 6]               0
+           Conv2d-49            [-1, 128, 6, 6]             128
+           Conv2d-50             [-1, 64, 6, 6]           8,192
+  SeparableConv2d-51             [-1, 64, 6, 6]               0
+      BatchNorm2d-52             [-1, 64, 6, 6]             128
+          Dropout-53             [-1, 64, 6, 6]               0
+             ReLU-54             [-1, 64, 6, 6]               0
+           Conv2d-55             [-1, 64, 6, 6]             576
+           Conv2d-56            [-1, 128, 6, 6]           8,192
+  SeparableConv2d-57            [-1, 128, 6, 6]               0
+      BatchNorm2d-58            [-1, 128, 6, 6]             256
+          Dropout-59            [-1, 128, 6, 6]               0
+             ReLU-60            [-1, 128, 6, 6]               0
+        AvgPool2d-61            [-1, 128, 1, 1]               0
+           Conv2d-62            [-1, 128, 1, 1]             128
+           Conv2d-63             [-1, 10, 1, 1]           1,280
+  SeparableConv2d-64             [-1, 10, 1, 1]               0
+================================================================
+Total params: 98,779
+Trainable params: 98,779
+Non-trainable params: 0
+----------------------------------------------------------------
+Input size (MB): 0.01
+Forward/backward pass size (MB): 7.62
+Params size (MB): 0.38
+Estimated Total Size (MB): 8.00
+----------------------------------------------------------------
+```
+
 Logs:
 
 ```
