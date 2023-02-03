@@ -21,6 +21,8 @@
    > coarseDropout (max_holes = 1, max_height=16px, max_width=1, min_holes = 1, min_height=16px, min_width=16px, fill_value=(mean of your dataset), mask_fill_value = None)
 *   achieve 85% accuracy, as many epochs as you want. Total Params to be less than 200k.
 
+
+
 Please refer the [notebook](https://github.com/ojhajayant/EVA8/blob/main/session_6/EVA8_session6_assignment.ipynb) for this assignment solution.
 
 - total number of parameters---98,779
