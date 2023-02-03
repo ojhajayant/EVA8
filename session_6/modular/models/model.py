@@ -21,7 +21,8 @@ dropout_value = 0.05  # Found to be working best for the Session-6 custom
 
 
 class SeparableConv2d(nn.Module):
-    # For this model SeparableConv2d are used instead of the normal conv2d
+    # For this model Depthwise Separable Convolution blocks, implemented as
+    # class: SeparableConv2dSeparableConv2d are used instead of the normal conv2d
     # kernels as these can help us save parameters (even by a factor of 8+)
     # hence we are free to use more in turn!
     def __init__(self, in_channels, out_channels, kernel_size=1, stride=1,
