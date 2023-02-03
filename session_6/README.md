@@ -663,7 +663,8 @@ Successfully installed eva8-0.0.0
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_6/RF_calc_layering.png "Logo Title Text 1")
 
 Noteworthy is the use of Depthwise Separable Convolution blocks, implemented as class: SeparableConv2d,
-implemented as below:
+implemented as below: (a good look at the 'groups' parameter as "in_channels" & 1 respectively for the 
+first 3x3 & second 1x1 layers under this implementation is required)
 
 ```python
 class SeparableConv2d(nn.Module):
