@@ -744,6 +744,49 @@ class SeparableConv2d(nn.Module):
     Overall, in terms of the receptive field we get an RF of 71x71 for this
     design.Which is greater than the minimum requirement of 44x44. 
 	
+Another noteworthy aspect, is the use of image augmentation (from albumentation lib) as implemented below:
+
+```python
+class album_Compose:
+    def __init__(self,
+                 img_size,
+                 train=True,
+                 mean=[0.49139968, 0.48215841, 0.44653091],
+                 std=[0.24703223, 0.24348513, 0.26158784]
+                 ):
+        if train:
+            self.albumentations_transform = Compose([
+                PadIfNeeded(min_height=img_size[0], min_width=img_size[1],
+                            border_mode=cv2.BORDER_REPLICATE,
+                            always_apply=True),
+                CoarseDropout(max_holes=1, max_height=img_size[0] // 2,
+                              max_width=img_size[1] // 2,
+                              min_height=img_size[0] // 2,
+                              min_width=img_size[1] // 2,
+                              always_apply=False, p=0.5,
+                              fill_value=tuple([x * 255.0 for x in mean])),
+                HorizontalFlip(p=0.5),
+                ShiftScaleRotate(shift_limit=0.05, scale_limit=0.1,
+                                 rotate_limit=10,
+                                 border_mode=cv2.BORDER_CONSTANT, value=0),
+                RandomCrop(height=32, width=32, always_apply=True),
+                Normalize(mean=mean, std=std, always_apply=True),
+                ToTensorV2(),
+
+            ])
+        else:
+            self.albumentations_transform = Compose([
+                Normalize(mean=mean, std=std, always_apply=True),
+                ToTensorV2(),
+
+            ])
+
+    def __call__(self, img):
+        img = np.array(img)
+        img = self.albumentations_transform(image=img)['image']
+        return img
+```
+
 
 
 
