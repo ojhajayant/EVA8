@@ -686,7 +686,7 @@ class SeparableConv2d(nn.Module):
 
 ```
 ######    Please Note that this model has been structured as:
-                            C1-T1-C2-T2-C3-T3-C4-O  (SeparableConv2d class has been implemented & used to layer the same)
+                            C1-T1-C2-T2-C3-T3-C4-O  (Depthwise Separable Convolution blocks, implemented as class: SeparableConv2d is used to layer the same)
 							
     > C1, C2 & C3 BLOCKS:
 	
