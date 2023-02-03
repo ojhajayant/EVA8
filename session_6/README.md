@@ -666,7 +666,7 @@ Successfully installed eva8-0.0.0
 
 Noteworthy is the use of Depthwise Separable Convolution blocks, implemented as class: SeparableConv2d,
 implemented as below: (a good look at the 'groups' parameter as "in_channels" & 1 respectively for the 
-first 3x3 & second 1x1 layers under this implementation is required!)
+first 3x3 & second 1x1 conv2d layers under this implementation is required!)
 
 ```python
 class SeparableConv2d(nn.Module):
