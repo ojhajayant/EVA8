@@ -661,6 +661,30 @@ Successfully installed eva8-0.0.0
 
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_6/RF_calc_layering.png "Logo Title Text 1")
+
+Noteworthy is the use of Depthwise Separable Convolution blocks, implemented as class: SeparableConv2d,
+implemented as below:
+
+```python
+class SeparableConv2d(nn.Module):
+    # For this model Depthwise Separable Convolution blocks, implemented as
+    # class: SeparableConv2dSeparableConv2d are used instead of the normal conv2d
+    # kernels as these can help us save parameters (even by a factor of 8+)
+    # hence we are free to use more in turn!
+    def __init__(self, in_channels, out_channels, kernel_size=1, stride=1,
+                 padding=0, dilation=1, bias=False):
+        super(SeparableConv2d, self).__init__()
+        self.convblock = nn.Sequential(
+            nn.Conv2d(in_channels, in_channels, kernel_size, stride, padding,
+                      dilation=dilation, groups=in_channels, bias=bias),
+            nn.Conv2d(in_channels, out_channels, 1, 1, 0, 1, 1, bias=bias),
+        )
+
+    def forward(self, x):
+        x = self.convblock(x)
+        return x
+
+```
 ######    Please Note that this model has been structured as:
                             C1-T1-C2-T2-C3-T3-C4-O  (SeparableConv2d class has been implemented & used to layer the same)
 							
