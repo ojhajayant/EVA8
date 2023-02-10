@@ -350,6 +350,11 @@ All the model files now reside in the same location like this resnet.py file
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_7/plot7.png "Logo Title Text 1")
 
+###  Following graph shows the change in momentum & LR for the Once Cycle Policy across different iterations:
+
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_7/plot8.png "Logo Title Text 1")
+
+
 ###  Misclassified images:
 
 
