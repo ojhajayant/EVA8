@@ -84,7 +84,7 @@ models folder - this is where you'll add all of your future models.
 
 	> batch_size : 128
   
-  >	epochs : 20
+        > epochs : 20
 
 	> criterion : NLLLoss()
 
@@ -348,14 +348,18 @@ All the model files now reside in the same location like this resnet.py file
 
 ###  Following graph shows the model accuracy:
 
-![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_6/model_acc.png "Logo Title Text 1")
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_7/plot7.png "Logo Title Text 1")
 
 ###  Misclassified images:
 
 
 For Best saved Model :
 
-![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_6/misclassified_samples.png "Logo Title Text 1")
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_7/plot5.png "Logo Title Text 1")
+
+With Grad Cam heatmap :
+
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_7/plot10.png "Logo Title Text 1")
 
 
 
