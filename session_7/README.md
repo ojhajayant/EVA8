@@ -123,6 +123,15 @@ models folder - this is where you'll add all of your future models.
 
 Please refer the [notebook](https://github.com/ojhajayant/EVA8/blob/main/session_7/EVA8_session7_assignment.ipynb) for this assignment solution.
 
+> please note that under this "script mode" the plots could not be inlined/embedded into the colab cell, hence had to be saved as *.png files, the places in the code where the plots are supposed to be inlined appear as:
+Figure(800x300)
+Figure(800x300)
+
+or similar, hence plot the *png plot files separately in separate cell.
+Here is some evidence snapshot on the plots generated during run time (which unfortunately couldn't come up as "embedded/inlined" in the notebook under this "script" mode:
+
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_7/sample_plot_saved_colab.png "Logo Title Text 1")
+
 - max test/validation accuracy within 20 epochs = 90.60%
 
 ```
