@@ -127,8 +127,8 @@ Please refer the [notebook](https://github.com/ojhajayant/EVA8/blob/main/session
 Figure(800x300)
 Figure(800x300)
 
-or similar, hence plot the *png plot files separately in separate cell.
-Here is some evidence snapshot on the plots generated during run time (which unfortunately couldn't come up as "embedded/inlined" in the notebook under this "script" mode:
+or similar, hence plotted/displayed the *png plot files separately in separate cell.
+Here is some evidence snapshot on the plots generated during run time (which unfortunately couldn't come up as "embedded/inlined" in the notebook under this "script" mode):
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_7/sample_plot_saved_colab.png "Logo Title Text 1")
 
