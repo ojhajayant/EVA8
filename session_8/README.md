@@ -201,6 +201,10 @@ LR Range Test Logs (for a 500 epoch run):
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_8/lr_range_test.png "Logo Title Text 1")
 
+There seems to be some rendering issue on chrome w.r.t the LR-range test logs, hence I have to copy
+them here too:
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_8/render%20issue.png "Logo Title Text 1")
+
 ```
 Finding max LR for One Cycle Policy using LR Range Test over 500 epochs...
 EPOCH = 1 LR = 1e-10 loss=2.3224093914031982 batch=97 acc=6.85: 100%
@@ -1205,6 +1209,15 @@ EPOCH = 500 LR = 0.9980000000002116 loss=2.2847049236297607 batch=97 acc=16.42: 
 98/98 [00:04<00:00, 26.14it/s]
 LR (for max accuracy: 40.44) to be used: 0.022000000097799996
 
+Please note for the LR Range test plot points to the location of the best_lr 
+(i.e. the point where the accuracy value reached max, i,e, MAX-LR value for OCP)
+as 0.022000000097799996, given the plot and some experiments with both 
+0.022000000097799996 & its nearest rounded off value 0.03, I am choosing this 
+value of 0.03 as, with a resulting start of 0.003 for a 5 epoch run, it will 
+approximately reach, the found out max-lr/best_lr value of approx: 0.022 as 
+with PCT_START of 0.2 it will require ~4.8 epochs to reach highest which happens 
+to be around same: i.e. in a "train" run, at EPOCH: 5 --> we would reach 
+LR: 0.024644171779141102 (as appears under the training logs here)
 
 ```
 
@@ -1389,11 +1402,11 @@ All the model files now reside in the same location like this custom_resnet.py f
 
 ###  Following graph shows the model accuracy:
 
-![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_7/plot7.png "Logo Title Text 1")
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_8/model_acc.png "Logo Title Text 1")
 
 ###  Following graph shows the change in momentum & LR for the Once Cycle Policy across different iterations:
 
-![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_7/plot8.png "Logo Title Text 1")
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_8/momentum_lr.png "Logo Title Text 1")
 
 
 ###  Misclassified images:
