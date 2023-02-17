@@ -1426,7 +1426,7 @@ With Grad Cam heatmap :
 
 For Best saved Model:
 
-![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_7/confusion_matric_clsfcn_rpt.png "Logo Title Text 1")
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_8/confusion_matrix%20classification%20rpt.png "Logo Title Text 1")
 
 
 
