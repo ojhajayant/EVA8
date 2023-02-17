@@ -1418,7 +1418,7 @@ For Best saved Model :
 
 With Grad Cam heatmap :
 
-![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_8/misclassified%20images.png "Logo Title Text 1")
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_8/grad%20cam%20misclassified%20images.png "Logo Title Text 1")
 
 
 
