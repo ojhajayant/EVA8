@@ -197,7 +197,9 @@ Estimated Total Size (MB): 32.72
 ----------------------------------------------------------------
 ```
 
-LR Find Logs (for a 500 epoch run):
+LR Range Test Logs (for a 500 epoch run):
+
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_8/lr_range_test.png "Logo Title Text 1")
 
 ```
 Finding max LR for One Cycle Policy using LR Range Test over 500 epochs...
