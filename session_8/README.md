@@ -1414,11 +1414,11 @@ All the model files now reside in the same location like this custom_resnet.py f
 
 For Best saved Model :
 
-![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_7/plot5.png "Logo Title Text 1")
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_8/misclassified%20images.png "Logo Title Text 1")
 
 With Grad Cam heatmap :
 
-![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_7/plot10.png "Logo Title Text 1")
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_8/misclassified%20images.png "Logo Title Text 1")
 
 
 
