@@ -1,76 +1,82 @@
 
-# Session_7
+# Session_8
 
 ### 
 
-> Check this Repo out: https://github.com/kuangliu/pytorch-cifar Links to an external site. 
+>   Write a custom ResNet architecture for CIFAR10 that has the following architecture:
 
-> You are going to follow the same structure for your Code from now on. So 
-
- *   Create:
-models folder - this is where you'll add all of your future models. 
-
-*   Copy resnet.py into this folder, this file should only have ResNet 18/34 models. Delete Bottleneck Class
-
-*   main.py - from Google Colab, now onwards, this is the file that you'll import (along with the model). Your main file shall be able to take these params or you should be able to pull functions from it and then perform operations, like (including but not limited to):
-
-    > training and test loops
-
-    > data split between test and train
-
-    > epochs
-
-    > batch size
-
-    > which optimizer to run
-
-    > do we run a scheduler?
-
-*   utils.py file (or a folder later on when it expands) - this is where you will add all of your utilities like:
-
-    > image transforms,
-
-    > gradcam,
-
-    > misclassification code,
-
-    > tensorboard related stuff
-
-    > advanced training policies, etc etc
+*  PrepLayer - Conv 3x3 s1, p1) >> BN >> RELU [64k]
 
 
-*   Name this main repos something, and don't call it Assignment 7. This is what you'll import for all the rest of the assignments. Add a proper readme describing all the files. 
+*  Layer1 -
 
-*   Your assignment is to build the above training structure. Train ResNet18 on Cifar10 for 20 Epochs. The assignment must:
+    >    X = Conv 3x3 (s1, p1) >> MaxPool2D >> BN >> RELU [128k]
 
-    > pull your Github code to google colab (don't copy-paste code)
+    >    R1 = ResBlock( (Conv-BN-ReLU-Conv-BN-ReLU))(X) [128k] 
 
-    > prove that you are following the above structure
-
-    > that the code in your google collab notebook is NOTHING.. barely anything. There should not be any function or class that you can define in your Google Colab Notebook. Everything must be imported from all of your other files
-
-*  your colab file must:
-
-    > train resnet18 for 20 epochs on the CIFAR10 dataset
-
-    > show loss curves for test and train datasets
-
-    > show a gallery of 10 misclassified images
-
-    > show gradcam Links to an external site.output on 10 misclassified images. Remember if you are applying GradCAM on a channel that is less than 5px, then please don't bother to submit the assignment. 😡🤬🤬🤬🤬
-
-    > Once done, upload the code to GitHub, and share the code. This readme must link to the main repo so we can read your file structure. 
+    >    Add(X, R1)
 
 
-1.   [EVA8_API](https://github.com/ojhajayant/EVA8_API) is the main repo which is being clone here to be able to run the main.py script with various user provided (or default) arg options.
+*  Layer 2 -
 
-2.   The LR-Range test over 100 epochs, as required for the One Cycle Policy (OCP) gave a max_lr(best_lr) of 0.050499
+    > Conv 3x3 [256k]
 
-3.   Trained for 20 epochs as required, the div_factor was taken as 10, so as to start the cycle with a learning rate of best_lr/10 = 0.0050499, wanetd to have same number of epochs for taking from min_lr to max_lr and vice-versa, with NO annihilation epochs, hence final_div_factor = div_factor & MAX_LR_EPOCH = EPOCHS // 2 thus resulting in PCT_START = MAX_LR_EPOCH / EPOCHS = 0.5
+    > MaxPooling2D
+
+    > BN
+
+    > ReLU
+
+
+* Layer 3 -
+
+    > X = Conv 3x3 (s1, p1) >> MaxPool2D >> BN >> RELU [512k]
+
+    > R2 = ResBlock( (Conv-BN-ReLU-Conv-BN-ReLU))(X) [512k]
+
+    > Add(X, R2)
+
+
+*  MaxPooling with Kernel Size 4
+
+
+* FC Layer 
+
+
+* SoftMax
+
+
+
+
+*   Uses One Cycle Policy such that:
+
+  > Total Epochs = 24
+
+  > Max at Epoch = 5
+
+  > LRMIN = FIND
+
+  > LRMAX = FIND
+
+  > NO Annihilation
+
+* Uses this transform 
+  > -RandomCrop 32, 32 (after padding of 4) >> FlipLR >> Followed by CutOut(8, 8)
+
+  > Batch size = 512
+
+  > Target Accuracy: 90% (93.8% quadruple scores). 
+
+
+1.   [EVA8_API](https://github.com/ojhajayant/EVA8_API) is the main repo which is being cloned here to be able to run the main.py script with various user provided (or default) arg options.
+
+2.   The LR-Range test over 500 epochs, as required for the One Cycle Policy (OCP) gave a max_lr(best_lr) of 0.022000000097799996, I am using a LR which is a little ahead in terms of rounding off (and also due to the accuracy Vs learning rate plot obtained from the LR-range test run below in this notebook)
+
+3.   Trained for EPOCHS= 24 epochs as required, the div_factor was taken as 10, so as to start the cycle with a learning rate of best_lr/10 = 0.003, it is required that the max LR is reached on 5th epoch, with NO annihilation epochs, hence final_div_factor = div_factor & MAX_LR_EPOCH = 5 thus resulting in PCT_START = MAX_LR_EPOCH / EPOCHS = 0.2
 
 4.  Here are the different args values for this run:
 
-	> cmd : Either of "lr_find", "train", "test"
+	> cmd : test
 
 	> IPYNB_ENV : True
 
@@ -82,21 +88,25 @@ models folder - this is where you'll add all of your future models.
 
 	> img_size : (32, 32)
 
-	> batch_size : 128
-  
-        > epochs : 20
+	> batch_size : 512
 
-	> criterion : NLLLoss()
+	> epochs : 24
 
-	> init_lr : 0.0001 (for LR-Range test)
+	> criterion : CrossEntropyLoss()
 
-	> end_lr : 0.05 (for LR-Range test)
+	> init_lr : 1e-10
 
-	> lr_range_test_epochs : 100 (epochs used for LR-Range test)
+	> end_lr : 1
 
-	> best_lr : 0.504999999999
+	> max_lr_epochs : 5
+
+	> lr_range_test_epochs : 500
+
+	> best_lr : 0.03
 
 	> cycle_momentum : True
+
+	> div_factor : 10
 
 	> optimizer : <class 'torch.optim.sgd.SGD'>
 
@@ -118,12 +128,21 @@ models folder - this is where you'll add all of your future models.
 
 	> prefix : data
 
-	> best_model :  CIFAR10_model_epoch-20_L1-1_L2-0_val_acc-90.6.h5
+	> best_model : CIFAR10_model_epoch-24_L1-1_L2-0_val_acc-89.17.h5
 
 
-Please refer the [notebook](https://github.com/ojhajayant/EVA8/blob/main/session_7/EVA8_session7_assignment.ipynb) for this assignment solution.
+5.  max test/validation accuracy within 24 epochs = 89.17%
 
-- max test/validation accuracy within 20 epochs = 90.60%
+
+
+
+
+
+
+
+Please refer the [notebook](https://github.com/ojhajayant/EVA8/blob/main/session_8/EVA8_session8_assignment.ipynb) for this assignment solution.
+
+- max test/validation accuracy within 24 epochs = 89.17%
 
 ```
 ----------------------------------------------------------------
@@ -131,215 +150,1235 @@ Please refer the [notebook](https://github.com/ojhajayant/EVA8/blob/main/session
 ================================================================
             Conv2d-1           [-1, 64, 32, 32]           1,728
        BatchNorm2d-2           [-1, 64, 32, 32]             128
-            Conv2d-3           [-1, 64, 32, 32]          36,864
-       BatchNorm2d-4           [-1, 64, 32, 32]             128
-            Conv2d-5           [-1, 64, 32, 32]          36,864
-       BatchNorm2d-6           [-1, 64, 32, 32]             128
-        BasicBlock-7           [-1, 64, 32, 32]               0
-            Conv2d-8           [-1, 64, 32, 32]          36,864
-       BatchNorm2d-9           [-1, 64, 32, 32]             128
-           Conv2d-10           [-1, 64, 32, 32]          36,864
-      BatchNorm2d-11           [-1, 64, 32, 32]             128
-       BasicBlock-12           [-1, 64, 32, 32]               0
-           Conv2d-13          [-1, 128, 16, 16]          73,728
-      BatchNorm2d-14          [-1, 128, 16, 16]             256
-           Conv2d-15          [-1, 128, 16, 16]         147,456
-      BatchNorm2d-16          [-1, 128, 16, 16]             256
-           Conv2d-17          [-1, 128, 16, 16]           8,192
-      BatchNorm2d-18          [-1, 128, 16, 16]             256
-       BasicBlock-19          [-1, 128, 16, 16]               0
-           Conv2d-20          [-1, 128, 16, 16]         147,456
-      BatchNorm2d-21          [-1, 128, 16, 16]             256
-           Conv2d-22          [-1, 128, 16, 16]         147,456
-      BatchNorm2d-23          [-1, 128, 16, 16]             256
-       BasicBlock-24          [-1, 128, 16, 16]               0
-           Conv2d-25            [-1, 256, 8, 8]         294,912
-      BatchNorm2d-26            [-1, 256, 8, 8]             512
-           Conv2d-27            [-1, 256, 8, 8]         589,824
-      BatchNorm2d-28            [-1, 256, 8, 8]             512
-           Conv2d-29            [-1, 256, 8, 8]          32,768
-      BatchNorm2d-30            [-1, 256, 8, 8]             512
-       BasicBlock-31            [-1, 256, 8, 8]               0
-           Conv2d-32            [-1, 256, 8, 8]         589,824
-      BatchNorm2d-33            [-1, 256, 8, 8]             512
-           Conv2d-34            [-1, 256, 8, 8]         589,824
-      BatchNorm2d-35            [-1, 256, 8, 8]             512
-       BasicBlock-36            [-1, 256, 8, 8]               0
-           Conv2d-37            [-1, 512, 4, 4]       1,179,648
-      BatchNorm2d-38            [-1, 512, 4, 4]           1,024
-           Conv2d-39            [-1, 512, 4, 4]       2,359,296
-      BatchNorm2d-40            [-1, 512, 4, 4]           1,024
-           Conv2d-41            [-1, 512, 4, 4]         131,072
-      BatchNorm2d-42            [-1, 512, 4, 4]           1,024
-       BasicBlock-43            [-1, 512, 4, 4]               0
-           Conv2d-44            [-1, 512, 4, 4]       2,359,296
-      BatchNorm2d-45            [-1, 512, 4, 4]           1,024
-           Conv2d-46            [-1, 512, 4, 4]       2,359,296
-      BatchNorm2d-47            [-1, 512, 4, 4]           1,024
-       BasicBlock-48            [-1, 512, 4, 4]               0
-           Linear-49                   [-1, 10]           5,130
+              ReLU-3           [-1, 64, 32, 32]               0
+            Conv2d-4          [-1, 128, 32, 32]          73,728
+         MaxPool2d-5          [-1, 128, 16, 16]               0
+       BatchNorm2d-6          [-1, 128, 16, 16]             256
+              ReLU-7          [-1, 128, 16, 16]               0
+      HighwayBlock-8          [-1, 128, 16, 16]               0
+            Conv2d-9          [-1, 128, 16, 16]         147,456
+      BatchNorm2d-10          [-1, 128, 16, 16]             256
+             ReLU-11          [-1, 128, 16, 16]               0
+           Conv2d-12          [-1, 128, 16, 16]         147,456
+      BatchNorm2d-13          [-1, 128, 16, 16]             256
+             ReLU-14          [-1, 128, 16, 16]               0
+         ResBlock-15          [-1, 128, 16, 16]               0
+            Layer-16          [-1, 128, 16, 16]               0
+           Conv2d-17          [-1, 256, 16, 16]         294,912
+        MaxPool2d-18            [-1, 256, 8, 8]               0
+      BatchNorm2d-19            [-1, 256, 8, 8]             512
+             ReLU-20            [-1, 256, 8, 8]               0
+     HighwayBlock-21            [-1, 256, 8, 8]               0
+            Layer-22            [-1, 256, 8, 8]               0
+           Conv2d-23            [-1, 512, 8, 8]       1,179,648
+        MaxPool2d-24            [-1, 512, 4, 4]               0
+      BatchNorm2d-25            [-1, 512, 4, 4]           1,024
+             ReLU-26            [-1, 512, 4, 4]               0
+     HighwayBlock-27            [-1, 512, 4, 4]               0
+           Conv2d-28            [-1, 512, 4, 4]       2,359,296
+      BatchNorm2d-29            [-1, 512, 4, 4]           1,024
+             ReLU-30            [-1, 512, 4, 4]               0
+           Conv2d-31            [-1, 512, 4, 4]       2,359,296
+      BatchNorm2d-32            [-1, 512, 4, 4]           1,024
+             ReLU-33            [-1, 512, 4, 4]               0
+         ResBlock-34            [-1, 512, 4, 4]               0
+            Layer-35            [-1, 512, 4, 4]               0
+        MaxPool2d-36            [-1, 512, 1, 1]               0
+           Linear-37                   [-1, 10]           5,120
 ================================================================
-Total params: 11,173,962
-Trainable params: 11,173,962
+Total params: 6,573,120
+Trainable params: 6,573,120
 Non-trainable params: 0
 ----------------------------------------------------------------
 Input size (MB): 0.01
-Forward/backward pass size (MB): 11.25
-Params size (MB): 42.63
-Estimated Total Size (MB): 53.89
+Forward/backward pass size (MB): 7.63
+Params size (MB): 25.07
+Estimated Total Size (MB): 32.72
 ----------------------------------------------------------------
 ```
 
-Logs:
+LR Find Logs (for a 500 epoch run):
 
 ```
-Estimated Total Size (MB): 53.89
-----------------------------------------------------------------
+Finding max LR for One Cycle Policy using LR Range Test over 500 epochs...
+EPOCH = 1 LR = 1e-10 loss=2.3224093914031982 batch=97 acc=6.85: 100%
+98/98 [00:04<00:00, 29.41it/s]
+EPOCH = 2 LR = 0.0020000000998 loss=2.1187562942504883 batch=97 acc=25.15: 100%
+98/98 [00:04<00:00, 28.20it/s]
+EPOCH = 3 LR = 0.0040000000996 loss=2.0878632068634033 batch=97 acc=29.69: 100%
+98/98 [00:03<00:00, 29.08it/s]
+EPOCH = 4 LR = 0.0060000000994000005 loss=2.0292062759399414 batch=97 acc=32.29: 100%
+98/98 [00:03<00:00, 30.68it/s]
+EPOCH = 5 LR = 0.0080000000992 loss=2.0144598484039307 batch=97 acc=35.32: 100%
+98/98 [00:03<00:00, 27.00it/s]
+EPOCH = 6 LR = 0.010000000099000001 loss=2.036132335662842 batch=97 acc=35.06: 100%
+98/98 [00:04<00:00, 29.69it/s]
+EPOCH = 7 LR = 0.012000000098800001 loss=2.042785406112671 batch=97 acc=33.35: 100%
+98/98 [00:03<00:00, 29.65it/s]
+EPOCH = 8 LR = 0.014000000098600002 loss=1.9731241464614868 batch=97 acc=37.84: 100%
+98/98 [00:03<00:00, 29.34it/s]
+EPOCH = 9 LR = 0.0160000000984 loss=1.9708342552185059 batch=97 acc=35.34: 100%
+98/98 [00:03<00:00, 29.73it/s]
+EPOCH = 10 LR = 0.0180000000982 loss=1.963805913925171 batch=97 acc=37.12: 100%
+98/98 [00:03<00:00, 29.12it/s]
+EPOCH = 11 LR = 0.020000000097999997 loss=2.022134304046631 batch=97 acc=35.45: 100%
+98/98 [00:03<00:00, 27.33it/s]
+EPOCH = 12 LR = 0.022000000097799996 loss=1.9652882814407349 batch=97 acc=40.44: 100%
+98/98 [00:03<00:00, 30.22it/s]
+EPOCH = 13 LR = 0.024000000097599995 loss=2.009165048599243 batch=97 acc=36.75: 100%
+98/98 [00:03<00:00, 29.45it/s]
+EPOCH = 14 LR = 0.026000000097399993 loss=1.9558632373809814 batch=97 acc=36.40: 100%
+98/98 [00:03<00:00, 29.64it/s]
+EPOCH = 15 LR = 0.02800000009719999 loss=1.9492887258529663 batch=97 acc=37.72: 100%
+98/98 [00:03<00:00, 29.94it/s]
+EPOCH = 16 LR = 0.03000000009699999 loss=1.9770760536193848 batch=97 acc=37.60: 100%
+98/98 [00:03<00:00, 29.59it/s]
+EPOCH = 17 LR = 0.03200000009679999 loss=1.990469217300415 batch=97 acc=35.09: 100%
+98/98 [00:03<00:00, 25.71it/s]
+EPOCH = 18 LR = 0.034000000096599994 loss=2.0203046798706055 batch=97 acc=35.44: 100%
+98/98 [00:03<00:00, 29.13it/s]
+EPOCH = 19 LR = 0.036000000096399996 loss=2.058195114135742 batch=97 acc=33.68: 100%
+98/98 [00:03<00:00, 29.57it/s]
+EPOCH = 20 LR = 0.0380000000962 loss=2.011464834213257 batch=97 acc=35.11: 100%
+98/98 [00:03<00:00, 27.96it/s]
+EPOCH = 21 LR = 0.040000000096 loss=1.9337644577026367 batch=97 acc=38.36: 100%
+98/98 [00:03<00:00, 27.69it/s]
+EPOCH = 22 LR = 0.0420000000958 loss=1.9678854942321777 batch=97 acc=37.54: 100%
+98/98 [00:03<00:00, 30.55it/s]
+EPOCH = 23 LR = 0.044000000095600005 loss=1.9625657796859741 batch=97 acc=38.43: 100%
+98/98 [00:03<00:00, 26.70it/s]
+EPOCH = 24 LR = 0.04600000009540001 loss=1.9905468225479126 batch=97 acc=35.16: 100%
+98/98 [00:03<00:00, 31.24it/s]
+EPOCH = 25 LR = 0.04800000009520001 loss=2.0002200603485107 batch=97 acc=38.04: 100%
+98/98 [00:03<00:00, 29.39it/s]
+EPOCH = 26 LR = 0.05000000009500001 loss=2.0250349044799805 batch=97 acc=34.20: 100%
+98/98 [00:03<00:00, 25.10it/s]
+EPOCH = 27 LR = 0.05200000009480001 loss=1.9981037378311157 batch=97 acc=35.86: 100%
+98/98 [00:03<00:00, 26.16it/s]
+EPOCH = 28 LR = 0.054000000094600015 loss=2.008406162261963 batch=97 acc=37.02: 100%
+98/98 [00:03<00:00, 30.48it/s]
+EPOCH = 29 LR = 0.05600000009440002 loss=2.0818614959716797 batch=97 acc=35.35: 100%
+98/98 [00:03<00:00, 27.30it/s]
+EPOCH = 30 LR = 0.05800000009420002 loss=2.0161795616149902 batch=97 acc=38.08: 100%
+98/98 [00:03<00:00, 29.09it/s]
+EPOCH = 31 LR = 0.06000000009400002 loss=2.1287777423858643 batch=97 acc=31.98: 100%
+98/98 [00:03<00:00, 27.73it/s]
+EPOCH = 32 LR = 0.06200000009380002 loss=2.102416515350342 batch=97 acc=29.96: 100%
+98/98 [00:03<00:00, 27.21it/s]
+EPOCH = 33 LR = 0.06400000009360002 loss=2.0141680240631104 batch=97 acc=35.62: 100%
+98/98 [00:03<00:00, 29.05it/s]
+EPOCH = 34 LR = 0.06600000009340001 loss=2.0154993534088135 batch=97 acc=33.77: 100%
+98/98 [00:03<00:00, 28.90it/s]
+EPOCH = 35 LR = 0.06800000009320001 loss=2.0688209533691406 batch=97 acc=31.81: 100%
+98/98 [00:03<00:00, 27.37it/s]
+EPOCH = 36 LR = 0.070000000093 loss=2.022908926010132 batch=97 acc=33.75: 100%
+98/98 [00:03<00:00, 28.74it/s]
+EPOCH = 37 LR = 0.0720000000928 loss=2.052915096282959 batch=97 acc=33.68: 100%
+98/98 [00:03<00:00, 28.02it/s]
+EPOCH = 38 LR = 0.0740000000926 loss=2.1898534297943115 batch=97 acc=31.10: 100%
+98/98 [00:04<00:00, 25.27it/s]
+EPOCH = 39 LR = 0.07600000009239999 loss=1.994749665260315 batch=97 acc=37.83: 100%
+98/98 [00:04<00:00, 27.76it/s]
+EPOCH = 40 LR = 0.07800000009219998 loss=1.9954289197921753 batch=97 acc=38.61: 100%
+98/98 [00:04<00:00, 28.82it/s]
+EPOCH = 41 LR = 0.08000000009199998 loss=2.1401727199554443 batch=97 acc=27.45: 100%
+98/98 [00:04<00:00, 26.69it/s]
+EPOCH = 42 LR = 0.08200000009179997 loss=2.0004446506500244 batch=97 acc=33.86: 100%
+98/98 [00:04<00:00, 29.77it/s]
+EPOCH = 43 LR = 0.08400000009159997 loss=2.003811836242676 batch=97 acc=36.56: 100%
+98/98 [00:04<00:00, 30.74it/s]
+EPOCH = 44 LR = 0.08600000009139996 loss=2.164856433868408 batch=97 acc=30.33: 100%
+98/98 [00:04<00:00, 28.33it/s]
+EPOCH = 45 LR = 0.08800000009119996 loss=2.0550014972686768 batch=97 acc=35.41: 100%
+98/98 [00:03<00:00, 29.07it/s]
+EPOCH = 46 LR = 0.09000000009099995 loss=2.035132646560669 batch=97 acc=32.93: 100%
+98/98 [00:03<00:00, 27.73it/s]
+EPOCH = 47 LR = 0.09200000009079995 loss=2.1056969165802 batch=97 acc=30.19: 100%
+98/98 [00:04<00:00, 27.84it/s]
+EPOCH = 48 LR = 0.09400000009059994 loss=2.0071399211883545 batch=97 acc=33.23: 100%
+98/98 [00:03<00:00, 29.34it/s]
+EPOCH = 49 LR = 0.09600000009039994 loss=2.0835912227630615 batch=97 acc=30.08: 100%
+98/98 [00:03<00:00, 28.99it/s]
+EPOCH = 50 LR = 0.09800000009019993 loss=2.0933799743652344 batch=97 acc=31.79: 100%
+98/98 [00:04<00:00, 28.14it/s]
+EPOCH = 51 LR = 0.10000000008999993 loss=2.0722193717956543 batch=97 acc=32.73: 100%
+98/98 [00:04<00:00, 28.11it/s]
+EPOCH = 52 LR = 0.10200000008979992 loss=2.1395652294158936 batch=97 acc=27.15: 100%
+98/98 [00:04<00:00, 27.12it/s]
+EPOCH = 53 LR = 0.10400000008959992 loss=2.0720059871673584 batch=97 acc=31.06: 100%
+98/98 [00:04<00:00, 28.17it/s]
+EPOCH = 54 LR = 0.10600000008939992 loss=2.0565216541290283 batch=97 acc=35.86: 100%
+98/98 [00:04<00:00, 28.62it/s]
+EPOCH = 55 LR = 0.10800000008919991 loss=2.0880672931671143 batch=97 acc=33.01: 100%
+98/98 [00:03<00:00, 29.20it/s]
+EPOCH = 56 LR = 0.1100000000889999 loss=2.0865859985351562 batch=97 acc=32.40: 100%
+98/98 [00:04<00:00, 27.65it/s]
+EPOCH = 57 LR = 0.1120000000887999 loss=2.124379873275757 batch=97 acc=31.67: 100%
+98/98 [00:04<00:00, 27.13it/s]
+EPOCH = 58 LR = 0.1140000000885999 loss=2.053879976272583 batch=97 acc=31.87: 100%
+98/98 [00:03<00:00, 30.63it/s]
+EPOCH = 59 LR = 0.11600000008839989 loss=2.129777669906616 batch=97 acc=30.65: 100%
+98/98 [00:04<00:00, 29.49it/s]
+EPOCH = 60 LR = 0.11800000008819989 loss=2.0969505310058594 batch=97 acc=29.74: 100%
+98/98 [00:03<00:00, 28.69it/s]
+EPOCH = 61 LR = 0.12000000008799988 loss=2.056607484817505 batch=97 acc=32.58: 100%
+98/98 [00:03<00:00, 27.10it/s]
+EPOCH = 62 LR = 0.12200000008779988 loss=2.057941436767578 batch=97 acc=33.67: 100%
+98/98 [00:04<00:00, 28.12it/s]
+EPOCH = 63 LR = 0.12400000008759987 loss=2.0587069988250732 batch=97 acc=29.15: 100%
+98/98 [00:03<00:00, 31.72it/s]
+EPOCH = 64 LR = 0.12600000008739987 loss=2.1061158180236816 batch=97 acc=27.03: 100%
+98/98 [00:03<00:00, 26.86it/s]
+EPOCH = 65 LR = 0.12800000008719986 loss=2.105398654937744 batch=97 acc=27.17: 100%
+98/98 [00:04<00:00, 27.31it/s]
+EPOCH = 66 LR = 0.13000000008699986 loss=2.1504714488983154 batch=97 acc=25.90: 100%
+98/98 [00:03<00:00, 28.15it/s]
+EPOCH = 67 LR = 0.13200000008679985 loss=2.055102586746216 batch=97 acc=33.11: 100%
+98/98 [00:03<00:00, 28.87it/s]
+EPOCH = 68 LR = 0.13400000008659985 loss=2.1582705974578857 batch=97 acc=27.71: 100%
+98/98 [00:04<00:00, 27.99it/s]
+EPOCH = 69 LR = 0.13600000008639984 loss=2.153656005859375 batch=97 acc=28.54: 100%
+98/98 [00:03<00:00, 30.36it/s]
+EPOCH = 70 LR = 0.13800000008619984 loss=2.129422187805176 batch=97 acc=27.47: 100%
+98/98 [00:03<00:00, 30.28it/s]
+EPOCH = 71 LR = 0.14000000008599983 loss=2.064729690551758 batch=97 acc=31.01: 100%
+98/98 [00:03<00:00, 29.08it/s]
+EPOCH = 72 LR = 0.14200000008579983 loss=2.141517162322998 batch=97 acc=28.95: 100%
+98/98 [00:03<00:00, 30.98it/s]
+EPOCH = 73 LR = 0.14400000008559982 loss=2.1583364009857178 batch=97 acc=25.90: 100%
+98/98 [00:03<00:00, 28.88it/s]
+EPOCH = 74 LR = 0.14600000008539982 loss=2.098698139190674 batch=97 acc=30.78: 100%
+98/98 [00:04<00:00, 29.48it/s]
+EPOCH = 75 LR = 0.1480000000851998 loss=2.1335201263427734 batch=97 acc=27.94: 100%
+98/98 [00:03<00:00, 27.65it/s]
+EPOCH = 76 LR = 0.1500000000849998 loss=2.16583251953125 batch=97 acc=26.83: 100%
+98/98 [00:04<00:00, 30.61it/s]
+EPOCH = 77 LR = 0.1520000000847998 loss=2.219947338104248 batch=97 acc=24.49: 100%
+98/98 [00:04<00:00, 28.58it/s]
+EPOCH = 78 LR = 0.1540000000845998 loss=2.2287685871124268 batch=97 acc=21.53: 100%
+98/98 [00:03<00:00, 27.19it/s]
+EPOCH = 79 LR = 0.1560000000843998 loss=2.1548221111297607 batch=97 acc=27.37: 100%
+98/98 [00:03<00:00, 29.67it/s]
+EPOCH = 80 LR = 0.1580000000841998 loss=2.074978828430176 batch=97 acc=29.12: 100%
+98/98 [00:04<00:00, 31.36it/s]
+EPOCH = 81 LR = 0.16000000008399978 loss=2.1446003913879395 batch=97 acc=24.59: 100%
+98/98 [00:03<00:00, 28.07it/s]
+EPOCH = 82 LR = 0.16200000008379978 loss=2.1923835277557373 batch=97 acc=26.24: 100%
+98/98 [00:03<00:00, 28.81it/s]
+EPOCH = 83 LR = 0.16400000008359977 loss=2.176422595977783 batch=97 acc=25.17: 100%
+98/98 [00:03<00:00, 30.82it/s]
+EPOCH = 84 LR = 0.16600000008339977 loss=2.1256442070007324 batch=97 acc=29.77: 100%
+98/98 [00:03<00:00, 30.19it/s]
+EPOCH = 85 LR = 0.16800000008319976 loss=2.1472554206848145 batch=97 acc=27.20: 100%
+98/98 [00:03<00:00, 28.26it/s]
+EPOCH = 86 LR = 0.17000000008299976 loss=2.147067070007324 batch=97 acc=26.31: 100%
+98/98 [00:03<00:00, 28.24it/s]
+EPOCH = 87 LR = 0.17200000008279975 loss=2.228058099746704 batch=97 acc=20.77: 100%
+98/98 [00:03<00:00, 28.21it/s]
+EPOCH = 88 LR = 0.17400000008259975 loss=2.1225128173828125 batch=97 acc=28.65: 100%
+98/98 [00:03<00:00, 28.44it/s]
+EPOCH = 89 LR = 0.17600000008239974 loss=2.213535785675049 batch=97 acc=24.23: 100%
+98/98 [00:04<00:00, 29.17it/s]
+EPOCH = 90 LR = 0.17800000008219974 loss=2.077470064163208 batch=97 acc=28.27: 100%
+98/98 [00:03<00:00, 29.99it/s]
+EPOCH = 91 LR = 0.18000000008199973 loss=2.0589566230773926 batch=97 acc=29.59: 100%
+98/98 [00:03<00:00, 29.59it/s]
+EPOCH = 92 LR = 0.18200000008179973 loss=2.1344516277313232 batch=97 acc=28.87: 100%
+98/98 [00:04<00:00, 30.86it/s]
+EPOCH = 93 LR = 0.18400000008159972 loss=2.185851573944092 batch=97 acc=23.05: 100%
+98/98 [00:03<00:00, 28.15it/s]
+EPOCH = 94 LR = 0.18600000008139972 loss=2.0740795135498047 batch=97 acc=29.71: 100%
+98/98 [00:03<00:00, 29.13it/s]
+EPOCH = 95 LR = 0.18800000008119971 loss=2.145960807800293 batch=97 acc=25.34: 100%
+98/98 [00:03<00:00, 31.13it/s]
+EPOCH = 96 LR = 0.1900000000809997 loss=2.1953508853912354 batch=97 acc=22.54: 100%
+98/98 [00:03<00:00, 28.94it/s]
+EPOCH = 97 LR = 0.1920000000807997 loss=2.275161027908325 batch=97 acc=21.46: 100%
+98/98 [00:03<00:00, 28.52it/s]
+EPOCH = 98 LR = 0.1940000000805997 loss=2.1914989948272705 batch=97 acc=25.52: 100%
+98/98 [00:03<00:00, 27.30it/s]
+EPOCH = 99 LR = 0.1960000000803997 loss=2.2327091693878174 batch=97 acc=21.27: 100%
+98/98 [00:03<00:00, 30.31it/s]
+EPOCH = 100 LR = 0.1980000000801997 loss=2.1094772815704346 batch=97 acc=28.56: 100%
+98/98 [00:03<00:00, 30.28it/s]
+EPOCH = 101 LR = 0.20000000007999968 loss=2.1260645389556885 batch=97 acc=25.90: 100%
+98/98 [00:03<00:00, 27.02it/s]
+EPOCH = 102 LR = 0.20200000007979968 loss=2.1016039848327637 batch=97 acc=28.09: 100%
+98/98 [00:03<00:00, 29.33it/s]
+EPOCH = 103 LR = 0.20400000007959967 loss=2.181274652481079 batch=97 acc=27.34: 100%
+98/98 [00:03<00:00, 29.28it/s]
+EPOCH = 104 LR = 0.20600000007939967 loss=2.1630048751831055 batch=97 acc=24.69: 100%
+98/98 [00:04<00:00, 25.43it/s]
+EPOCH = 105 LR = 0.20800000007919967 loss=2.196228504180908 batch=97 acc=24.96: 100%
+98/98 [00:03<00:00, 29.70it/s]
+EPOCH = 106 LR = 0.21000000007899966 loss=2.0818264484405518 batch=97 acc=28.47: 100%
+98/98 [00:03<00:00, 28.79it/s]
+EPOCH = 107 LR = 0.21200000007879966 loss=2.200181007385254 batch=97 acc=25.41: 100%
+98/98 [00:03<00:00, 28.74it/s]
+EPOCH = 108 LR = 0.21400000007859965 loss=2.1293230056762695 batch=97 acc=25.06: 100%
+98/98 [00:03<00:00, 30.96it/s]
+EPOCH = 109 LR = 0.21600000007839965 loss=2.2236862182617188 batch=97 acc=22.54: 100%
+98/98 [00:03<00:00, 28.94it/s]
+EPOCH = 110 LR = 0.21800000007819964 loss=2.107774496078491 batch=97 acc=29.10: 100%
+98/98 [00:04<00:00, 25.72it/s]
+EPOCH = 111 LR = 0.22000000007799964 loss=2.1853599548339844 batch=97 acc=20.02: 100%
+98/98 [00:03<00:00, 27.81it/s]
+EPOCH = 112 LR = 0.22200000007779963 loss=2.2136952877044678 batch=97 acc=17.96: 100%
+98/98 [00:03<00:00, 30.64it/s]
+EPOCH = 113 LR = 0.22400000007759963 loss=2.2037975788116455 batch=97 acc=23.87: 100%
+98/98 [00:04<00:00, 26.64it/s]
+EPOCH = 114 LR = 0.22600000007739962 loss=2.1934871673583984 batch=97 acc=24.75: 100%
+98/98 [00:03<00:00, 28.94it/s]
+EPOCH = 115 LR = 0.22800000007719962 loss=2.2733824253082275 batch=97 acc=20.09: 100%
+98/98 [00:03<00:00, 29.26it/s]
+EPOCH = 116 LR = 0.2300000000769996 loss=2.2792201042175293 batch=97 acc=16.67: 100%
+98/98 [00:03<00:00, 28.14it/s]
+EPOCH = 117 LR = 0.2320000000767996 loss=2.1131787300109863 batch=97 acc=26.92: 100%
+98/98 [00:03<00:00, 30.05it/s]
+EPOCH = 118 LR = 0.2340000000765996 loss=2.199032783508301 batch=97 acc=21.50: 100%
+98/98 [00:03<00:00, 27.46it/s]
+EPOCH = 119 LR = 0.2360000000763996 loss=2.144717216491699 batch=97 acc=29.16: 100%
+98/98 [00:04<00:00, 29.07it/s]
+EPOCH = 120 LR = 0.2380000000761996 loss=2.1673123836517334 batch=97 acc=28.74: 100%
+98/98 [00:03<00:00, 27.13it/s]
+EPOCH = 121 LR = 0.2400000000759996 loss=2.151573657989502 batch=97 acc=25.42: 100%
+98/98 [00:03<00:00, 29.90it/s]
+EPOCH = 122 LR = 0.24200000007579958 loss=2.172511577606201 batch=97 acc=27.48: 100%
+98/98 [00:04<00:00, 28.58it/s]
+EPOCH = 123 LR = 0.24400000007559958 loss=2.1547088623046875 batch=97 acc=28.73: 100%
+98/98 [00:03<00:00, 30.48it/s]
+EPOCH = 124 LR = 0.24600000007539957 loss=2.216130495071411 batch=97 acc=24.97: 100%
+98/98 [00:03<00:00, 30.47it/s]
+EPOCH = 125 LR = 0.24800000007519957 loss=2.31166410446167 batch=97 acc=14.41: 100%
+98/98 [00:04<00:00, 26.55it/s]
+EPOCH = 126 LR = 0.25000000007499956 loss=2.1403653621673584 batch=97 acc=28.42: 100%
+98/98 [00:03<00:00, 28.94it/s]
+EPOCH = 127 LR = 0.25200000007479956 loss=2.17392635345459 batch=97 acc=24.99: 100%
+98/98 [00:03<00:00, 29.47it/s]
+EPOCH = 128 LR = 0.25400000007459955 loss=2.19063138961792 batch=97 acc=21.44: 100%
+98/98 [00:04<00:00, 28.74it/s]
+EPOCH = 129 LR = 0.25600000007439955 loss=2.2008860111236572 batch=97 acc=23.33: 100%
+98/98 [00:03<00:00, 29.07it/s]
+EPOCH = 130 LR = 0.25800000007419954 loss=2.1056759357452393 batch=97 acc=29.34: 100%
+98/98 [00:03<00:00, 29.83it/s]
+EPOCH = 131 LR = 0.26000000007399954 loss=2.118007183074951 batch=97 acc=25.19: 100%
+98/98 [00:03<00:00, 28.71it/s]
+EPOCH = 132 LR = 0.26200000007379953 loss=2.1632587909698486 batch=97 acc=24.96: 100%
+98/98 [00:03<00:00, 28.60it/s]
+EPOCH = 133 LR = 0.26400000007359953 loss=2.252490282058716 batch=97 acc=20.26: 100%
+98/98 [00:03<00:00, 28.30it/s]
+EPOCH = 134 LR = 0.2660000000733995 loss=2.207465410232544 batch=97 acc=26.46: 100%
+98/98 [00:03<00:00, 27.62it/s]
+EPOCH = 135 LR = 0.2680000000731995 loss=2.2070186138153076 batch=97 acc=22.89: 100%
+98/98 [00:03<00:00, 27.92it/s]
+EPOCH = 136 LR = 0.2700000000729995 loss=2.25954008102417 batch=97 acc=19.96: 100%
+98/98 [00:03<00:00, 27.74it/s]
+EPOCH = 137 LR = 0.2720000000727995 loss=2.18566632270813 batch=97 acc=22.10: 100%
+98/98 [00:04<00:00, 25.25it/s]
+EPOCH = 138 LR = 0.2740000000725995 loss=2.186917543411255 batch=97 acc=23.57: 100%
+98/98 [00:03<00:00, 28.42it/s]
+EPOCH = 139 LR = 0.2760000000723995 loss=2.243396759033203 batch=97 acc=19.66: 100%
+98/98 [00:03<00:00, 27.99it/s]
+EPOCH = 140 LR = 0.2780000000721995 loss=2.225322723388672 batch=97 acc=24.46: 100%
+98/98 [00:03<00:00, 28.78it/s]
+EPOCH = 141 LR = 0.2800000000719995 loss=2.261187791824341 batch=97 acc=19.59: 100%
+98/98 [00:03<00:00, 30.72it/s]
+EPOCH = 142 LR = 0.2820000000717995 loss=2.253937005996704 batch=97 acc=17.49: 100%
+98/98 [00:03<00:00, 31.20it/s]
+EPOCH = 143 LR = 0.2840000000715995 loss=2.1575400829315186 batch=97 acc=22.55: 100%
+98/98 [00:04<00:00, 26.83it/s]
+EPOCH = 144 LR = 0.2860000000713995 loss=2.2173166275024414 batch=97 acc=23.47: 100%
+98/98 [00:03<00:00, 30.16it/s]
+EPOCH = 145 LR = 0.28800000007119947 loss=2.1908514499664307 batch=97 acc=24.15: 100%
+98/98 [00:03<00:00, 28.95it/s]
+EPOCH = 146 LR = 0.29000000007099946 loss=2.324333667755127 batch=97 acc=16.27: 100%
+98/98 [00:03<00:00, 26.97it/s]
+EPOCH = 147 LR = 0.29200000007079946 loss=2.191912889480591 batch=97 acc=24.51: 100%
+98/98 [00:03<00:00, 27.64it/s]
+EPOCH = 148 LR = 0.29400000007059945 loss=2.2266693115234375 batch=97 acc=24.68: 100%
+98/98 [00:03<00:00, 29.22it/s]
+EPOCH = 149 LR = 0.29600000007039945 loss=2.2421443462371826 batch=97 acc=20.28: 100%
+98/98 [00:04<00:00, 29.01it/s]
+EPOCH = 150 LR = 0.29800000007019944 loss=2.1891133785247803 batch=97 acc=24.05: 100%
+98/98 [00:03<00:00, 28.75it/s]
+EPOCH = 151 LR = 0.30000000006999944 loss=2.1071038246154785 batch=97 acc=25.04: 100%
+98/98 [00:03<00:00, 27.92it/s]
+EPOCH = 152 LR = 0.30200000006979943 loss=2.2404866218566895 batch=97 acc=26.91: 100%
+98/98 [00:04<00:00, 29.57it/s]
+EPOCH = 153 LR = 0.30400000006959943 loss=2.213111400604248 batch=97 acc=24.02: 100%
+98/98 [00:03<00:00, 28.72it/s]
+EPOCH = 154 LR = 0.3060000000693994 loss=2.1633365154266357 batch=97 acc=26.24: 100%
+98/98 [00:03<00:00, 31.16it/s]
+EPOCH = 155 LR = 0.3080000000691994 loss=2.203989028930664 batch=97 acc=24.30: 100%
+98/98 [00:04<00:00, 25.93it/s]
+EPOCH = 156 LR = 0.3100000000689994 loss=2.243539810180664 batch=97 acc=19.83: 100%
+98/98 [00:03<00:00, 28.11it/s]
+EPOCH = 157 LR = 0.3120000000687994 loss=2.2391233444213867 batch=97 acc=19.65: 100%
+98/98 [00:03<00:00, 27.81it/s]
+EPOCH = 158 LR = 0.3140000000685994 loss=2.1497321128845215 batch=97 acc=25.52: 100%
+98/98 [00:03<00:00, 26.47it/s]
+EPOCH = 159 LR = 0.3160000000683994 loss=2.16044545173645 batch=97 acc=26.08: 100%
+98/98 [00:03<00:00, 28.34it/s]
+EPOCH = 160 LR = 0.3180000000681994 loss=2.1685612201690674 batch=97 acc=23.28: 100%
+98/98 [00:03<00:00, 27.84it/s]
+EPOCH = 161 LR = 0.3200000000679994 loss=2.2516090869903564 batch=97 acc=19.32: 100%
+98/98 [00:03<00:00, 26.21it/s]
+EPOCH = 162 LR = 0.3220000000677994 loss=2.248075485229492 batch=97 acc=20.18: 100%
+98/98 [00:03<00:00, 29.15it/s]
+EPOCH = 163 LR = 0.3240000000675994 loss=2.204538583755493 batch=97 acc=23.12: 100%
+98/98 [00:03<00:00, 29.42it/s]
+EPOCH = 164 LR = 0.3260000000673994 loss=2.1360723972320557 batch=97 acc=24.94: 100%
+98/98 [00:04<00:00, 27.06it/s]
+EPOCH = 165 LR = 0.32800000006719937 loss=2.2090539932250977 batch=97 acc=21.74: 100%
+98/98 [00:03<00:00, 29.99it/s]
+EPOCH = 166 LR = 0.33000000006699937 loss=2.1906192302703857 batch=97 acc=25.07: 100%
+98/98 [00:03<00:00, 28.05it/s]
+EPOCH = 167 LR = 0.33200000006679936 loss=2.2684195041656494 batch=97 acc=22.16: 100%
+98/98 [00:04<00:00, 26.91it/s]
+EPOCH = 168 LR = 0.33400000006659936 loss=2.2333738803863525 batch=97 acc=25.36: 100%
+98/98 [00:03<00:00, 28.07it/s]
+EPOCH = 169 LR = 0.33600000006639935 loss=2.1898677349090576 batch=97 acc=25.13: 100%
+98/98 [00:03<00:00, 28.22it/s]
+EPOCH = 170 LR = 0.33800000006619935 loss=2.1788666248321533 batch=97 acc=24.96: 100%
+98/98 [00:04<00:00, 27.14it/s]
+EPOCH = 171 LR = 0.34000000006599934 loss=2.204274892807007 batch=97 acc=23.32: 100%
+98/98 [00:03<00:00, 28.03it/s]
+EPOCH = 172 LR = 0.34200000006579934 loss=2.235239028930664 batch=97 acc=22.26: 100%
+98/98 [00:03<00:00, 30.16it/s]
+EPOCH = 173 LR = 0.34400000006559933 loss=2.197420120239258 batch=97 acc=26.79: 100%
+98/98 [00:04<00:00, 28.84it/s]
+EPOCH = 174 LR = 0.3460000000653993 loss=2.244929790496826 batch=97 acc=21.70: 100%
+98/98 [00:03<00:00, 28.24it/s]
+EPOCH = 175 LR = 0.3480000000651993 loss=2.1800644397735596 batch=97 acc=24.42: 100%
+98/98 [00:03<00:00, 28.12it/s]
+EPOCH = 176 LR = 0.3500000000649993 loss=2.2619833946228027 batch=97 acc=17.29: 100%
+98/98 [00:04<00:00, 28.95it/s]
+EPOCH = 177 LR = 0.3520000000647993 loss=2.214833974838257 batch=97 acc=25.00: 100%
+98/98 [00:03<00:00, 29.27it/s]
+EPOCH = 178 LR = 0.3540000000645993 loss=2.2197160720825195 batch=97 acc=21.81: 100%
+98/98 [00:03<00:00, 28.40it/s]
+EPOCH = 179 LR = 0.3560000000643993 loss=2.2417938709259033 batch=97 acc=22.07: 100%
+98/98 [00:03<00:00, 28.33it/s]
+EPOCH = 180 LR = 0.3580000000641993 loss=2.2100589275360107 batch=97 acc=18.86: 100%
+98/98 [00:03<00:00, 28.05it/s]
+EPOCH = 181 LR = 0.3600000000639993 loss=2.267122983932495 batch=97 acc=16.98: 100%
+98/98 [00:03<00:00, 30.04it/s]
+EPOCH = 182 LR = 0.3620000000637993 loss=2.201669216156006 batch=97 acc=22.37: 100%
+98/98 [00:03<00:00, 26.94it/s]
+EPOCH = 183 LR = 0.3640000000635993 loss=2.27087140083313 batch=97 acc=21.87: 100%
+98/98 [00:03<00:00, 28.46it/s]
+EPOCH = 184 LR = 0.3660000000633993 loss=2.203096389770508 batch=97 acc=24.65: 100%
+98/98 [00:03<00:00, 28.66it/s]
+EPOCH = 185 LR = 0.3680000000631993 loss=2.3165431022644043 batch=97 acc=15.60: 100%
+98/98 [00:04<00:00, 24.43it/s]
+EPOCH = 186 LR = 0.37000000006299927 loss=2.2344417572021484 batch=97 acc=21.01: 100%
+98/98 [00:03<00:00, 28.47it/s]
+EPOCH = 187 LR = 0.37200000006279926 loss=2.242859363555908 batch=97 acc=21.22: 100%
+98/98 [00:03<00:00, 28.94it/s]
+EPOCH = 188 LR = 0.37400000006259926 loss=2.2428128719329834 batch=97 acc=20.54: 100%
+98/98 [00:04<00:00, 26.97it/s]
+EPOCH = 189 LR = 0.37600000006239925 loss=2.2089576721191406 batch=97 acc=19.87: 100%
+98/98 [00:03<00:00, 28.17it/s]
+EPOCH = 190 LR = 0.37800000006219925 loss=2.1697452068328857 batch=97 acc=25.62: 100%
+98/98 [00:03<00:00, 27.97it/s]
+EPOCH = 191 LR = 0.38000000006199924 loss=2.21704363822937 batch=97 acc=19.31: 100%
+98/98 [00:04<00:00, 24.75it/s]
+EPOCH = 192 LR = 0.38200000006179924 loss=2.3184404373168945 batch=97 acc=14.12: 100%
+98/98 [00:03<00:00, 27.63it/s]
+EPOCH = 193 LR = 0.38400000006159923 loss=2.354008197784424 batch=97 acc=10.09: 100%
+98/98 [00:03<00:00, 27.82it/s]
+EPOCH = 194 LR = 0.38600000006139923 loss=2.2554783821105957 batch=97 acc=19.53: 100%
+98/98 [00:04<00:00, 27.93it/s]
+EPOCH = 195 LR = 0.3880000000611992 loss=2.210571765899658 batch=97 acc=23.05: 100%
+98/98 [00:03<00:00, 28.95it/s]
+EPOCH = 196 LR = 0.3900000000609992 loss=2.1887576580047607 batch=97 acc=25.25: 100%
+98/98 [00:04<00:00, 22.31it/s]
+EPOCH = 197 LR = 0.3920000000607992 loss=2.2440991401672363 batch=97 acc=22.70: 100%
+98/98 [00:04<00:00, 23.06it/s]
+EPOCH = 198 LR = 0.3940000000605992 loss=2.2697315216064453 batch=97 acc=16.54: 100%
+98/98 [00:04<00:00, 28.53it/s]
+EPOCH = 199 LR = 0.3960000000603992 loss=2.2543067932128906 batch=97 acc=20.19: 100%
+98/98 [00:04<00:00, 27.96it/s]
+EPOCH = 200 LR = 0.3980000000601992 loss=2.354008197784424 batch=97 acc=10.02: 100%
+98/98 [00:04<00:00, 27.77it/s]
+EPOCH = 201 LR = 0.4000000000599992 loss=2.3163230419158936 batch=97 acc=13.49: 100%
+98/98 [00:04<00:00, 29.48it/s]
+EPOCH = 202 LR = 0.4020000000597992 loss=2.213569164276123 batch=97 acc=19.36: 100%
+98/98 [00:04<00:00, 29.03it/s]
+EPOCH = 203 LR = 0.4040000000595992 loss=2.2837438583374023 batch=97 acc=18.86: 100%
+98/98 [00:04<00:00, 29.10it/s]
+EPOCH = 204 LR = 0.4060000000593992 loss=2.277087688446045 batch=97 acc=19.52: 100%
+98/98 [00:04<00:00, 28.56it/s]
+EPOCH = 205 LR = 0.4080000000591992 loss=2.1850473880767822 batch=97 acc=23.49: 100%
+98/98 [00:04<00:00, 27.54it/s]
+EPOCH = 206 LR = 0.41000000005899917 loss=2.230813980102539 batch=97 acc=18.26: 100%
+98/98 [00:04<00:00, 27.50it/s]
+EPOCH = 207 LR = 0.41200000005879917 loss=2.207545518875122 batch=97 acc=25.02: 100%
+98/98 [00:04<00:00, 30.44it/s]
+EPOCH = 208 LR = 0.41400000005859916 loss=2.2109131813049316 batch=97 acc=21.80: 100%
+98/98 [00:03<00:00, 29.14it/s]
+EPOCH = 209 LR = 0.41600000005839916 loss=2.2644221782684326 batch=97 acc=20.93: 100%
+98/98 [00:04<00:00, 27.41it/s]
+EPOCH = 210 LR = 0.41800000005819915 loss=2.2509875297546387 batch=97 acc=19.51: 100%
+98/98 [00:04<00:00, 27.61it/s]
+EPOCH = 211 LR = 0.42000000005799915 loss=2.2487287521362305 batch=97 acc=22.07: 100%
+98/98 [00:04<00:00, 26.79it/s]
+EPOCH = 212 LR = 0.42200000005779914 loss=2.210768461227417 batch=97 acc=22.58: 100%
+98/98 [00:04<00:00, 29.05it/s]
+EPOCH = 213 LR = 0.42400000005759914 loss=2.2460110187530518 batch=97 acc=20.37: 100%
+98/98 [00:04<00:00, 28.56it/s]
+EPOCH = 214 LR = 0.42600000005739913 loss=2.267719030380249 batch=97 acc=19.60: 100%
+98/98 [00:04<00:00, 26.51it/s]
+EPOCH = 215 LR = 0.4280000000571991 loss=2.299699306488037 batch=97 acc=17.37: 100%
+98/98 [00:04<00:00, 28.52it/s]
+EPOCH = 216 LR = 0.4300000000569991 loss=2.248523473739624 batch=97 acc=19.35: 100%
+98/98 [00:04<00:00, 28.26it/s]
+EPOCH = 217 LR = 0.4320000000567991 loss=2.2984020709991455 batch=97 acc=16.33: 100%
+98/98 [00:04<00:00, 27.76it/s]
+EPOCH = 218 LR = 0.4340000000565991 loss=2.264310836791992 batch=97 acc=19.89: 100%
+98/98 [00:04<00:00, 29.03it/s]
+EPOCH = 219 LR = 0.4360000000563991 loss=2.2102479934692383 batch=97 acc=22.83: 100%
+98/98 [00:04<00:00, 28.76it/s]
+EPOCH = 220 LR = 0.4380000000561991 loss=2.3116793632507324 batch=97 acc=16.96: 100%
+98/98 [00:04<00:00, 26.82it/s]
+EPOCH = 221 LR = 0.4400000000559991 loss=2.3143370151519775 batch=97 acc=15.79: 100%
+98/98 [00:03<00:00, 30.06it/s]
+EPOCH = 222 LR = 0.4420000000557991 loss=2.209596872329712 batch=97 acc=18.84: 100%
+98/98 [00:03<00:00, 30.04it/s]
+EPOCH = 223 LR = 0.4440000000555991 loss=2.192985773086548 batch=97 acc=20.78: 100%
+98/98 [00:04<00:00, 29.91it/s]
+EPOCH = 224 LR = 0.4460000000553991 loss=2.226550817489624 batch=97 acc=24.59: 100%
+98/98 [00:03<00:00, 31.31it/s]
+EPOCH = 225 LR = 0.4480000000551991 loss=2.264493703842163 batch=97 acc=20.43: 100%
+98/98 [00:03<00:00, 30.47it/s]
+EPOCH = 226 LR = 0.45000000005499907 loss=2.239384174346924 batch=97 acc=21.43: 100%
+98/98 [00:03<00:00, 28.00it/s]
+EPOCH = 227 LR = 0.45200000005479907 loss=2.2614169120788574 batch=97 acc=19.10: 100%
+98/98 [00:03<00:00, 31.10it/s]
+EPOCH = 228 LR = 0.45400000005459906 loss=2.242232084274292 batch=97 acc=20.55: 100%
+98/98 [00:03<00:00, 29.40it/s]
+EPOCH = 229 LR = 0.45600000005439906 loss=2.217463970184326 batch=97 acc=21.73: 100%
+98/98 [00:04<00:00, 27.90it/s]
+EPOCH = 230 LR = 0.45800000005419905 loss=2.2979423999786377 batch=97 acc=16.03: 100%
+98/98 [00:03<00:00, 28.30it/s]
+EPOCH = 231 LR = 0.46000000005399905 loss=2.281580924987793 batch=97 acc=16.51: 100%
+98/98 [00:03<00:00, 27.76it/s]
+EPOCH = 232 LR = 0.46200000005379904 loss=2.239612102508545 batch=97 acc=20.25: 100%
+98/98 [00:04<00:00, 27.74it/s]
+EPOCH = 233 LR = 0.46400000005359904 loss=2.2498905658721924 batch=97 acc=18.96: 100%
+98/98 [00:03<00:00, 31.05it/s]
+EPOCH = 234 LR = 0.46600000005339903 loss=2.252030372619629 batch=97 acc=17.43: 100%
+98/98 [00:03<00:00, 29.46it/s]
+EPOCH = 235 LR = 0.46800000005319903 loss=2.365912914276123 batch=97 acc=10.17: 100%
+98/98 [00:04<00:00, 28.73it/s]
+EPOCH = 236 LR = 0.470000000052999 loss=2.2683310508728027 batch=97 acc=20.45: 100%
+98/98 [00:03<00:00, 30.03it/s]
+EPOCH = 237 LR = 0.472000000052799 loss=2.2696690559387207 batch=97 acc=16.99: 100%
+98/98 [00:03<00:00, 29.15it/s]
+EPOCH = 238 LR = 0.474000000052599 loss=2.2243144512176514 batch=97 acc=20.42: 100%
+98/98 [00:04<00:00, 27.20it/s]
+EPOCH = 239 LR = 0.476000000052399 loss=2.257556676864624 batch=97 acc=20.58: 100%
+98/98 [00:03<00:00, 28.15it/s]
+EPOCH = 240 LR = 0.478000000052199 loss=2.2970669269561768 batch=97 acc=17.01: 100%
+98/98 [00:03<00:00, 31.10it/s]
+EPOCH = 241 LR = 0.480000000051999 loss=2.1883480548858643 batch=97 acc=21.71: 100%
+98/98 [00:04<00:00, 28.49it/s]
+EPOCH = 242 LR = 0.482000000051799 loss=2.276965618133545 batch=97 acc=17.40: 100%
+98/98 [00:03<00:00, 29.68it/s]
+EPOCH = 243 LR = 0.484000000051599 loss=2.2620015144348145 batch=97 acc=16.47: 100%
+98/98 [00:03<00:00, 28.85it/s]
+EPOCH = 244 LR = 0.486000000051399 loss=2.223670721054077 batch=97 acc=22.26: 100%
+98/98 [00:04<00:00, 30.78it/s]
+EPOCH = 245 LR = 0.488000000051199 loss=2.270843029022217 batch=97 acc=21.02: 100%
+98/98 [00:03<00:00, 30.41it/s]
+EPOCH = 246 LR = 0.490000000050999 loss=2.1899280548095703 batch=97 acc=25.00: 100%
+98/98 [00:03<00:00, 26.64it/s]
+EPOCH = 247 LR = 0.49200000005079897 loss=2.380793809890747 batch=97 acc=9.94: 100%
+98/98 [00:04<00:00, 28.78it/s]
+EPOCH = 248 LR = 0.49400000005059896 loss=2.2935101985931396 batch=97 acc=13.81: 100%
+98/98 [00:03<00:00, 29.42it/s]
+EPOCH = 249 LR = 0.49600000005039896 loss=2.2757725715637207 batch=97 acc=16.42: 100%
+98/98 [00:03<00:00, 29.02it/s]
+EPOCH = 250 LR = 0.49800000005019895 loss=2.1998188495635986 batch=97 acc=19.77: 100%
+98/98 [00:03<00:00, 28.52it/s]
+EPOCH = 251 LR = 0.500000000049999 loss=2.2359862327575684 batch=97 acc=19.66: 100%
+98/98 [00:03<00:00, 30.43it/s]
+EPOCH = 252 LR = 0.5020000000497991 loss=2.215508222579956 batch=97 acc=19.90: 100%
+98/98 [00:03<00:00, 28.43it/s]
+EPOCH = 253 LR = 0.5040000000495991 loss=2.263504981994629 batch=97 acc=19.35: 100%
+98/98 [00:04<00:00, 29.14it/s]
+EPOCH = 254 LR = 0.5060000000493992 loss=2.131484031677246 batch=97 acc=24.37: 100%
+98/98 [00:03<00:00, 28.32it/s]
+EPOCH = 255 LR = 0.5080000000491992 loss=2.308743715286255 batch=97 acc=14.21: 100%
+98/98 [00:03<00:00, 28.69it/s]
+EPOCH = 256 LR = 0.5100000000489993 loss=2.264023780822754 batch=97 acc=21.54: 100%
+98/98 [00:03<00:00, 28.03it/s]
+EPOCH = 257 LR = 0.5120000000487993 loss=2.234689712524414 batch=97 acc=17.43: 100%
+98/98 [00:03<00:00, 31.44it/s]
+EPOCH = 258 LR = 0.5140000000485994 loss=2.276401996612549 batch=97 acc=20.33: 100%
+98/98 [00:03<00:00, 27.63it/s]
+EPOCH = 259 LR = 0.5160000000483994 loss=2.1948060989379883 batch=97 acc=21.46: 100%
+98/98 [00:03<00:00, 27.92it/s]
+EPOCH = 260 LR = 0.5180000000481995 loss=2.3095152378082275 batch=97 acc=13.63: 100%
+98/98 [00:03<00:00, 30.07it/s]
+EPOCH = 261 LR = 0.5200000000479995 loss=2.270188331604004 batch=97 acc=17.37: 100%
+98/98 [00:03<00:00, 28.80it/s]
+EPOCH = 262 LR = 0.5220000000477996 loss=2.285207986831665 batch=97 acc=16.98: 100%
+98/98 [00:04<00:00, 27.10it/s]
+EPOCH = 263 LR = 0.5240000000475996 loss=2.26853609085083 batch=97 acc=17.56: 100%
+98/98 [00:03<00:00, 27.74it/s]
+EPOCH = 264 LR = 0.5260000000473997 loss=2.3226678371429443 batch=97 acc=14.48: 100%
+98/98 [00:04<00:00, 27.11it/s]
+EPOCH = 265 LR = 0.5280000000471997 loss=2.244194984436035 batch=97 acc=17.44: 100%
+98/98 [00:03<00:00, 28.50it/s]
+EPOCH = 266 LR = 0.5300000000469998 loss=2.1985621452331543 batch=97 acc=18.44: 100%
+98/98 [00:03<00:00, 26.43it/s]
+EPOCH = 267 LR = 0.5320000000467998 loss=2.2890665531158447 batch=97 acc=19.49: 100%
+98/98 [00:03<00:00, 27.77it/s]
+EPOCH = 268 LR = 0.5340000000465999 loss=2.2397665977478027 batch=97 acc=22.64: 100%
+98/98 [00:04<00:00, 28.34it/s]
+EPOCH = 269 LR = 0.5360000000463999 loss=2.257844924926758 batch=97 acc=19.33: 100%
+98/98 [00:03<00:00, 28.42it/s]
+EPOCH = 270 LR = 0.5380000000462 loss=2.2264084815979004 batch=97 acc=20.54: 100%
+98/98 [00:03<00:00, 28.50it/s]
+EPOCH = 271 LR = 0.540000000046 loss=2.1863396167755127 batch=97 acc=23.76: 100%
+98/98 [00:04<00:00, 28.68it/s]
+EPOCH = 272 LR = 0.5420000000458001 loss=2.1916537284851074 batch=97 acc=22.13: 100%
+98/98 [00:03<00:00, 28.25it/s]
+EPOCH = 273 LR = 0.5440000000456001 loss=2.283047676086426 batch=97 acc=16.82: 100%
+98/98 [00:03<00:00, 29.50it/s]
+EPOCH = 274 LR = 0.5460000000454002 loss=2.3023452758789062 batch=97 acc=17.45: 100%
+98/98 [00:04<00:00, 25.94it/s]
+EPOCH = 275 LR = 0.5480000000452002 loss=2.2700467109680176 batch=97 acc=18.96: 100%
+98/98 [00:03<00:00, 30.05it/s]
+EPOCH = 276 LR = 0.5500000000450003 loss=2.3111801147460938 batch=97 acc=16.22: 100%
+98/98 [00:03<00:00, 28.04it/s]
+EPOCH = 277 LR = 0.5520000000448003 loss=2.248105525970459 batch=97 acc=21.68: 100%
+98/98 [00:03<00:00, 27.67it/s]
+EPOCH = 278 LR = 0.5540000000446004 loss=2.232489824295044 batch=97 acc=22.73: 100%
+98/98 [00:03<00:00, 29.57it/s]
+EPOCH = 279 LR = 0.5560000000444004 loss=2.2371532917022705 batch=97 acc=22.88: 100%
+98/98 [00:03<00:00, 29.47it/s]
+EPOCH = 280 LR = 0.5580000000442005 loss=2.3461222648620605 batch=97 acc=16.68: 100%
+98/98 [00:03<00:00, 27.53it/s]
+EPOCH = 281 LR = 0.5600000000440005 loss=2.2136075496673584 batch=97 acc=22.30: 100%
+98/98 [00:03<00:00, 28.87it/s]
+EPOCH = 282 LR = 0.5620000000438006 loss=2.3178844451904297 batch=97 acc=14.17: 100%
+98/98 [00:03<00:00, 29.23it/s]
+EPOCH = 283 LR = 0.5640000000436006 loss=2.2601146697998047 batch=97 acc=19.34: 100%
+98/98 [00:04<00:00, 26.48it/s]
+EPOCH = 284 LR = 0.5660000000434007 loss=2.241323947906494 batch=97 acc=19.26: 100%
+98/98 [00:03<00:00, 30.48it/s]
+EPOCH = 285 LR = 0.5680000000432007 loss=2.3264193534851074 batch=97 acc=13.37: 100%
+98/98 [00:03<00:00, 28.39it/s]
+EPOCH = 286 LR = 0.5700000000430008 loss=2.2955780029296875 batch=97 acc=15.65: 100%
+98/98 [00:03<00:00, 26.49it/s]
+EPOCH = 287 LR = 0.5720000000428008 loss=2.2532238960266113 batch=97 acc=19.28: 100%
+98/98 [00:03<00:00, 29.94it/s]
+EPOCH = 288 LR = 0.5740000000426009 loss=2.3256349563598633 batch=97 acc=16.94: 100%
+98/98 [00:03<00:00, 28.46it/s]
+EPOCH = 289 LR = 0.5760000000424009 loss=2.2405951023101807 batch=97 acc=19.88: 100%
+98/98 [00:03<00:00, 26.69it/s]
+EPOCH = 290 LR = 0.578000000042201 loss=2.2455334663391113 batch=97 acc=17.62: 100%
+98/98 [00:03<00:00, 29.90it/s]
+EPOCH = 291 LR = 0.580000000042001 loss=2.21651029586792 batch=97 acc=22.97: 100%
+98/98 [00:03<00:00, 30.40it/s]
+EPOCH = 292 LR = 0.5820000000418011 loss=2.2707419395446777 batch=97 acc=20.28: 100%
+98/98 [00:03<00:00, 29.25it/s]
+EPOCH = 293 LR = 0.5840000000416011 loss=2.3599605560302734 batch=97 acc=9.96: 100%
+98/98 [00:03<00:00, 29.99it/s]
+EPOCH = 294 LR = 0.5860000000414012 loss=2.3029868602752686 batch=97 acc=16.49: 100%
+98/98 [00:03<00:00, 28.04it/s]
+EPOCH = 295 LR = 0.5880000000412012 loss=2.254807472229004 batch=97 acc=18.81: 100%
+98/98 [00:03<00:00, 25.70it/s]
+EPOCH = 296 LR = 0.5900000000410013 loss=2.2672855854034424 batch=97 acc=15.59: 100%
+98/98 [00:03<00:00, 27.54it/s]
+EPOCH = 297 LR = 0.5920000000408013 loss=2.2601399421691895 batch=97 acc=19.18: 100%
+98/98 [00:03<00:00, 28.86it/s]
+EPOCH = 298 LR = 0.5940000000406014 loss=2.183966636657715 batch=97 acc=21.20: 100%
+98/98 [00:04<00:00, 25.97it/s]
+EPOCH = 299 LR = 0.5960000000404014 loss=2.292074203491211 batch=97 acc=17.84: 100%
+98/98 [00:03<00:00, 27.52it/s]
+EPOCH = 300 LR = 0.5980000000402015 loss=2.3069264888763428 batch=97 acc=15.95: 100%
+98/98 [00:03<00:00, 27.80it/s]
+EPOCH = 301 LR = 0.6000000000400015 loss=2.285522937774658 batch=97 acc=15.65: 100%
+98/98 [00:03<00:00, 27.12it/s]
+EPOCH = 302 LR = 0.6020000000398016 loss=2.2274863719940186 batch=97 acc=19.21: 100%
+98/98 [00:03<00:00, 29.37it/s]
+EPOCH = 303 LR = 0.6040000000396016 loss=2.2020719051361084 batch=97 acc=22.35: 100%
+98/98 [00:03<00:00, 27.98it/s]
+EPOCH = 304 LR = 0.6060000000394017 loss=2.208167314529419 batch=97 acc=22.01: 100%
+98/98 [00:04<00:00, 28.37it/s]
+EPOCH = 305 LR = 0.6080000000392017 loss=2.308436632156372 batch=97 acc=13.42: 100%
+98/98 [00:04<00:00, 28.78it/s]
+EPOCH = 306 LR = 0.6100000000390018 loss=2.2045185565948486 batch=97 acc=22.03: 100%
+98/98 [00:03<00:00, 28.44it/s]
+EPOCH = 307 LR = 0.6120000000388018 loss=2.347745895385742 batch=97 acc=14.40: 100%
+98/98 [00:04<00:00, 25.72it/s]
+EPOCH = 308 LR = 0.6140000000386019 loss=2.2533376216888428 batch=97 acc=19.78: 100%
+98/98 [00:03<00:00, 28.46it/s]
+EPOCH = 309 LR = 0.6160000000384019 loss=2.2334249019622803 batch=97 acc=21.55: 100%
+98/98 [00:03<00:00, 28.46it/s]
+EPOCH = 310 LR = 0.618000000038202 loss=2.3629367351531982 batch=97 acc=10.18: 100%
+98/98 [00:04<00:00, 26.90it/s]
+EPOCH = 311 LR = 0.620000000038002 loss=2.306425094604492 batch=97 acc=19.88: 100%
+98/98 [00:03<00:00, 28.95it/s]
+EPOCH = 312 LR = 0.6220000000378021 loss=2.2795987129211426 batch=97 acc=16.41: 100%
+98/98 [00:03<00:00, 28.81it/s]
+EPOCH = 313 LR = 0.6240000000376021 loss=2.2647624015808105 batch=97 acc=20.00: 100%
+98/98 [00:03<00:00, 27.43it/s]
+EPOCH = 314 LR = 0.6260000000374022 loss=2.3081247806549072 batch=97 acc=16.06: 100%
+98/98 [00:03<00:00, 30.86it/s]
+EPOCH = 315 LR = 0.6280000000372022 loss=2.303483009338379 batch=97 acc=17.06: 100%
+98/98 [00:03<00:00, 30.00it/s]
+EPOCH = 316 LR = 0.6300000000370023 loss=2.2701008319854736 batch=97 acc=18.06: 100%
+98/98 [00:04<00:00, 26.24it/s]
+EPOCH = 317 LR = 0.6320000000368023 loss=2.193952798843384 batch=97 acc=21.44: 100%
+98/98 [00:03<00:00, 28.72it/s]
+EPOCH = 318 LR = 0.6340000000366024 loss=2.299461841583252 batch=97 acc=16.89: 100%
+98/98 [00:03<00:00, 30.43it/s]
+EPOCH = 319 LR = 0.6360000000364024 loss=2.2667059898376465 batch=97 acc=17.17: 100%
+98/98 [00:04<00:00, 25.96it/s]
+EPOCH = 320 LR = 0.6380000000362025 loss=2.308072805404663 batch=97 acc=15.56: 100%
+98/98 [00:03<00:00, 29.35it/s]
+EPOCH = 321 LR = 0.6400000000360025 loss=2.311492443084717 batch=97 acc=17.18: 100%
+98/98 [00:03<00:00, 29.26it/s]
+EPOCH = 322 LR = 0.6420000000358026 loss=2.2770767211914062 batch=97 acc=16.75: 100%
+98/98 [00:03<00:00, 26.71it/s]
+EPOCH = 323 LR = 0.6440000000356026 loss=2.294778823852539 batch=97 acc=16.87: 100%
+98/98 [00:03<00:00, 28.29it/s]
+EPOCH = 324 LR = 0.6460000000354027 loss=2.2403202056884766 batch=97 acc=20.64: 100%
+98/98 [00:03<00:00, 29.42it/s]
+EPOCH = 325 LR = 0.6480000000352028 loss=2.2886641025543213 batch=97 acc=17.21: 100%
+98/98 [00:04<00:00, 25.78it/s]
+EPOCH = 326 LR = 0.6500000000350028 loss=2.229801654815674 batch=97 acc=18.93: 100%
+98/98 [00:03<00:00, 31.27it/s]
+EPOCH = 327 LR = 0.6520000000348029 loss=2.216722011566162 batch=97 acc=19.62: 100%
+98/98 [00:03<00:00, 29.35it/s]
+EPOCH = 328 LR = 0.6540000000346029 loss=2.260324478149414 batch=97 acc=23.61: 100%
+98/98 [00:03<00:00, 29.43it/s]
+EPOCH = 329 LR = 0.656000000034403 loss=2.2025232315063477 batch=97 acc=19.82: 100%
+98/98 [00:03<00:00, 28.18it/s]
+EPOCH = 330 LR = 0.658000000034203 loss=2.239264488220215 batch=97 acc=18.90: 100%
+98/98 [00:03<00:00, 30.10it/s]
+EPOCH = 331 LR = 0.660000000034003 loss=2.2221364974975586 batch=97 acc=19.36: 100%
+98/98 [00:03<00:00, 29.35it/s]
+EPOCH = 332 LR = 0.6620000000338031 loss=2.2973692417144775 batch=97 acc=16.66: 100%
+98/98 [00:03<00:00, 29.14it/s]
+EPOCH = 333 LR = 0.6640000000336032 loss=2.291412830352783 batch=97 acc=16.57: 100%
+98/98 [00:03<00:00, 28.98it/s]
+EPOCH = 334 LR = 0.6660000000334032 loss=2.2391204833984375 batch=97 acc=20.42: 100%
+98/98 [00:04<00:00, 24.43it/s]
+EPOCH = 335 LR = 0.6680000000332033 loss=2.25714373588562 batch=97 acc=19.74: 100%
+98/98 [00:03<00:00, 29.84it/s]
+EPOCH = 336 LR = 0.6700000000330033 loss=2.286565065383911 batch=97 acc=20.07: 100%
+98/98 [00:03<00:00, 28.07it/s]
+EPOCH = 337 LR = 0.6720000000328034 loss=2.2685320377349854 batch=97 acc=19.39: 100%
+98/98 [00:03<00:00, 27.85it/s]
+EPOCH = 338 LR = 0.6740000000326034 loss=2.2715816497802734 batch=97 acc=18.23: 100%
+98/98 [00:03<00:00, 28.65it/s]
+EPOCH = 339 LR = 0.6760000000324035 loss=2.2905659675598145 batch=97 acc=16.38: 100%
+98/98 [00:03<00:00, 28.15it/s]
+EPOCH = 340 LR = 0.6780000000322035 loss=2.1940739154815674 batch=97 acc=23.09: 100%
+98/98 [00:04<00:00, 27.71it/s]
+EPOCH = 341 LR = 0.6800000000320036 loss=2.2965786457061768 batch=97 acc=16.91: 100%
+98/98 [00:03<00:00, 30.93it/s]
+EPOCH = 342 LR = 0.6820000000318036 loss=2.2640185356140137 batch=97 acc=16.41: 100%
+98/98 [00:03<00:00, 30.82it/s]
+EPOCH = 343 LR = 0.6840000000316037 loss=2.287707567214966 batch=97 acc=18.14: 100%
+98/98 [00:04<00:00, 26.97it/s]
+EPOCH = 344 LR = 0.6860000000314037 loss=2.3629367351531982 batch=97 acc=9.95: 100%
+98/98 [00:03<00:00, 28.45it/s]
+EPOCH = 345 LR = 0.6880000000312038 loss=2.3166415691375732 batch=97 acc=16.72: 100%
+98/98 [00:03<00:00, 28.04it/s]
+EPOCH = 346 LR = 0.6900000000310038 loss=2.256439685821533 batch=97 acc=19.87: 100%
+98/98 [00:03<00:00, 28.41it/s]
+EPOCH = 347 LR = 0.6920000000308039 loss=2.2772536277770996 batch=97 acc=17.15: 100%
+98/98 [00:03<00:00, 27.33it/s]
+EPOCH = 348 LR = 0.6940000000306039 loss=2.233894109725952 batch=97 acc=18.81: 100%
+98/98 [00:03<00:00, 27.86it/s]
+EPOCH = 349 LR = 0.696000000030404 loss=2.2400918006896973 batch=97 acc=21.96: 100%
+98/98 [00:04<00:00, 24.36it/s]
+EPOCH = 350 LR = 0.698000000030204 loss=2.270355463027954 batch=97 acc=16.62: 100%
+98/98 [00:04<00:00, 27.11it/s]
+EPOCH = 351 LR = 0.7000000000300041 loss=2.2834296226501465 batch=97 acc=18.03: 100%
+98/98 [00:03<00:00, 27.96it/s]
+EPOCH = 352 LR = 0.7020000000298041 loss=2.2978904247283936 batch=97 acc=16.54: 100%
+98/98 [00:03<00:00, 28.23it/s]
+EPOCH = 353 LR = 0.7040000000296042 loss=2.22807240486145 batch=97 acc=18.77: 100%
+98/98 [00:03<00:00, 29.30it/s]
+EPOCH = 354 LR = 0.7060000000294042 loss=2.296276569366455 batch=97 acc=16.12: 100%
+98/98 [00:03<00:00, 30.46it/s]
+EPOCH = 355 LR = 0.7080000000292043 loss=2.2767748832702637 batch=97 acc=19.53: 100%
+98/98 [00:04<00:00, 27.94it/s]
+EPOCH = 356 LR = 0.7100000000290043 loss=2.268190383911133 batch=97 acc=19.21: 100%
+98/98 [00:03<00:00, 28.28it/s]
+EPOCH = 357 LR = 0.7120000000288044 loss=2.311735153198242 batch=97 acc=17.15: 100%
+98/98 [00:03<00:00, 29.16it/s]
+EPOCH = 358 LR = 0.7140000000286044 loss=2.289896011352539 batch=97 acc=18.65: 100%
+98/98 [00:03<00:00, 28.51it/s]
+EPOCH = 359 LR = 0.7160000000284045 loss=2.1983964443206787 batch=97 acc=19.71: 100%
+98/98 [00:03<00:00, 29.06it/s]
+EPOCH = 360 LR = 0.7180000000282045 loss=2.26621675491333 batch=97 acc=16.32: 100%
+98/98 [00:03<00:00, 27.76it/s]
+EPOCH = 361 LR = 0.7200000000280046 loss=2.254995822906494 batch=97 acc=20.15: 100%
+98/98 [00:03<00:00, 27.17it/s]
+EPOCH = 362 LR = 0.7220000000278046 loss=2.306448459625244 batch=97 acc=14.85: 100%
+98/98 [00:03<00:00, 27.95it/s]
+EPOCH = 363 LR = 0.7240000000276047 loss=2.192063808441162 batch=97 acc=21.92: 100%
+98/98 [00:03<00:00, 28.87it/s]
+EPOCH = 364 LR = 0.7260000000274047 loss=2.209428071975708 batch=97 acc=20.31: 100%
+98/98 [00:03<00:00, 29.25it/s]
+EPOCH = 365 LR = 0.7280000000272048 loss=2.3059229850769043 batch=97 acc=16.70: 100%
+98/98 [00:03<00:00, 30.20it/s]
+EPOCH = 366 LR = 0.7300000000270048 loss=2.274441957473755 batch=97 acc=16.75: 100%
+98/98 [00:03<00:00, 29.77it/s]
+EPOCH = 367 LR = 0.7320000000268049 loss=2.2769553661346436 batch=97 acc=20.93: 100%
+98/98 [00:04<00:00, 26.34it/s]
+EPOCH = 368 LR = 0.7340000000266049 loss=2.395674705505371 batch=97 acc=10.07: 100%
+98/98 [00:03<00:00, 28.99it/s]
+EPOCH = 369 LR = 0.736000000026405 loss=2.3629367351531982 batch=97 acc=9.96: 100%
+98/98 [00:03<00:00, 28.10it/s]
+EPOCH = 370 LR = 0.738000000026205 loss=2.320115804672241 batch=97 acc=15.03: 100%
+98/98 [00:03<00:00, 28.24it/s]
+EPOCH = 371 LR = 0.7400000000260051 loss=2.3002004623413086 batch=97 acc=16.59: 100%
+98/98 [00:03<00:00, 30.29it/s]
+EPOCH = 372 LR = 0.7420000000258051 loss=2.2469592094421387 batch=97 acc=19.22: 100%
+98/98 [00:03<00:00, 27.73it/s]
+EPOCH = 373 LR = 0.7440000000256052 loss=2.3629367351531982 batch=97 acc=9.93: 100%
+98/98 [00:03<00:00, 27.39it/s]
+EPOCH = 374 LR = 0.7460000000254052 loss=2.2367937564849854 batch=97 acc=20.64: 100%
+98/98 [00:03<00:00, 28.48it/s]
+EPOCH = 375 LR = 0.7480000000252053 loss=2.2563316822052 batch=97 acc=22.24: 100%
+98/98 [00:03<00:00, 28.51it/s]
+EPOCH = 376 LR = 0.7500000000250053 loss=2.28800892829895 batch=97 acc=16.81: 100%
+98/98 [00:04<00:00, 19.95it/s]
+EPOCH = 377 LR = 0.7520000000248054 loss=2.268697738647461 batch=97 acc=20.31: 100%
+98/98 [00:04<00:00, 27.12it/s]
+EPOCH = 378 LR = 0.7540000000246054 loss=2.256725549697876 batch=97 acc=19.95: 100%
+98/98 [00:04<00:00, 27.97it/s]
+EPOCH = 379 LR = 0.7560000000244055 loss=2.2464711666107178 batch=97 acc=19.82: 100%
+98/98 [00:04<00:00, 27.26it/s]
+EPOCH = 380 LR = 0.7580000000242055 loss=2.2907960414886475 batch=97 acc=17.09: 100%
+98/98 [00:04<00:00, 27.54it/s]
+EPOCH = 381 LR = 0.7600000000240056 loss=2.298030376434326 batch=97 acc=15.11: 100%
+98/98 [00:04<00:00, 27.55it/s]
+EPOCH = 382 LR = 0.7620000000238056 loss=2.3421032428741455 batch=97 acc=9.95: 100%
+98/98 [00:04<00:00, 27.38it/s]
+EPOCH = 383 LR = 0.7640000000236057 loss=2.2287299633026123 batch=97 acc=19.13: 100%
+98/98 [00:04<00:00, 29.85it/s]
+EPOCH = 384 LR = 0.7660000000234057 loss=2.244391679763794 batch=97 acc=19.56: 100%
+98/98 [00:04<00:00, 28.78it/s]
+EPOCH = 385 LR = 0.7680000000232058 loss=2.258568286895752 batch=97 acc=18.63: 100%
+98/98 [00:04<00:00, 29.08it/s]
+EPOCH = 386 LR = 0.7700000000230058 loss=2.247703790664673 batch=97 acc=16.37: 100%
+98/98 [00:04<00:00, 29.44it/s]
+EPOCH = 387 LR = 0.7720000000228059 loss=2.2997677326202393 batch=97 acc=16.17: 100%
+98/98 [00:04<00:00, 27.27it/s]
+EPOCH = 388 LR = 0.7740000000226059 loss=2.297393798828125 batch=97 acc=14.31: 100%
+98/98 [00:04<00:00, 31.08it/s]
+EPOCH = 389 LR = 0.776000000022406 loss=2.2414982318878174 batch=97 acc=19.41: 100%
+98/98 [00:04<00:00, 28.60it/s]
+EPOCH = 390 LR = 0.778000000022206 loss=2.281752824783325 batch=97 acc=16.09: 100%
+98/98 [00:04<00:00, 26.88it/s]
+EPOCH = 391 LR = 0.7800000000220061 loss=2.233949661254883 batch=97 acc=19.63: 100%
+98/98 [00:04<00:00, 29.13it/s]
+EPOCH = 392 LR = 0.7820000000218061 loss=2.252473831176758 batch=97 acc=18.55: 100%
+98/98 [00:04<00:00, 29.17it/s]
+EPOCH = 393 LR = 0.7840000000216062 loss=2.3599605560302734 batch=97 acc=10.00: 100%
+98/98 [00:04<00:00, 28.21it/s]
+EPOCH = 394 LR = 0.7860000000214062 loss=2.302647829055786 batch=97 acc=17.10: 100%
+98/98 [00:04<00:00, 29.28it/s]
+EPOCH = 395 LR = 0.7880000000212063 loss=2.283276081085205 batch=97 acc=13.65: 100%
+98/98 [00:04<00:00, 31.23it/s]
+EPOCH = 396 LR = 0.7900000000210063 loss=2.286634683609009 batch=97 acc=15.58: 100%
+98/98 [00:04<00:00, 28.29it/s]
+EPOCH = 397 LR = 0.7920000000208064 loss=2.2523984909057617 batch=97 acc=20.41: 100%
+98/98 [00:04<00:00, 28.29it/s]
+EPOCH = 398 LR = 0.7940000000206064 loss=2.245129108428955 batch=97 acc=19.67: 100%
+98/98 [00:04<00:00, 28.34it/s]
+EPOCH = 399 LR = 0.7960000000204065 loss=2.223933219909668 batch=97 acc=17.77: 100%
+98/98 [00:04<00:00, 27.82it/s]
+EPOCH = 400 LR = 0.7980000000202065 loss=2.2301602363586426 batch=97 acc=19.85: 100%
+98/98 [00:03<00:00, 30.13it/s]
+EPOCH = 401 LR = 0.8000000000200066 loss=2.2499561309814453 batch=97 acc=19.60: 100%
+98/98 [00:03<00:00, 28.93it/s]
+EPOCH = 402 LR = 0.8020000000198066 loss=2.2599451541900635 batch=97 acc=20.80: 100%
+98/98 [00:04<00:00, 27.29it/s]
+EPOCH = 403 LR = 0.8040000000196067 loss=2.314861536026001 batch=97 acc=13.41: 100%
+98/98 [00:03<00:00, 28.58it/s]
+EPOCH = 404 LR = 0.8060000000194067 loss=2.312835693359375 batch=97 acc=13.69: 100%
+98/98 [00:03<00:00, 27.31it/s]
+EPOCH = 405 LR = 0.8080000000192068 loss=2.2681972980499268 batch=97 acc=17.84: 100%
+98/98 [00:03<00:00, 28.68it/s]
+EPOCH = 406 LR = 0.8100000000190068 loss=2.2648375034332275 batch=97 acc=17.47: 100%
+98/98 [00:03<00:00, 31.01it/s]
+EPOCH = 407 LR = 0.8120000000188069 loss=2.258138418197632 batch=97 acc=15.80: 100%
+98/98 [00:03<00:00, 26.34it/s]
+EPOCH = 408 LR = 0.814000000018607 loss=2.2836384773254395 batch=97 acc=18.24: 100%
+98/98 [00:04<00:00, 27.78it/s]
+EPOCH = 409 LR = 0.816000000018407 loss=2.2995173931121826 batch=97 acc=20.25: 100%
+98/98 [00:03<00:00, 28.19it/s]
+EPOCH = 410 LR = 0.818000000018207 loss=2.356384038925171 batch=97 acc=14.13: 100%
+98/98 [00:03<00:00, 29.13it/s]
+EPOCH = 411 LR = 0.8200000000180071 loss=2.3599605560302734 batch=97 acc=9.95: 100%
+98/98 [00:04<00:00, 29.02it/s]
+EPOCH = 412 LR = 0.8220000000178072 loss=2.321269989013672 batch=97 acc=10.08: 100%
+98/98 [00:03<00:00, 29.25it/s]
+EPOCH = 413 LR = 0.8240000000176072 loss=2.2372334003448486 batch=97 acc=20.27: 100%
+98/98 [00:03<00:00, 28.64it/s]
+EPOCH = 414 LR = 0.8260000000174073 loss=2.252614736557007 batch=97 acc=17.40: 100%
+98/98 [00:03<00:00, 29.94it/s]
+EPOCH = 415 LR = 0.8280000000172073 loss=2.220285415649414 batch=97 acc=21.71: 100%
+98/98 [00:03<00:00, 30.58it/s]
+EPOCH = 416 LR = 0.8300000000170074 loss=2.323590040206909 batch=97 acc=16.58: 100%
+98/98 [00:03<00:00, 28.37it/s]
+EPOCH = 417 LR = 0.8320000000168074 loss=2.2963438034057617 batch=97 acc=16.13: 100%
+98/98 [00:03<00:00, 28.10it/s]
+EPOCH = 418 LR = 0.8340000000166075 loss=2.260596513748169 batch=97 acc=17.54: 100%
+98/98 [00:03<00:00, 27.71it/s]
+EPOCH = 419 LR = 0.8360000000164075 loss=2.2514214515686035 batch=97 acc=21.83: 100%
+98/98 [00:03<00:00, 30.59it/s]
+EPOCH = 420 LR = 0.8380000000162076 loss=2.2525675296783447 batch=97 acc=14.72: 100%
+98/98 [00:04<00:00, 28.57it/s]
+EPOCH = 421 LR = 0.8400000000160076 loss=2.3123013973236084 batch=97 acc=15.53: 100%
+98/98 [00:03<00:00, 28.91it/s]
+EPOCH = 422 LR = 0.8420000000158077 loss=2.2709743976593018 batch=97 acc=18.90: 100%
+98/98 [00:03<00:00, 28.52it/s]
+EPOCH = 423 LR = 0.8440000000156077 loss=2.3356292247772217 batch=97 acc=16.19: 100%
+98/98 [00:04<00:00, 27.83it/s]
+EPOCH = 424 LR = 0.8460000000154078 loss=2.2486348152160645 batch=97 acc=20.09: 100%
+98/98 [00:03<00:00, 27.30it/s]
+EPOCH = 425 LR = 0.8480000000152078 loss=2.348055601119995 batch=97 acc=9.94: 100%
+98/98 [00:03<00:00, 27.59it/s]
+EPOCH = 426 LR = 0.8500000000150079 loss=2.2873647212982178 batch=97 acc=16.02: 100%
+98/98 [00:04<00:00, 28.82it/s]
+EPOCH = 427 LR = 0.8520000000148079 loss=2.3237979412078857 batch=97 acc=13.02: 100%
+98/98 [00:03<00:00, 28.23it/s]
+EPOCH = 428 LR = 0.854000000014608 loss=2.264146327972412 batch=97 acc=18.24: 100%
+98/98 [00:03<00:00, 31.06it/s]
+EPOCH = 429 LR = 0.856000000014408 loss=2.2809553146362305 batch=97 acc=17.20: 100%
+98/98 [00:04<00:00, 28.34it/s]
+EPOCH = 430 LR = 0.8580000000142081 loss=2.3450794219970703 batch=97 acc=9.96: 100%
+98/98 [00:03<00:00, 28.04it/s]
+EPOCH = 431 LR = 0.8600000000140081 loss=2.2924461364746094 batch=97 acc=19.03: 100%
+98/98 [00:04<00:00, 26.64it/s]
+EPOCH = 432 LR = 0.8620000000138082 loss=2.398650646209717 batch=97 acc=9.95: 100%
+98/98 [00:03<00:00, 30.05it/s]
+EPOCH = 433 LR = 0.8640000000136082 loss=2.2750802040100098 batch=97 acc=13.64: 100%
+98/98 [00:03<00:00, 30.65it/s]
+EPOCH = 434 LR = 0.8660000000134083 loss=2.2909483909606934 batch=97 acc=15.71: 100%
+98/98 [00:03<00:00, 29.54it/s]
+EPOCH = 435 LR = 0.8680000000132083 loss=2.20046067237854 batch=97 acc=21.24: 100%
+98/98 [00:03<00:00, 27.98it/s]
+EPOCH = 436 LR = 0.8700000000130084 loss=2.323960304260254 batch=97 acc=13.52: 100%
+98/98 [00:03<00:00, 29.53it/s]
+EPOCH = 437 LR = 0.8720000000128084 loss=2.2158684730529785 batch=97 acc=20.09: 100%
+98/98 [00:03<00:00, 29.22it/s]
+EPOCH = 438 LR = 0.8740000000126085 loss=2.264806032180786 batch=97 acc=16.03: 100%
+98/98 [00:03<00:00, 29.94it/s]
+EPOCH = 439 LR = 0.8760000000124085 loss=2.368889093399048 batch=97 acc=9.98: 100%
+98/98 [00:03<00:00, 29.06it/s]
+EPOCH = 440 LR = 0.8780000000122086 loss=2.2626514434814453 batch=97 acc=16.39: 100%
+98/98 [00:03<00:00, 30.22it/s]
+EPOCH = 441 LR = 0.8800000000120086 loss=2.2377569675445557 batch=97 acc=17.41: 100%
+98/98 [00:04<00:00, 27.84it/s]
+EPOCH = 442 LR = 0.8820000000118087 loss=2.26906156539917 batch=97 acc=19.23: 100%
+98/98 [00:04<00:00, 28.45it/s]
+EPOCH = 443 LR = 0.8840000000116087 loss=2.3421032428741455 batch=97 acc=9.96: 100%
+98/98 [00:03<00:00, 28.38it/s]
+EPOCH = 444 LR = 0.8860000000114088 loss=2.314692735671997 batch=97 acc=13.39: 100%
+98/98 [00:04<00:00, 27.77it/s]
+EPOCH = 445 LR = 0.8880000000112088 loss=2.3233392238616943 batch=97 acc=16.72: 100%
+98/98 [00:03<00:00, 30.52it/s]
+EPOCH = 446 LR = 0.8900000000110089 loss=2.3270866870880127 batch=97 acc=16.24: 100%
+98/98 [00:03<00:00, 26.64it/s]
+EPOCH = 447 LR = 0.8920000000108089 loss=2.332594156265259 batch=97 acc=14.03: 100%
+98/98 [00:04<00:00, 29.45it/s]
+EPOCH = 448 LR = 0.894000000010609 loss=2.2830660343170166 batch=97 acc=17.83: 100%
+98/98 [00:03<00:00, 28.40it/s]
+EPOCH = 449 LR = 0.896000000010409 loss=2.353499174118042 batch=97 acc=14.65: 100%
+98/98 [00:03<00:00, 30.77it/s]
+EPOCH = 450 LR = 0.8980000000102091 loss=2.3336873054504395 batch=97 acc=13.67: 100%
+98/98 [00:04<00:00, 28.72it/s]
+EPOCH = 451 LR = 0.9000000000100091 loss=2.2999086380004883 batch=97 acc=16.05: 100%
+98/98 [00:03<00:00, 28.81it/s]
+EPOCH = 452 LR = 0.9020000000098092 loss=2.2424585819244385 batch=97 acc=17.74: 100%
+98/98 [00:04<00:00, 27.12it/s]
+EPOCH = 453 LR = 0.9040000000096092 loss=2.298017978668213 batch=97 acc=15.80: 100%
+98/98 [00:04<00:00, 27.89it/s]
+EPOCH = 454 LR = 0.9060000000094093 loss=2.269432544708252 batch=97 acc=16.70: 100%
+98/98 [00:03<00:00, 30.98it/s]
+EPOCH = 455 LR = 0.9080000000092093 loss=2.2468509674072266 batch=97 acc=17.21: 100%
+98/98 [00:03<00:00, 28.58it/s]
+EPOCH = 456 LR = 0.9100000000090094 loss=2.2460739612579346 batch=97 acc=17.97: 100%
+98/98 [00:04<00:00, 29.85it/s]
+EPOCH = 457 LR = 0.9120000000088094 loss=2.317349433898926 batch=97 acc=13.50: 100%
+98/98 [00:03<00:00, 28.30it/s]
+EPOCH = 458 LR = 0.9140000000086095 loss=2.2721922397613525 batch=97 acc=15.70: 100%
+98/98 [00:03<00:00, 31.50it/s]
+EPOCH = 459 LR = 0.9160000000084095 loss=2.380793809890747 batch=97 acc=9.94: 100%
+98/98 [00:04<00:00, 27.30it/s]
+EPOCH = 460 LR = 0.9180000000082096 loss=2.368889093399048 batch=97 acc=9.98: 100%
+98/98 [00:03<00:00, 28.23it/s]
+EPOCH = 461 LR = 0.9200000000080096 loss=2.3178656101226807 batch=97 acc=14.32: 100%
+98/98 [00:03<00:00, 28.04it/s]
+EPOCH = 462 LR = 0.9220000000078097 loss=2.299731731414795 batch=97 acc=15.69: 100%
+98/98 [00:03<00:00, 29.40it/s]
+EPOCH = 463 LR = 0.9240000000076097 loss=2.2571189403533936 batch=97 acc=17.81: 100%
+98/98 [00:03<00:00, 26.55it/s]
+EPOCH = 464 LR = 0.9260000000074098 loss=2.365912914276123 batch=97 acc=10.03: 100%
+98/98 [00:03<00:00, 29.71it/s]
+EPOCH = 465 LR = 0.9280000000072098 loss=2.2981810569763184 batch=97 acc=14.65: 100%
+98/98 [00:04<00:00, 27.38it/s]
+EPOCH = 466 LR = 0.9300000000070099 loss=2.28987979888916 batch=97 acc=16.45: 100%
+98/98 [00:03<00:00, 28.08it/s]
+EPOCH = 467 LR = 0.9320000000068099 loss=2.2607226371765137 batch=97 acc=18.93: 100%
+98/98 [00:03<00:00, 26.88it/s]
+EPOCH = 468 LR = 0.93400000000661 loss=2.287832736968994 batch=97 acc=16.76: 100%
+98/98 [00:04<00:00, 29.32it/s]
+EPOCH = 469 LR = 0.93600000000641 loss=2.2788000106811523 batch=97 acc=13.97: 100%
+98/98 [00:03<00:00, 28.08it/s]
+EPOCH = 470 LR = 0.9380000000062101 loss=2.2141470909118652 batch=97 acc=19.13: 100%
+98/98 [00:03<00:00, 28.68it/s]
+EPOCH = 471 LR = 0.9400000000060101 loss=2.3033230304718018 batch=97 acc=16.80: 100%
+98/98 [00:04<00:00, 26.91it/s]
+EPOCH = 472 LR = 0.9420000000058102 loss=2.254568576812744 batch=97 acc=15.81: 100%
+98/98 [00:03<00:00, 30.93it/s]
+EPOCH = 473 LR = 0.9440000000056102 loss=2.281414747238159 batch=97 acc=16.99: 100%
+98/98 [00:03<00:00, 28.47it/s]
+EPOCH = 474 LR = 0.9460000000054103 loss=2.2959470748901367 batch=97 acc=17.02: 100%
+98/98 [00:03<00:00, 29.65it/s]
+EPOCH = 475 LR = 0.9480000000052103 loss=2.3867461681365967 batch=97 acc=9.97: 100%
+98/98 [00:03<00:00, 25.77it/s]
+EPOCH = 476 LR = 0.9500000000050104 loss=2.280841112136841 batch=97 acc=16.88: 100%
+98/98 [00:04<00:00, 28.77it/s]
+EPOCH = 477 LR = 0.9520000000048104 loss=2.252246618270874 batch=97 acc=18.34: 100%
+98/98 [00:04<00:00, 29.57it/s]
+EPOCH = 478 LR = 0.9540000000046105 loss=2.3083977699279785 batch=97 acc=15.55: 100%
+98/98 [00:03<00:00, 30.02it/s]
+EPOCH = 479 LR = 0.9560000000044105 loss=2.2473161220550537 batch=97 acc=20.15: 100%
+98/98 [00:03<00:00, 29.41it/s]
+EPOCH = 480 LR = 0.9580000000042106 loss=2.365912914276123 batch=97 acc=10.06: 100%
+98/98 [00:03<00:00, 29.14it/s]
+EPOCH = 481 LR = 0.9600000000040106 loss=2.3205692768096924 batch=97 acc=13.59: 100%
+98/98 [00:03<00:00, 28.09it/s]
+EPOCH = 482 LR = 0.9620000000038107 loss=2.2559871673583984 batch=97 acc=19.39: 100%
+98/98 [00:03<00:00, 27.41it/s]
+EPOCH = 483 LR = 0.9640000000036107 loss=2.2066218852996826 batch=97 acc=18.57: 100%
+98/98 [00:03<00:00, 27.11it/s]
+EPOCH = 484 LR = 0.9660000000034108 loss=2.2970211505889893 batch=97 acc=14.12: 100%
+98/98 [00:03<00:00, 29.98it/s]
+EPOCH = 485 LR = 0.9680000000032108 loss=2.2574222087860107 batch=97 acc=17.32: 100%
+98/98 [00:03<00:00, 29.46it/s]
+EPOCH = 486 LR = 0.9700000000030109 loss=2.4016270637512207 batch=97 acc=9.90: 100%
+98/98 [00:03<00:00, 28.89it/s]
+EPOCH = 487 LR = 0.972000000002811 loss=2.19575834274292 batch=97 acc=21.34: 100%
+98/98 [00:03<00:00, 29.95it/s]
+EPOCH = 488 LR = 0.974000000002611 loss=2.2881669998168945 batch=97 acc=15.93: 100%
+98/98 [00:04<00:00, 27.27it/s]
+EPOCH = 489 LR = 0.976000000002411 loss=2.317995071411133 batch=97 acc=16.04: 100%
+98/98 [00:04<00:00, 25.28it/s]
+EPOCH = 490 LR = 0.9780000000022111 loss=2.3018295764923096 batch=97 acc=16.10: 100%
+98/98 [00:04<00:00, 28.78it/s]
+EPOCH = 491 LR = 0.9800000000020112 loss=2.251824378967285 batch=97 acc=18.48: 100%
+98/98 [00:04<00:00, 25.36it/s]
+EPOCH = 492 LR = 0.9820000000018112 loss=2.2844204902648926 batch=97 acc=18.61: 100%
+98/98 [00:03<00:00, 27.67it/s]
+EPOCH = 493 LR = 0.9840000000016113 loss=2.3125224113464355 batch=97 acc=16.51: 100%
+98/98 [00:03<00:00, 28.27it/s]
+EPOCH = 494 LR = 0.9860000000014113 loss=2.3091626167297363 batch=97 acc=16.02: 100%
+98/98 [00:04<00:00, 26.01it/s]
+EPOCH = 495 LR = 0.9880000000012114 loss=2.291064739227295 batch=97 acc=15.69: 100%
+98/98 [00:04<00:00, 26.36it/s]
+EPOCH = 496 LR = 0.9900000000010114 loss=2.3093652725219727 batch=97 acc=9.95: 100%
+98/98 [00:04<00:00, 27.25it/s]
+EPOCH = 497 LR = 0.9920000000008115 loss=2.2655622959136963 batch=97 acc=16.13: 100%
+98/98 [00:04<00:00, 25.07it/s]
+EPOCH = 498 LR = 0.9940000000006115 loss=2.2548701763153076 batch=97 acc=18.66: 100%
+98/98 [00:03<00:00, 28.44it/s]
+EPOCH = 499 LR = 0.9960000000004116 loss=2.2901461124420166 batch=97 acc=16.99: 100%
+98/98 [00:04<00:00, 25.54it/s]
+EPOCH = 500 LR = 0.9980000000002116 loss=2.2847049236297607 batch=97 acc=16.42: 100%
+98/98 [00:04<00:00, 26.14it/s]
+LR (for max accuracy: 40.44) to be used: 0.022000000097799996
+
+
+```
+
+Training Logs:
+
+```
 Model training starts on CIFAR10 dataset
 EPOCH: 1
-LR: 0.0050499
-Loss=3.694809913635254 Batch_id=390 Accuracy=39.45: 100% 391/391 [00:09<00:00, 42.23it/s]
+LR: 0.003
+Loss=3.525987386703491 Batch_id=97 Accuracy=30.13: 100%|██████████| 98/98 [00:04<00:00, 21.92it/s]
 
-Test set: Average loss: 1.3296, Accuracy: 5320/10000 (53.20%)
+Test set: Average loss: 0.0041, Accuracy: 4245/10000 (42.45%)
 
-validation-accuracy improved from 0 to 53.2, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-1_L1-1_L2-0_val_acc-53.2.h5
+validation-accuracy improved from 0 to 42.45, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-1_L1-1_L2-0_val_acc-42.45.h5
 EPOCH: 2
-LR: 0.009595972678434383
-Loss=3.434737205505371 Batch_id=390 Accuracy=55.26: 100% 391/391 [00:09<00:00, 43.30it/s]
+LR: 0.008411042944785275
+Loss=3.330204963684082 Batch_id=97 Accuracy=49.23: 100%|██████████| 98/98 [00:03<00:00, 26.45it/s]
 
-Test set: Average loss: 1.0956, Accuracy: 6144/10000 (61.44%)
+Test set: Average loss: 0.0039, Accuracy: 5330/10000 (53.30%)
 
-validation-accuracy improved from 53.2 to 61.44, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-2_L1-1_L2-0_val_acc-61.44.h5
+validation-accuracy improved from 42.45 to 53.3, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-2_L1-1_L2-0_val_acc-53.3.h5
 EPOCH: 3
-LR: 0.014142045356868766
-Loss=2.475287437438965 Batch_id=390 Accuracy=62.42: 100% 391/391 [00:09<00:00, 42.60it/s]
+LR: 0.01382208588957055
+Loss=3.205048084259033 Batch_id=97 Accuracy=57.73: 100%|██████████| 98/98 [00:03<00:00, 26.43it/s]
 
-Test set: Average loss: 1.1301, Accuracy: 6340/10000 (63.40%)
+Test set: Average loss: 0.0037, Accuracy: 5935/10000 (59.35%)
 
-validation-accuracy improved from 61.44 to 63.4, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-3_L1-1_L2-0_val_acc-63.4.h5
+validation-accuracy improved from 53.3 to 59.35, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-3_L1-1_L2-0_val_acc-59.35.h5
 EPOCH: 4
-LR: 0.01868811803530315
-Loss=2.3686108589172363 Batch_id=390 Accuracy=66.22: 100% 391/391 [00:09<00:00, 42.55it/s]
+LR: 0.019233128834355826
+Loss=3.0787532329559326 Batch_id=97 Accuracy=63.03: 100%|██████████| 98/98 [00:03<00:00, 26.13it/s]
 
-Test set: Average loss: 0.9040, Accuracy: 6919/10000 (69.19%)
+Test set: Average loss: 0.0036, Accuracy: 6575/10000 (65.75%)
 
-validation-accuracy improved from 63.4 to 69.19, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-4_L1-1_L2-0_val_acc-69.19.h5
+validation-accuracy improved from 59.35 to 65.75, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-4_L1-1_L2-0_val_acc-65.75.h5
 EPOCH: 5
-LR: 0.02323419071373753
-Loss=1.7588059902191162 Batch_id=390 Accuracy=68.70: 100% 391/391 [00:08<00:00, 43.60it/s]
+LR: 0.024644171779141102
+Loss=2.9987893104553223 Batch_id=97 Accuracy=66.04: 100%|██████████| 98/98 [00:03<00:00, 26.20it/s]
 
-Test set: Average loss: 0.7598, Accuracy: 7495/10000 (74.95%)
+Test set: Average loss: 0.0036, Accuracy: 6835/10000 (68.35%)
 
-validation-accuracy improved from 69.19 to 74.95, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-5_L1-1_L2-0_val_acc-74.95.h5
+validation-accuracy improved from 65.75 to 68.35, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-5_L1-1_L2-0_val_acc-68.35.h5
 EPOCH: 6
-LR: 0.02778026339217191
-Loss=1.6672797203063965 Batch_id=390 Accuracy=70.17: 100% 391/391 [00:08<00:00, 43.64it/s]
+LR: 0.02998404940923738
+Loss=2.9620659351348877 Batch_id=97 Accuracy=69.26: 100%|██████████| 98/98 [00:03<00:00, 25.19it/s]
 
-Test set: Average loss: 0.7163, Accuracy: 7533/10000 (75.33%)
+Test set: Average loss: 0.0035, Accuracy: 7146/10000 (71.46%)
 
-validation-accuracy improved from 74.95 to 75.33, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-6_L1-1_L2-0_val_acc-75.33.h5
+validation-accuracy improved from 68.35 to 71.46, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-6_L1-1_L2-0_val_acc-71.46.h5
 EPOCH: 7
-LR: 0.032326336070606296
-Loss=1.701971173286438 Batch_id=390 Accuracy=71.39: 100% 391/391 [00:08<00:00, 43.76it/s]
+LR: 0.028420891514500536
+Loss=2.811079978942871 Batch_id=97 Accuracy=71.90: 100%|██████████| 98/98 [00:03<00:00, 26.29it/s]
 
-Test set: Average loss: 0.8995, Accuracy: 7009/10000 (70.09%)
+Test set: Average loss: 0.0035, Accuracy: 7220/10000 (72.20%)
 
+validation-accuracy improved from 71.46 to 72.2, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-7_L1-1_L2-0_val_acc-72.2.h5
 EPOCH: 8
-LR: 0.03687240874904068
-Loss=1.666421890258789 Batch_id=390 Accuracy=73.11: 100% 391/391 [00:09<00:00, 42.72it/s]
+LR: 0.026857733619763693
+Loss=2.7302842140197754 Batch_id=97 Accuracy=76.61: 100%|██████████| 98/98 [00:03<00:00, 25.03it/s]
 
-Test set: Average loss: 0.8559, Accuracy: 7210/10000 (72.10%)
+Test set: Average loss: 0.0034, Accuracy: 7577/10000 (75.77%)
 
+validation-accuracy improved from 72.2 to 75.77, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-8_L1-1_L2-0_val_acc-75.77.h5
 EPOCH: 9
-LR: 0.04141848142747506
-Loss=1.6155893802642822 Batch_id=390 Accuracy=74.04: 100% 391/391 [00:08<00:00, 43.57it/s]
+LR: 0.02529457572502685
+Loss=2.6616358757019043 Batch_id=97 Accuracy=78.14: 100%|██████████| 98/98 [00:03<00:00, 25.92it/s]
 
-Test set: Average loss: 0.7592, Accuracy: 7464/10000 (74.64%)
+Test set: Average loss: 0.0034, Accuracy: 7823/10000 (78.23%)
 
+validation-accuracy improved from 75.77 to 78.23, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-9_L1-1_L2-0_val_acc-78.23.h5
 EPOCH: 10
-LR: 0.04596455410590944
-Loss=1.5981957912445068 Batch_id=390 Accuracy=74.85: 100% 391/391 [00:08<00:00, 44.09it/s]
+LR: 0.02373141783029001
+Loss=2.5964810848236084 Batch_id=97 Accuracy=80.02: 100%|██████████| 98/98 [00:03<00:00, 26.78it/s]
 
-Test set: Average loss: 0.7683, Accuracy: 7574/10000 (75.74%)
+Test set: Average loss: 0.0034, Accuracy: 7809/10000 (78.09%)
 
-validation-accuracy improved from 75.33 to 75.74, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-10_L1-1_L2-0_val_acc-75.74.h5
 EPOCH: 11
-LR: 0.05048621380818415
-Loss=1.2647907733917236 Batch_id=390 Accuracy=75.63: 100% 391/391 [00:08<00:00, 43.53it/s]
+LR: 0.022168259935553165
+Loss=2.518686294555664 Batch_id=97 Accuracy=81.20: 100%|██████████| 98/98 [00:03<00:00, 25.22it/s]
 
-Test set: Average loss: 0.9623, Accuracy: 6982/10000 (69.82%)
+Test set: Average loss: 0.0033, Accuracy: 8092/10000 (80.92%)
 
+validation-accuracy improved from 78.23 to 80.92, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-11_L1-1_L2-0_val_acc-80.92.h5
 EPOCH: 12
-LR: 0.045486812808184146
-Loss=1.5850930213928223 Batch_id=390 Accuracy=76.53: 100% 391/391 [00:08<00:00, 44.15it/s]
+LR: 0.020605102040816326
+Loss=2.4719929695129395 Batch_id=97 Accuracy=82.11: 100%|██████████| 98/98 [00:03<00:00, 25.52it/s]
 
-Test set: Average loss: 0.6692, Accuracy: 7816/10000 (78.16%)
+Test set: Average loss: 0.0033, Accuracy: 7863/10000 (78.63%)
 
-validation-accuracy improved from 75.74 to 78.16, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-12_L1-1_L2-0_val_acc-78.16.h5
 EPOCH: 13
-LR: 0.040487411808184146
-Loss=1.3547148704528809 Batch_id=390 Accuracy=77.55: 100% 391/391 [00:09<00:00, 42.55it/s]
+LR: 0.019041944146079483
+Loss=2.416670083999634 Batch_id=97 Accuracy=83.20: 100%|██████████| 98/98 [00:03<00:00, 26.09it/s]
 
-Test set: Average loss: 0.7759, Accuracy: 7864/10000 (78.64%)
+Test set: Average loss: 0.0033, Accuracy: 8079/10000 (80.79%)
 
-validation-accuracy improved from 78.16 to 78.64, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-13_L1-1_L2-0_val_acc-78.64.h5
 EPOCH: 14
-LR: 0.035488010808184145
-Loss=1.329831600189209 Batch_id=390 Accuracy=78.42: 100% 391/391 [00:09<00:00, 43.21it/s]
+LR: 0.017478786251342644
+Loss=2.4132046699523926 Batch_id=97 Accuracy=83.74: 100%|██████████| 98/98 [00:03<00:00, 25.96it/s]
 
-Test set: Average loss: 0.5671, Accuracy: 8080/10000 (80.80%)
+Test set: Average loss: 0.0033, Accuracy: 8215/10000 (82.15%)
 
-validation-accuracy improved from 78.64 to 80.8, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-14_L1-1_L2-0_val_acc-80.8.h5
+validation-accuracy improved from 80.92 to 82.15, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-14_L1-1_L2-0_val_acc-82.15.h5
 EPOCH: 15
-LR: 0.030488609808184144
-Loss=1.1353683471679688 Batch_id=390 Accuracy=79.27: 100% 391/391 [00:09<00:00, 42.77it/s]
+LR: 0.0159156283566058
+Loss=2.3703646659851074 Batch_id=97 Accuracy=84.80: 100%|██████████| 98/98 [00:03<00:00, 26.06it/s]
 
-Test set: Average loss: 0.4355, Accuracy: 8493/10000 (84.93%)
+Test set: Average loss: 0.0033, Accuracy: 8221/10000 (82.21%)
 
-validation-accuracy improved from 80.8 to 84.93, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-15_L1-1_L2-0_val_acc-84.93.h5
+validation-accuracy improved from 82.15 to 82.21, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-15_L1-1_L2-0_val_acc-82.21.h5
 EPOCH: 16
-LR: 0.02548920880818414
-Loss=1.1917486190795898 Batch_id=390 Accuracy=80.62: 100% 391/391 [00:09<00:00, 42.94it/s]
+LR: 0.014352470461868959
+Loss=2.307633399963379 Batch_id=97 Accuracy=85.54: 100%|██████████| 98/98 [00:03<00:00, 25.13it/s]
 
-Test set: Average loss: 0.4438, Accuracy: 8482/10000 (84.82%)
+Test set: Average loss: 0.0032, Accuracy: 8486/10000 (84.86%)
 
+validation-accuracy improved from 82.21 to 84.86, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-16_L1-1_L2-0_val_acc-84.86.h5
 EPOCH: 17
-LR: 0.02048980780818414
-Loss=1.208369255065918 Batch_id=390 Accuracy=80.96: 100% 391/391 [00:08<00:00, 44.17it/s]
+LR: 0.01278931256713212
+Loss=2.267599105834961 Batch_id=97 Accuracy=86.16: 100%|██████████| 98/98 [00:03<00:00, 26.19it/s]
 
-Test set: Average loss: 0.5189, Accuracy: 8317/10000 (83.17%)
+Test set: Average loss: 0.0032, Accuracy: 8484/10000 (84.84%)
 
 EPOCH: 18
-LR: 0.015490406808184143
-Loss=0.9628164768218994 Batch_id=390 Accuracy=82.10: 100% 391/391 [00:09<00:00, 43.40it/s]
+LR: 0.011226154672395273
+Loss=2.2322142124176025 Batch_id=97 Accuracy=86.90: 100%|██████████| 98/98 [00:03<00:00, 26.23it/s]
 
-Test set: Average loss: 0.3769, Accuracy: 8719/10000 (87.19%)
+Test set: Average loss: 0.0032, Accuracy: 8486/10000 (84.86%)
 
-validation-accuracy improved from 84.93 to 87.19, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-18_L1-1_L2-0_val_acc-87.19.h5
 EPOCH: 19
-LR: 0.010491005808184142
-Loss=1.135435938835144 Batch_id=390 Accuracy=83.93: 100% 391/391 [00:09<00:00, 40.65it/s]
+LR: 0.00966299677765843
+Loss=2.245776653289795 Batch_id=97 Accuracy=87.46: 100%|██████████| 98/98 [00:03<00:00, 25.08it/s]
 
-Test set: Average loss: 0.3444, Accuracy: 8841/10000 (88.41%)
+Test set: Average loss: 0.0032, Accuracy: 8444/10000 (84.44%)
 
-validation-accuracy improved from 87.19 to 88.41, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-19_L1-1_L2-0_val_acc-88.41.h5
 EPOCH: 20
-LR: 0.005491604808184142
-Loss=0.8878072500228882 Batch_id=390 Accuracy=86.03: 100% 391/391 [00:09<00:00, 41.98it/s]
+LR: 0.008099838882921592
+Loss=2.173248052597046 Batch_id=97 Accuracy=88.25: 100%|██████████| 98/98 [00:03<00:00, 25.96it/s]
 
-Test set: Average loss: 0.2747, Accuracy: 9060/10000 (90.60%)
+Test set: Average loss: 0.0032, Accuracy: 8615/10000 (86.15%)
 
-validation-accuracy improved from 88.41 to 90.6, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-20_L1-1_L2-0_val_acc-90.6.h5
+validation-accuracy improved from 84.86 to 86.15, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-20_L1-1_L2-0_val_acc-86.15.h5
+EPOCH: 21
+LR: 0.006536680988184749
+Loss=2.1699957847595215 Batch_id=97 Accuracy=88.84: 100%|██████████| 98/98 [00:03<00:00, 25.98it/s]
 
+Test set: Average loss: 0.0032, Accuracy: 8702/10000 (87.02%)
+
+validation-accuracy improved from 86.15 to 87.02, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-21_L1-1_L2-0_val_acc-87.02.h5
+EPOCH: 22
+LR: 0.004973523093447906
+Loss=2.1647117137908936 Batch_id=97 Accuracy=89.60: 100%|██████████| 98/98 [00:03<00:00, 25.71it/s]
+
+Test set: Average loss: 0.0032, Accuracy: 8805/10000 (88.05%)
+
+validation-accuracy improved from 87.02 to 88.05, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-22_L1-1_L2-0_val_acc-88.05.h5
+EPOCH: 23
+LR: 0.0034103651987110635
+Loss=2.1254165172576904 Batch_id=97 Accuracy=90.54: 100%|██████████| 98/98 [00:03<00:00, 26.06it/s]
+
+Test set: Average loss: 0.0032, Accuracy: 8836/10000 (88.36%)
+
+validation-accuracy improved from 88.05 to 88.36, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-23_L1-1_L2-0_val_acc-88.36.h5
+EPOCH: 24
+LR: 0.0018472073039742243
+Loss=2.099482297897339 Batch_id=97 Accuracy=91.45: 100%|██████████| 98/98 [00:03<00:00, 25.27it/s]
+
+Test set: Average loss: 0.0031, Accuracy: 8917/10000 (89.17%)
+
+validation-accuracy improved from 88.36 to 89.17, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-24_L1-1_L2-0_val_acc-89.17.h5
 ```
-
-
 
 
 #### Few details on the Model:
 
-Please refer [resnet.py](https://github.com/ojhajayant/EVA8_API/blob/main/models/resnet18.py)
-All the model files now reside in the same location like this resnet.py file
+Please refer [custom_resnet.py](https://github.com/ojhajayant/EVA8_API/blob/main/models/custom_resnet.py)
+All the model files now reside in the same location like this custom_resnet.py file
 
 ```python
 !git clone https://git@github.com/ojhajayant//EVA8_API.git
