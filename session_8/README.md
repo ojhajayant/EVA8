@@ -70,9 +70,9 @@
 
 1.   [EVA8_API](https://github.com/ojhajayant/EVA8_API) is the main repo which is being cloned here to be able to run the main.py script with various user provided (or default) arg options.
 
-2.   The LR-Range test over 500 epochs, as required for the One Cycle Policy (OCP) gave a max_lr(best_lr) of 0.022000000097799996, I am using a LR which is a little ahead in terms of rounding off (and also due to the accuracy Vs learning rate plot obtained from the LR-range test run below in this notebook)
+2.   The LR-Range test, as required for the One Cycle Policy (OCP) gave a max_lr(best_lr) of 0.040031316333168206.
 
-3.   Trained for EPOCHS= 24 epochs as required, the div_factor was taken as 10, so as to start the cycle with a learning rate of best_lr/10 = 0.003, it is required that the max LR is reached on 5th epoch, with NO annihilation epochs, hence final_div_factor = div_factor & MAX_LR_EPOCH = 5 thus resulting in PCT_START = MAX_LR_EPOCH / EPOCHS = 0.2
+3.   Trained for EPOCHS= 24 epochs as required, the div_factor was taken as 6500, so as to start the cycle with a learning rate of best_lr/6500, it is required that the max LR is reached on 5th epoch, with NO annihilation epochs, hence final_div_factor = div_factor & MAX_LR_EPOCH = 5 thus resulting in PCT_START = MAX_LR_EPOCH / EPOCHS = 0.2
 
 4. Here are the different args values for this run:
 
@@ -142,7 +142,7 @@
 
 Please refer the [notebook](https://github.com/ojhajayant/EVA8/blob/main/session_8/EVA8_session8_assignment.ipynb) for this assignment solution.
 
-- max test/validation accuracy within 24 epochs = 89.17%
+- max test/validation accuracy within 24 epochs = 89.23%
 
 ```
 ----------------------------------------------------------------
@@ -195,20 +195,7 @@ Forward/backward pass size (MB): 7.63
 Params size (MB): 25.07
 Estimated Total Size (MB): 32.72
 ----------------------------------------------------------------
-```
 
-LR Range Test Logs 
-Please note for the LR Range test plot points to the location of the best_lr 
-(i.e. the point where the accuracy value reached max, i,e, MAX-LR value for OCP)
-as 0.022000000097799996, given the plot and some experiments with both 
-0.022000000097799996 & its nearest rounded off value 0.03, I am choosing this 
-value of 0.03 as, with a resulting start of 0.003 for a 5 epoch run, it will 
-approximately reach, the found out max-lr/best_lr value of approx: 0.022 as 
-with PCT_START of 0.2 it will require ~4.8 epochs to reach highest which happens 
-to be around same: i.e. in a "train" run, at EPOCH: 5 --> we would reach 
-LR: 0.024644171779141102 (as appears under the training logs here)
-
-```
 
 Training Logs:
 
