@@ -76,33 +76,59 @@
 
 4. Here are the different args values for this run:
 
-	cmd : train
-	IPYNB_ENV : True
-	use_albumentations : True
-	SEED : 1
-	dataset : CIFAR10
-	img_size : (32, 32)
-	batch_size : 512
-	epochs : 24
-	criterion : CrossEntropyLoss()
-	init_lr : 0.0001
-	end_lr : 0.1
-	max_lr_epochs : 5
-	lr_range_test_epochs : 10
-	best_lr : 0.040031316333168206
-	cycle_momentum : True
-	div_factor : 6500
-	optimizer : <class 'torch.optim.sgd.SGD'>
-	cuda : True
-	dropout : 0.08
-	l1_weight : 2.5e-05
-	l2_weight_decay : 0.0002125
-	L1 : True
-	L2 : False
-	data : ./data/
-	best_model_path : ./saved_models/
-	prefix : data
-	best_model :  CIFAR10_model_epoch-24_L1-1_L2-0_val_acc-89.23.h5
+	> cmd : train
+	
+	> IPYNB_ENV : True
+	
+	> use_albumentations : True
+	
+	> SEED : 1
+	
+	> dataset : CIFAR10
+	
+	> img_size : (32, 32)
+	
+	> batch_size : 512
+	
+	> epochs : 24
+	
+	> criterion : CrossEntropyLoss()
+	
+	> init_lr : 0.0001
+	
+	> end_lr : 0.1
+	
+	> max_lr_epochs : 5
+	
+	> lr_range_test_epochs : 10
+	
+	> best_lr : 0.040031316333168206
+	
+	> cycle_momentum : True
+	
+	> div_factor : 6500
+	
+	> optimizer : <class 'torch.optim.sgd.SGD'>
+	
+	> cuda : True
+	
+	> dropout : 0.08
+	
+	> l1_weight : 2.5e-05
+	
+	> l2_weight_decay : 0.0002125
+	
+	> L1 : True
+	
+	> L2 : False
+	
+	> data : ./data/
+	
+	> best_model_path : ./saved_models/
+	
+	> prefix : data
+	
+	> best_model :  CIFAR10_model_epoch-24_L1-1_L2-0_val_acc-89.23.h5
 
 
 5.  max test/validation accuracy within 24 epochs = ~89.23%
