@@ -196,6 +196,7 @@ Params size (MB): 25.07
 Estimated Total Size (MB): 32.72
 ----------------------------------------------------------------
 
+```
 
 Training Logs:
 
