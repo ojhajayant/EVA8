@@ -356,21 +356,16 @@ All the model files now reside in the same location like this EVA8_session9_assi
  ```
 
 
-###  Following graph shows the model accuracy:
+###  Following shows the training/validation loss plot:
 
-![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_7/plot7.png "Logo Title Text 1")
-
-###  Following graph shows the change in momentum & LR for the Once Cycle Policy across different iterations:
-
-![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_7/plot8.png "Logo Title Text 1")
-
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_9/train_test_loss_plt.png "Logo Title Text 1")
 
 
 ###  Confusion Matrix & Classification Reports:
 
 For Best saved Model:
 
-![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_7/confusion_matric_clsfcn_rpt.png "Logo Title Text 1")
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_9/confusion%20matrix.png "Logo Title Text 1")
 
 
 
