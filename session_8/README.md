@@ -103,7 +103,7 @@
 
 	> lr_range_test_epochs : 10
 
-	> best_lr : 0.03
+	> best_lr : 4.59E-02
 
 	> cycle_momentum : True
 
