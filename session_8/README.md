@@ -252,7 +252,7 @@ at a "steepest gradient" point & 2nd at the lowest loss value.
      add the ShiftScaleRotate(shift_limit=0.07, scale_limit=0.2, rotate_limit=15, border_mode=cv2.BORDER_WRAP)
      apart from the other 3 transforms used for the earlier run i.e. RandomCrop 32, 32 (after padding of 4) -- FlipLR --Followed by 
      CutOut(8, 8)....(PLEASE NOTE: FOR THE LR_FINDER RANGE TEST OPERATION THESE TRANSFORMS HAVE NOT BEEN USED)
-		
+     
 		  > i.e. %run  /content/EVA8_API/main.py --cmd train --best_lr 4.59E-02 --L1=True --cycle_momentum=True --div_factor=10
 		
 		  > Now the max accuracy improves a little to 91.78%
