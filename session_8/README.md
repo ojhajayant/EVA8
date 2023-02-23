@@ -436,6 +436,10 @@ All the model files now reside in the same location like this custom_resnet.py f
  ```
 
 
+###  Following graph shows the LR finder range test plot:
+
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_8/lr_range_test.png "Logo Title Text 1")
+
 ###  Following graph shows the model accuracy:
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_8/model_acc.png "Logo Title Text 1")
