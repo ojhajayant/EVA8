@@ -70,68 +70,74 @@
 
 1.   [EVA8_API](https://github.com/ojhajayant/EVA8_API) is the main repo which is being cloned here to be able to run the main.py script with various user provided (or default) arg options.
 
-2.   The LR-Range test, as required for the One Cycle Policy (OCP) gave a max_lr(best_lr) of 0.040031316333168206.
+2.   The LR-Range test, as required for the One Cycle Policy (OCP) gave a max_lr(best_lr) of 4.59E-02
 
-3.   Trained for EPOCHS= 24 epochs as required, the div_factor was taken as 6500, so as to start the cycle with a learning rate of best_lr/6500, it is required that the max LR is reached on 5th epoch, with NO annihilation epochs, hence final_div_factor = div_factor & MAX_LR_EPOCH = 5 thus resulting in PCT_START = MAX_LR_EPOCH / EPOCHS = 0.2
+3.   Trained for EPOCHS= 24 epochs as required, the div_factor was taken as 10,  it is required that the max LR is reached on 5th epoch, with NO annihilation epochs, hence final_div_factor = div_factor & MAX_LR_EPOCH = 5 thus resulting in PCT_START = MAX_LR_EPOCH / EPOCHS = 0.2
 
-4. Here are the different args values for this run:
+4.  Here are the different args values for this run:
 
-	> cmd : train
-	
+	> cmd : test
+
 	> IPYNB_ENV : True
-	
+
 	> use_albumentations : True
-	
+
 	> SEED : 1
-	
+
 	> dataset : CIFAR10
-	
+
 	> img_size : (32, 32)
-	
+
 	> batch_size : 512
-	
+
 	> epochs : 24
-	
+
 	> criterion : CrossEntropyLoss()
-	
+
 	> init_lr : 0.0001
-	
-	> end_lr : 0.1
-	
+
+	> end_lr : 1
+
 	> max_lr_epochs : 5
-	
+
 	> lr_range_test_epochs : 10
-	
-	> best_lr : 0.040031316333168206
-	
+
+	> best_lr : 0.03
+
 	> cycle_momentum : True
-	
-	> div_factor : 6500
-	
+
+	> div_factor : 10
+
 	> optimizer : <class 'torch.optim.sgd.SGD'>
-	
+
 	> cuda : True
-	
+
 	> dropout : 0.08
-	
+
 	> l1_weight : 2.5e-05
-	
+
 	> l2_weight_decay : 0.0002125
-	
+
 	> L1 : True
-	
+
 	> L2 : False
-	
+
 	> data : ./data/
-	
+
 	> best_model_path : ./saved_models/
-	
-	> prefix : data
-	
-	> best_model :  CIFAR10_model_epoch-24_L1-1_L2-0_val_acc-89.23.h5
+
+	>  prefix : data
+
+	> best_model : CIFAR10_model_epoch-24_L1-1_L2-0_val_acc-91.78.h5
 
 
-5.  max test/validation accuracy within 24 epochs = ~89.23%
+5.  max test/validation accuracy within 24 epochs = 91.78%
+
+
+
+
+
+
 
 
 
@@ -142,7 +148,7 @@
 
 Please refer the [notebook](https://github.com/ojhajayant/EVA8/blob/main/session_8/EVA8_session8_assignment.ipynb) for this assignment solution.
 
-- max test/validation accuracy within 24 epochs = 89.23%
+- max test/validation accuracy within 24 epochs = 91.78%
 
 ```
 ----------------------------------------------------------------
@@ -195,6 +201,56 @@ Forward/backward pass size (MB): 7.63
 Params size (MB): 25.07
 Estimated Total Size (MB): 32.72
 ----------------------------------------------------------------
+
+# Summary of Steps
+
+1.   Range test run over 10 epochs, between 1E-05 to 4 (will provide 2 values: 
+at a "steepest gradient" point & 2nd at the lowest loss value.
+
+	  	> i.e.   %run /content/EVA8_API/main.py --cmd lr_find --init_lr 1e-5 --end_lr 4 --lr_range_test_epochs 10
+
+	  	>  Got 2 LR points : 1st "steepest gradient" Suggested LR: 4.59E-02 & 2nd "min loss": 0.6492212094700427
+		
+		
+2.   Run the "train" command using above 2 values from the above run:  first a "train" run on the steepest gradient point-> i.e. 4.59E-02
+
+	  	>  %run  /content/EVA8_API/main.py --cmd train --best_lr 4.59E-02 --L1=True --cycle_momentum=True --div_factor=10
+		
+	  	> Thus, the "steepest gradient" point LR value found by sweeping the range 1E-05 to 4 over 10 epochs was: 4.59E-02, which gives 91.44% max, now below we run "train" command using the  "min-loss" point LR value (2nd point mentioned earlier)
+		  
+		  
+3.    Run the "train" command with the min-loss point-> i.e. 0.6492212094700427
+
+	  	> i.e. %run  /content/EVA8_API/main.py --cmd train --best_lr 0.6492212094700427 --L1=True --cycle_momentum=True --div_factor=10
+		
+	  	> "min-loss" point LR value  0.6492212094700427,  gives a very low: 71.88% max,
+		
+
+4.    Hence now we zoom-in within the range (4.59E-02)/10 to 10*(4.59E-02) over 40 epochs
+
+	  	> i.e. %run /content/EVA8_API/main.py --cmd lr_find --init_lr 4.59E-03 --end_lr 4.59E-01 --lr_range_test_epochs 40
+		
+	  	>  Got 2 LR points : 1st "steepest gradient" Suggested LR: 4.68E-03 & 2nd "min loss": 0.459
+		
+		
+		
+5.   Now below we run "train" command using this new steepest gradient point first: 4.68E-03
+
+	  	> i.e. %run  /content/EVA8_API/main.py --cmd train --best_lr 4.68E-03 --L1=True --cycle_momentum=True --div_factor=10
+		
+	  	> This new "stepest gradient" point gives just 87.88% as max
+		
+
+6.   Hence now we will be fixing the best_lr/max_lr as 4.59E-02 (which had already given a max of 91.44%)
+
+7.    As one more step, now we fix our max_LR/Best_lr as 4.59E-02 and just as an additional transform we 
+  add the ShiftScaleRotate(shift_limit=0.07, scale_limit=0.2, rotate_limit=15, border_mode=cv2.BORDER_WRAP)
+  apart from the other 3 transforms used for the earlier run i.e. RandomCrop 32, 32 (after padding of 4) -- FlipLR --Followed by CutOut(8, 8)....(PLEASE NOTE: FOR THE LR_FINDER RANGE TEST OPERATION THESE 
+  TRANSFORMS HAVE NOT BEEN USED)
+		
+		  > i.e. %run  /content/EVA8_API/main.py --cmd train --best_lr 4.59E-02 --L1=True --cycle_momentum=True --div_factor=10
+		
+		  > Now the max accuracy improves a little to 91.78%
 
 ```
 
