@@ -1,47 +1,21 @@
 
-# Session_9
+# Session_10
 
 ### 
 
-# Build the following network:
+## Check out this [network](https://github.com/kentaroy47/vision-transformers-cifar10/blob/main/models/vit.py)
 
-* That takes a CIFAR10 image (32x32x3)
+* Re-write this network such that it is similar to the network we wrote in the class
 
-  > Add 3 Convolutions to arrive at AxAx48 dimensions (e.g. 32x32x3 | 3x3x3x16 >> 3x3x16x32 >> 3x3x32x48)
+* All parameters are the same as the network we wrote
 
-  > Apply GAP and get 1x1x48, call this X
+* Proceed to submit the assignment:
 
-* Create a block called ULTIMUS that:
+    > Share the model code and link to the model cost
 
-  > Creates 3 FC layers called K, Q and V such that:
+    > Share the training logs
 
-         X*K = 48*48x8 > 8
-
-         X*Q = 48*48x8 > 8 
-
-         X*V = 48*48x8 > 8 
-
-         then create AM = SoftMax(QTK)/(8^0.5) = 8*8 = 8
-
-         then Z = V*AM = 8*8 > 8
-
-         then another FC layer called Out that:
-
-         Z*Out = 8*8x48 > 48
-
-* Repeat this Ultimus block 4 times
-
-* Then add final FC layer that converts 48 to 10 and sends it to the loss function.
-
-* Model would look like this C>C>C>U>U>U>U>FFC>Loss
-
-* Train the model for 24 epochs using the OCP, Use ADAM as an optimizer. 
-
-* FC Layer 
-
-
-* SoftMax
-
+    > Share the gradcam images for 10 misclassified images
 
 
 
