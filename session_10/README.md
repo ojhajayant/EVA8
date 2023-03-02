@@ -22,78 +22,12 @@
 
 1.   [EVA8_API](https://github.com/ojhajayant/EVA8_API) is the main repo which is being cloned here to be able to run the main.py script with various user provided (or default) arg options.
 
-2.   The LR-Range test over 500 epochs, as required for the One Cycle Policy (OCP) gave a max_lr(best_lr) of 0.022000000097799996, I am using a LR which is a little ahead in terms of rounding off (and also due to the accuracy Vs learning rate plot obtained from the LR-range test run below in this notebook)
+2.   Trained for EPOCHS= 24 epochs as required, the div_factor was taken as 10, so as to start the cycle with a learning rate of best_lr/10 = 0.003, it is required that the max LR is reached on 5th epoch, with NO annihilation epochs, hence final_div_factor = div_factor & MAX_LR_EPOCH = 5 thus resulting in PCT_START = MAX_LR_EPOCH / EPOCHS = 0.2
 
-3.   Trained for EPOCHS= 24 epochs as required, the div_factor was taken as 10, so as to start the cycle with a learning rate of best_lr/10 = 0.003, it is required that the max LR is reached on 5th epoch, with NO annihilation epochs, hence final_div_factor = div_factor & MAX_LR_EPOCH = 5 thus resulting in PCT_START = MAX_LR_EPOCH / EPOCHS = 0.2
-
-4.  Here are the different args values for this run:
-
-	> cmd : test
-
-	> IPYNB_ENV : True
-
-	> use_albumentations : True
-
-	> SEED : 1
-
-	> dataset : CIFAR10
-
-	> img_size : (32, 32)
-
-	> batch_size : 512
-
-	> epochs : 24
-
-	> criterion : CrossEntropyLoss()
-
-	> init_lr : 1e-10
-
-	> end_lr : 1
-
-	> max_lr_epochs : 5
-
-	> lr_range_test_epochs : 500
-
-	> best_lr : 0.03
-
-	> cycle_momentum : True
-
-	> div_factor : 10
-
-	> optimizer : <class 'torch.optim.sgd.SGD'>
-
-	> cuda : True
-
-	> dropout : 0.08
-
-	> l1_weight : 2.5e-05
-
-	> l2_weight_decay : 0.0002125
-
-	> L1 : True
-
-	> L2 : False
-
-	> data : ./data/
-
-	> best_model_path : ./saved_models/
-
-	> prefix : data
-
-	> best_model : CIFAR10_model_epoch-24_L1-1_L2-0_val_acc-89.17.h5
-
-
-5.  max test/validation accuracy within 24 epochs = 89.17%
-
-
-
-
-
-
+3.  max test/validation accuracy within 24 epochs = 67.58%
 
 
 Please refer the [notebook](https://github.com/ojhajayant/EVA8/blob/main/session_10/EVA8_session10_assignment.ipynb) for this assignment solution.
-
 
 
 ```
