@@ -92,7 +92,7 @@
 
 
 
-Please refer the [notebook](https://github.com/ojhajayant/EVA8/blob/main/session_9/EVA8_session9_assignment.ipynb) for this assignment solution.
+Please refer the [notebook](https://github.com/ojhajayant/EVA8/blob/main/session_10/EVA8_session10_assignment.ipynb) for this assignment solution.
 
 
 
@@ -100,83 +100,66 @@ Please refer the [notebook](https://github.com/ojhajayant/EVA8/blob/main/session
 ----------------------------------------------------------------
         Layer (type)               Output Shape         Param #
 ================================================================
-            Conv2d-1           [-1, 16, 32, 32]             432
-       BatchNorm2d-2           [-1, 16, 32, 32]              32
-           Dropout-3           [-1, 16, 32, 32]               0
-              ReLU-4           [-1, 16, 32, 32]               0
-            Conv2d-5           [-1, 32, 32, 32]           4,608
-       BatchNorm2d-6           [-1, 32, 32, 32]              64
-           Dropout-7           [-1, 32, 32, 32]               0
-              ReLU-8           [-1, 32, 32, 32]               0
-            Conv2d-9           [-1, 48, 32, 32]          13,824
-      BatchNorm2d-10           [-1, 48, 32, 32]              96
-          Dropout-11           [-1, 48, 32, 32]               0
-             ReLU-12           [-1, 48, 32, 32]               0
-        AvgPool2d-13             [-1, 48, 1, 1]               0
-           Linear-14                    [-1, 8]             392
-          Dropout-15                    [-1, 8]               0
-             ReLU-16                    [-1, 8]               0
-           Linear-17                    [-1, 8]             392
-          Dropout-18                    [-1, 8]               0
-             ReLU-19                    [-1, 8]               0
-           Linear-20                    [-1, 8]             392
-          Dropout-21                    [-1, 8]               0
-             ReLU-22                    [-1, 8]               0
-           Linear-23                   [-1, 48]             432
-          Dropout-24                   [-1, 48]               0
-             ReLU-25                   [-1, 48]               0
-          ULTIMUS-26                   [-1, 48]               0
-           Linear-27                    [-1, 8]             392
-          Dropout-28                    [-1, 8]               0
-             ReLU-29                    [-1, 8]               0
-           Linear-30                    [-1, 8]             392
-          Dropout-31                    [-1, 8]               0
-             ReLU-32                    [-1, 8]               0
-           Linear-33                    [-1, 8]             392
-          Dropout-34                    [-1, 8]               0
-             ReLU-35                    [-1, 8]               0
-           Linear-36                   [-1, 48]             432
-          Dropout-37                   [-1, 48]               0
-             ReLU-38                   [-1, 48]               0
-          ULTIMUS-39                   [-1, 48]               0
-           Linear-40                    [-1, 8]             392
-          Dropout-41                    [-1, 8]               0
-             ReLU-42                    [-1, 8]               0
-           Linear-43                    [-1, 8]             392
-          Dropout-44                    [-1, 8]               0
-             ReLU-45                    [-1, 8]               0
-           Linear-46                    [-1, 8]             392
-          Dropout-47                    [-1, 8]               0
-             ReLU-48                    [-1, 8]               0
-           Linear-49                   [-1, 48]             432
-          Dropout-50                   [-1, 48]               0
-             ReLU-51                   [-1, 48]               0
-          ULTIMUS-52                   [-1, 48]               0
-           Linear-53                    [-1, 8]             392
-          Dropout-54                    [-1, 8]               0
-             ReLU-55                    [-1, 8]               0
-           Linear-56                    [-1, 8]             392
-          Dropout-57                    [-1, 8]               0
-             ReLU-58                    [-1, 8]               0
-           Linear-59                    [-1, 8]             392
-          Dropout-60                    [-1, 8]               0
-             ReLU-61                    [-1, 8]               0
-           Linear-62                   [-1, 48]             432
-          Dropout-63                   [-1, 48]               0
-             ReLU-64                   [-1, 48]               0
-          ULTIMUS-65                   [-1, 48]               0
-           Linear-66                   [-1, 10]             490
-          Dropout-67                   [-1, 10]               0
-             ReLU-68                   [-1, 10]               0
+            Conv2d-1           [-1, 32, 32, 32]             896
+              GELU-2           [-1, 32, 32, 32]               0
+            Conv2d-3           [-1, 32, 16, 16]           4,128
+              GELU-4           [-1, 32, 16, 16]               0
+         Rearrange-5              [-1, 32, 256]               0
+         Rearrange-6           [-1, 256, 32, 1]               0
+            Conv2d-7            [-1, 64, 32, 1]          16,448
+         Rearrange-8               [-1, 32, 64]               0
+           Dropout-9               [-1, 33, 64]               0
+        LayerNorm-10               [-1, 33, 64]             128
+        Rearrange-11            [-1, 64, 33, 1]               0
+           Conv2d-12           [-1, 192, 33, 1]          12,288
+        Rearrange-13              [-1, 33, 192]               0
+          Softmax-14            [-1, 4, 33, 33]               0
+        Rearrange-15            [-1, 64, 33, 1]               0
+           Conv2d-16            [-1, 64, 33, 1]           4,096
+        Rearrange-17               [-1, 33, 64]               0
+        Attention-18               [-1, 33, 64]               0
+          PreNorm-19               [-1, 33, 64]               0
+        LayerNorm-20               [-1, 33, 64]             128
+           Linear-21               [-1, 33, 64]           4,160
+             GELU-22               [-1, 33, 64]               0
+          Dropout-23               [-1, 33, 64]               0
+           Linear-24               [-1, 33, 64]           4,160
+          Dropout-25               [-1, 33, 64]               0
+      FeedForward-26               [-1, 33, 64]               0
+          PreNorm-27               [-1, 33, 64]               0
+        LayerNorm-28               [-1, 33, 64]             128
+        Rearrange-29            [-1, 64, 33, 1]               0
+           Conv2d-30           [-1, 192, 33, 1]          12,288
+        Rearrange-31              [-1, 33, 192]               0
+          Softmax-32            [-1, 4, 33, 33]               0
+        Rearrange-33            [-1, 64, 33, 1]               0
+           Conv2d-34            [-1, 64, 33, 1]           4,096
+        Rearrange-35               [-1, 33, 64]               0
+        Attention-36               [-1, 33, 64]               0
+          PreNorm-37               [-1, 33, 64]               0
+        LayerNorm-38               [-1, 33, 64]             128
+           Linear-39               [-1, 33, 64]           4,160
+             GELU-40               [-1, 33, 64]               0
+          Dropout-41               [-1, 33, 64]               0
+           Linear-42               [-1, 33, 64]           4,160
+          Dropout-43               [-1, 33, 64]               0
+      FeedForward-44               [-1, 33, 64]               0
+          PreNorm-45               [-1, 33, 64]               0
+      Transformer-46               [-1, 33, 64]               0
+         Identity-47                   [-1, 64]               0
+        LayerNorm-48                   [-1, 64]             128
+        Rearrange-49             [-1, 64, 1, 1]               0
+           Conv2d-50             [-1, 10, 1, 1]             650
+        Rearrange-51                   [-1, 10]               0
 ================================================================
-Total params: 25,978
-Trainable params: 25,978
+Total params: 72,170
+Trainable params: 72,170
 Non-trainable params: 0
 ----------------------------------------------------------------
 Input size (MB): 0.01
-Forward/backward pass size (MB): 3.01
-Params size (MB): 0.10
-Estimated Total Size (MB): 3.12
+Forward/backward pass size (MB): 1.56
+Params size (MB): 0.28
+Estimated Total Size (MB): 1.85
 ----------------------------------------------------------------
 ```
 
@@ -187,156 +170,156 @@ Training Logs:
 ```
 Model training starts on CIFAR10 dataset
 EPOCH: 1
-LR: 0.0868
-Loss=2.4302804470062256 Batch_id=97 Accuracy=9.99: 100%|██████████| 98/98 [00:08<00:00, 11.62it/s]
+LR: 0.0207
+Loss=2.405869483947754 Batch_id=97 Accuracy=19.18: 100%|██████████| 98/98 [00:05<00:00, 18.20it/s]
 
-Test set: Average loss: 0.0046, Accuracy: 1000/10000 (10.00%)
+Test set: Average loss: 0.0041, Accuracy: 2268/10000 (22.68%)
 
-validation-accuracy improved from 0 to 10.0, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-1_L1-1_L2-0_val_acc-10.0.h5
+validation-accuracy improved from 0 to 22.68, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-1_L1-1_L2-0_val_acc-22.68.h5
 EPOCH: 2
-LR: 0.24335950920245397
-Loss=2.391749858856201 Batch_id=97 Accuracy=9.98: 100%|██████████| 98/98 [00:07<00:00, 13.56it/s]
+LR: 0.05803619631901841
+Loss=2.5853610038757324 Batch_id=97 Accuracy=19.60: 100%|██████████| 98/98 [00:05<00:00, 17.83it/s]
 
-Test set: Average loss: 0.0046, Accuracy: 1000/10000 (10.00%)
+Test set: Average loss: 0.0045, Accuracy: 1487/10000 (14.87%)
 
 EPOCH: 3
-LR: 0.39991901840490796
-Loss=2.3557114601135254 Batch_id=97 Accuracy=9.99: 100%|██████████| 98/98 [00:07<00:00, 13.77it/s]
+LR: 0.0953723926380368
+Loss=2.5318238735198975 Batch_id=97 Accuracy=15.50: 100%|██████████| 98/98 [00:05<00:00, 18.00it/s]
 
-Test set: Average loss: 0.0046, Accuracy: 1000/10000 (10.00%)
+Test set: Average loss: 0.0045, Accuracy: 1599/10000 (15.99%)
 
 EPOCH: 4
-LR: 0.5564785276073619
-Loss=3.1600539684295654 Batch_id=97 Accuracy=10.02: 100%|██████████| 98/98 [00:07<00:00, 12.78it/s]
+LR: 0.1327085889570552
+Loss=2.7241134643554688 Batch_id=97 Accuracy=12.60: 100%|██████████| 98/98 [00:05<00:00, 17.60it/s]
 
-Test set: Average loss: 0.0046, Accuracy: 1000/10000 (10.00%)
+Test set: Average loss: 0.0046, Accuracy: 1064/10000 (10.64%)
 
 EPOCH: 5
-LR: 0.7130380368098159
-Loss=3.044361114501953 Batch_id=97 Accuracy=10.00: 100%|██████████| 98/98 [00:07<00:00, 13.53it/s]
+LR: 0.1700447852760736
+Loss=2.661092519760132 Batch_id=97 Accuracy=13.27: 100%|██████████| 98/98 [00:05<00:00, 17.40it/s]
 
-Test set: Average loss: 0.0046, Accuracy: 1000/10000 (10.00%)
+Test set: Average loss: 0.0047, Accuracy: 1018/10000 (10.18%)
 
 EPOCH: 6
-LR: 0.8675384962406015
-Loss=8.653585433959961 Batch_id=97 Accuracy=10.01: 100%|██████████| 98/98 [00:07<00:00, 13.35it/s]
+LR: 0.20688994092373791
+Loss=2.770573854446411 Batch_id=97 Accuracy=12.85: 100%|██████████| 98/98 [00:05<00:00, 17.46it/s]
 
-Test set: Average loss: 0.0046, Accuracy: 1000/10000 (10.00%)
+Test set: Average loss: 0.0047, Accuracy: 1161/10000 (11.61%)
 
 EPOCH: 7
-LR: 0.8223111278195488
-Loss=8.557609558105469 Batch_id=97 Accuracy=10.00: 100%|██████████| 98/98 [00:07<00:00, 12.79it/s]
+LR: 0.1961041514500537
+Loss=2.728909969329834 Batch_id=97 Accuracy=12.73: 100%|██████████| 98/98 [00:05<00:00, 17.59it/s]
 
-Test set: Average loss: 0.0046, Accuracy: 1000/10000 (10.00%)
+Test set: Average loss: 0.0046, Accuracy: 1278/10000 (12.78%)
 
 EPOCH: 8
-LR: 0.7770837593984963
-Loss=8.4616060256958 Batch_id=97 Accuracy=10.00: 100%|██████████| 98/98 [00:07<00:00, 13.63it/s]
+LR: 0.18531836197636947
+Loss=2.6508164405822754 Batch_id=97 Accuracy=13.39: 100%|██████████| 98/98 [00:05<00:00, 17.91it/s]
 
-Test set: Average loss: 0.0046, Accuracy: 1000/10000 (10.00%)
+Test set: Average loss: 0.0045, Accuracy: 1417/10000 (14.17%)
 
 EPOCH: 9
-LR: 0.7318563909774436
-Loss=8.404401779174805 Batch_id=97 Accuracy=10.00: 100%|██████████| 98/98 [00:07<00:00, 13.36it/s]
+LR: 0.17453257250268528
+Loss=2.6197385787963867 Batch_id=97 Accuracy=13.40: 100%|██████████| 98/98 [00:05<00:00, 17.87it/s]
 
-Test set: Average loss: 0.0046, Accuracy: 1000/10000 (10.00%)
+Test set: Average loss: 0.0045, Accuracy: 1480/10000 (14.80%)
 
 EPOCH: 10
-LR: 0.6866290225563909
-Loss=8.345022201538086 Batch_id=97 Accuracy=10.00: 100%|██████████| 98/98 [00:07<00:00, 12.70it/s]
+LR: 0.16374678302900106
+Loss=2.580998420715332 Batch_id=97 Accuracy=13.12: 100%|██████████| 98/98 [00:05<00:00, 17.51it/s]
 
-Test set: Average loss: 0.0046, Accuracy: 1000/10000 (10.00%)
+Test set: Average loss: 0.0046, Accuracy: 1398/10000 (13.98%)
 
 EPOCH: 11
-LR: 0.6414016541353383
-Loss=9.504398345947266 Batch_id=97 Accuracy=10.00: 100%|██████████| 98/98 [00:07<00:00, 13.16it/s]
+LR: 0.15296099355531684
+Loss=2.573256015777588 Batch_id=97 Accuracy=12.81: 100%|██████████| 98/98 [00:05<00:00, 16.98it/s]
 
-Test set: Average loss: 0.0046, Accuracy: 1000/10000 (10.00%)
+Test set: Average loss: 0.0046, Accuracy: 1333/10000 (13.33%)
 
 EPOCH: 12
-LR: 0.5961742857142858
-Loss=9.258179664611816 Batch_id=97 Accuracy=10.00: 100%|██████████| 98/98 [00:07<00:00, 13.06it/s]
+LR: 0.14217520408163264
+Loss=2.488589286804199 Batch_id=97 Accuracy=12.76: 100%|██████████| 98/98 [00:05<00:00, 16.74it/s]
 
-Test set: Average loss: 0.0046, Accuracy: 1000/10000 (10.00%)
+Test set: Average loss: 0.0045, Accuracy: 1511/10000 (15.11%)
 
 EPOCH: 13
-LR: 0.5509469172932331
-Loss=9.140510559082031 Batch_id=97 Accuracy=10.00: 100%|██████████| 98/98 [00:07<00:00, 12.47it/s]
+LR: 0.13138941460794842
+Loss=2.6175787448883057 Batch_id=97 Accuracy=12.93: 100%|██████████| 98/98 [00:05<00:00, 16.72it/s]
 
-Test set: Average loss: 0.0046, Accuracy: 1000/10000 (10.00%)
+Test set: Average loss: 0.0046, Accuracy: 1306/10000 (13.06%)
 
 EPOCH: 14
-LR: 0.5057195488721804
-Loss=9.061992645263672 Batch_id=97 Accuracy=10.00: 100%|██████████| 98/98 [00:07<00:00, 13.30it/s]
+LR: 0.12060362513426422
+Loss=2.522526264190674 Batch_id=97 Accuracy=12.64: 100%|██████████| 98/98 [00:05<00:00, 17.13it/s]
 
-Test set: Average loss: 0.0046, Accuracy: 1000/10000 (10.00%)
+Test set: Average loss: 0.0046, Accuracy: 1336/10000 (13.36%)
 
 EPOCH: 15
-LR: 0.46049218045112783
-Loss=8.999622344970703 Batch_id=97 Accuracy=10.00: 100%|██████████| 98/98 [00:07<00:00, 13.17it/s]
+LR: 0.10981783566058001
+Loss=2.46802020072937 Batch_id=97 Accuracy=12.58: 100%|██████████| 98/98 [00:05<00:00, 17.01it/s]
 
-Test set: Average loss: 0.0046, Accuracy: 1000/10000 (10.00%)
+Test set: Average loss: 0.0045, Accuracy: 1224/10000 (12.24%)
 
 EPOCH: 16
-LR: 0.4152648120300752
-Loss=9.352771759033203 Batch_id=97 Accuracy=10.00: 100%|██████████| 98/98 [00:07<00:00, 12.62it/s]
+LR: 0.0990320461868958
+Loss=2.469705104827881 Batch_id=97 Accuracy=13.18: 100%|██████████| 98/98 [00:05<00:00, 17.22it/s]
 
-Test set: Average loss: 0.0046, Accuracy: 1000/10000 (10.00%)
+Test set: Average loss: 0.0045, Accuracy: 1454/10000 (14.54%)
 
 EPOCH: 17
-LR: 0.37003744360902263
-Loss=9.290525436401367 Batch_id=97 Accuracy=10.00: 100%|██████████| 98/98 [00:07<00:00, 13.24it/s]
+LR: 0.0882462567132116
+Loss=2.4956634044647217 Batch_id=97 Accuracy=12.97: 100%|██████████| 98/98 [00:05<00:00, 16.83it/s]
 
-Test set: Average loss: 0.0046, Accuracy: 1000/10000 (10.00%)
+Test set: Average loss: 0.0045, Accuracy: 1406/10000 (14.06%)
 
 EPOCH: 18
-LR: 0.3248100751879699
-Loss=9.244192123413086 Batch_id=97 Accuracy=10.00: 100%|██████████| 98/98 [00:07<00:00, 13.31it/s]
+LR: 0.07746046723952738
+Loss=2.4935874938964844 Batch_id=97 Accuracy=13.03: 100%|██████████| 98/98 [00:05<00:00, 16.70it/s]
 
-Test set: Average loss: 0.0046, Accuracy: 1000/10000 (10.00%)
+Test set: Average loss: 0.0045, Accuracy: 1532/10000 (15.32%)
 
 EPOCH: 19
-LR: 0.2795827067669172
-Loss=9.206872940063477 Batch_id=97 Accuracy=10.00: 100%|██████████| 98/98 [00:07<00:00, 12.56it/s]
+LR: 0.06667467776584315
+Loss=2.4721839427948 Batch_id=97 Accuracy=14.32: 100%|██████████| 98/98 [00:05<00:00, 16.99it/s]
 
-Test set: Average loss: 0.0046, Accuracy: 1000/10000 (10.00%)
+Test set: Average loss: 0.0045, Accuracy: 1604/10000 (16.04%)
 
 EPOCH: 20
-LR: 0.23435533834586464
-Loss=9.177281379699707 Batch_id=97 Accuracy=10.00: 100%|██████████| 98/98 [00:07<00:00, 13.19it/s]
+LR: 0.05588888829215896
+Loss=2.500047206878662 Batch_id=97 Accuracy=14.77: 100%|██████████| 98/98 [00:05<00:00, 17.09it/s]
 
-Test set: Average loss: 0.0046, Accuracy: 1000/10000 (10.00%)
+Test set: Average loss: 0.0045, Accuracy: 1700/10000 (17.00%)
 
 EPOCH: 21
-LR: 0.18912796992481196
-Loss=9.154308319091797 Batch_id=97 Accuracy=10.00: 100%|██████████| 98/98 [00:07<00:00, 13.30it/s]
+LR: 0.04510309881847474
+Loss=2.542085647583008 Batch_id=97 Accuracy=14.87: 100%|██████████| 98/98 [00:05<00:00, 16.82it/s]
 
-Test set: Average loss: 0.0046, Accuracy: 1000/10000 (10.00%)
+Test set: Average loss: 0.0045, Accuracy: 1531/10000 (15.31%)
 
 EPOCH: 22
-LR: 0.14390060150375938
-Loss=9.137107849121094 Batch_id=97 Accuracy=10.00: 100%|██████████| 98/98 [00:07<00:00, 12.57it/s]
+LR: 0.03431730934479055
+Loss=2.539330244064331 Batch_id=97 Accuracy=14.83: 100%|██████████| 98/98 [00:05<00:00, 16.97it/s]
 
-Test set: Average loss: 0.0046, Accuracy: 1000/10000 (10.00%)
+Test set: Average loss: 0.0045, Accuracy: 1515/10000 (15.15%)
 
 EPOCH: 23
-LR: 0.0986732330827067
-Loss=9.125844955444336 Batch_id=97 Accuracy=10.00: 100%|██████████| 98/98 [00:07<00:00, 12.84it/s]
+LR: 0.023531519871106327
+Loss=2.556309700012207 Batch_id=97 Accuracy=14.89: 100%|██████████| 98/98 [00:05<00:00, 16.98it/s]
 
-Test set: Average loss: 0.0046, Accuracy: 1000/10000 (10.00%)
+Test set: Average loss: 0.0045, Accuracy: 1486/10000 (14.86%)
 
 EPOCH: 24
-LR: 0.05344586466165413
-Loss=9.120853424072266 Batch_id=97 Accuracy=10.00: 100%|██████████| 98/98 [00:07<00:00, 13.34it/s]
+LR: 0.012745730397422106
+Loss=2.537597417831421 Batch_id=97 Accuracy=15.31: 100%|██████████| 98/98 [00:05<00:00, 17.08it/s]
 
-Test set: Average loss: 0.0046, Accuracy: 1000/10000 (10.00%)
+Test set: Average loss: 0.0045, Accuracy: 1616/10000 (16.16%)
 ```
 
 
 #### Few details on the Model:
 
-Please refer [EVA8_session9_assignment_model.py](https://github.com/ojhajayant/EVA8_API/blob/main/models/EVA8_session9_assignment_model.py)
-All the model files now reside in the same location like this EVA8_session9_assignment_model.py file
+Please refer [vit.py](https://github.com/ojhajayant/EVA8_API/blob/main/models/vit.py)
+All the model files now reside in the same location like this vit.py file
 
 ```python
 !git clone https://git@github.com/ojhajayant//EVA8_API.git
@@ -345,21 +328,7 @@ All the model files now reside in the same location like this EVA8_session9_assi
 
 ###  Following graph shows the model accuracy:
 
-![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_7/plot7.png "Logo Title Text 1")
-
-###  Following graph shows the change in momentum & LR for the Once Cycle Policy across different iterations:
-
-![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_7/plot8.png "Logo Title Text 1")
-
-
-
-###  Confusion Matrix & Classification Reports:
-
-For Best saved Model:
-
-![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_7/confusion_matric_clsfcn_rpt.png "Logo Title Text 1")
-
-
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_10/model_acc.png "Logo Title Text 1")
 
 
 
