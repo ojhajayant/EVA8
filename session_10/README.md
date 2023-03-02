@@ -319,11 +319,19 @@ All the model files now reside in the same location like this vit.py file
  ```
 
 
-###  Following graph shows the model accuracy:
+###  Following shows the training/validation loss plot:
 
-![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_10/model_acc.png "Logo Title Text 1")
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_10/train_test_loss_plt.png "Logo Title Text 1")
 
+### Misclassified Images:
 
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_10/misclassified_images.png "Logo Title Text 1")
+
+###  Confusion Matrix & Classification Reports:
+
+For Best saved Model:
+
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_10/confusion_matrix.png "Logo Title Text 1")
 
 
 
