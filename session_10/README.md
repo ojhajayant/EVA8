@@ -265,9 +265,116 @@ All the model files now reside in the same location like this vit.py file
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_10/train_test_loss_plt.png "Logo Title Text 1")
 
-### Misclassified Images:
+###  Misclassified images:
 
-![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_10/misclassified_images.png "Logo Title Text 1")
+
+For Best saved Model :
+
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_8/misclassified%20images.png "Logo Title Text 1")
+
+With Grad Cam heatmap @ model.transformer.layers[0][1].fn.net[4]:
+```
+model.transformer.layers[0][1].fn.net[4]
+
+
+model.transformer.layers[0]---> selects the first block of the transformer layer, which is a ModuleList.
+[1] selects the second element of the ModuleList, which is a PreNorm module.
+.fn.net selects the FeedForward module inside the PreNorm module.
+[4] selects the fifth element of the Sequential inside the FeedForward module, which is the second 
+convolutional layer (1): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False).
+ViT(
+  (to_patch_embedding): Sequential(
+    (0): Conv2d(3, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): GELU()
+    (2): Conv2d(32, 32, kernel_size=(2, 2), stride=(2, 2))
+    (3): GELU()
+    (4): Rearrange('b c h w -> b c (h w)')
+    (5): Rearrange('b c h -> b h c 1')
+    (6): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1))
+    (7): Rearrange('b h c 1 -> b c h')
+  )
+  (dropout): Dropout(p=0.0, inplace=False)
+  (transformer): Transformer(
+    (layers): ModuleList(
+      (0): ModuleList(
+        (0): PreNorm(
+          (norm): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+          (fn): Attention(
+            (attend): Softmax(dim=-1)
+            (to_qkv): Sequential(
+              (0): Rearrange('b c h  -> b h c 1')
+              (1): Conv2d(64, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+              (2): Rearrange('b c h 1  -> b h c')
+            )
+            (to_out): Sequential(
+              (0): Rearrange('b c h  -> b h c 1')
+              (1): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+              (2): Rearrange('b c h 1  -> b h c')
+            )
+          )
+        )
+        (1): PreNorm(
+          (norm): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+          (fn): FeedForward(
+            (net): Sequential(
+              (0): Rearrange('b c h  -> b h c 1')
+              (1): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+              (2): GELU()
+              (3): Dropout(p=0.0, inplace=False)
+              (4): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+              (5): Dropout(p=0.0, inplace=False)
+              (6): Rearrange('b c h 1  -> b h c')
+            )
+          )
+        )
+      )
+      (1): ModuleList(
+        (0): PreNorm(
+          (norm): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+          (fn): Attention(
+            (attend): Softmax(dim=-1)
+            (to_qkv): Sequential(
+              (0): Rearrange('b c h  -> b h c 1')
+              (1): Conv2d(64, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+              (2): Rearrange('b c h 1  -> b h c')
+            )
+            (to_out): Sequential(
+              (0): Rearrange('b c h  -> b h c 1')
+              (1): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+              (2): Rearrange('b c h 1  -> b h c')
+            )
+          )
+        )
+        (1): PreNorm(
+          (norm): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+          (fn): FeedForward(
+            (net): Sequential(
+              (0): Rearrange('b c h  -> b h c 1')
+              (1): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+              (2): GELU()
+              (3): Dropout(p=0.0, inplace=False)
+              (4): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False) ---->> gradcam taken here i.e. model.transformer.layers[0][1].fn.net[4]<<------
+              (5): Dropout(p=0.0, inplace=False)
+              (6): Rearrange('b c h 1  -> b h c')
+            )
+          )
+        )
+      )
+    )
+  )
+  (to_latent): Identity()
+  (mlp_head): Sequential(
+    (0): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+    (1): Rearrange('b c -> b c 1 1')
+    (2): Conv2d(64, 10, kernel_size=(1, 1), stride=(1, 1))
+    (3): Rearrange('b c 1 1-> b c')
+  )
+)
+
+```
+
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_10/grad_cam_misclassified.png "Logo Title Text 1")
+
 
 ###  Confusion Matrix & Classification Reports:
 
