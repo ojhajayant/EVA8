@@ -24,7 +24,7 @@
 
 2.   Trained for EPOCHS= 24 epochs as required, the div_factor was taken as 10, so as to start the cycle with a learning rate of best_lr/10 = 0.003, it is required that the max LR is reached on 5th epoch, with NO annihilation epochs, hence final_div_factor = div_factor & MAX_LR_EPOCH = 5 thus resulting in PCT_START = MAX_LR_EPOCH / EPOCHS = 0.2
 
-3.  max test/validation accuracy within 24 epochs = 67.52%
+3.  max test/validation accuracy within 24 epochs =66.78%
 
 
 Please refer the [notebook](https://github.com/ojhajayant/EVA8/blob/main/session_10/EVA8_session10_assignment.ipynb) for this assignment solution.
@@ -111,143 +111,143 @@ Training Logs:
 Model training starts on CIFAR10 dataset
 EPOCH: 1
 LR: 0.003
-Loss=1.7554500102996826 Batch_id=97 Accuracy=28.42: 100%|██████████| 98/98 [00:06<00:00, 15.96it/s]
-Test set: Average loss: 0.0032, Accuracy: 4131/10000 (41.31%)
+Loss=1.7556650638580322 Batch_id=97 Accuracy=28.43: 100%|██████████| 98/98 [00:06<00:00, 15.89it/s]
+Test set: Average loss: 0.0032, Accuracy: 4132/10000 (41.32%)
 
-validation-accuracy improved from 0 to 41.31, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-1_L1-1_L2-0_val_acc-41.31.h5
+validation-accuracy improved from 0 to 41.32, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-1_L1-1_L2-0_val_acc-41.32.h5
 EPOCH: 2
 LR: 0.008411042944785275
-Loss=1.781583309173584 Batch_id=97 Accuracy=40.57: 100%|██████████| 98/98 [00:05<00:00, 17.83it/s]
-Test set: Average loss: 0.0030, Accuracy: 4495/10000 (44.95%)
+Loss=1.7271416187286377 Batch_id=97 Accuracy=40.66: 100%|██████████| 98/98 [00:05<00:00, 17.27it/s]
+Test set: Average loss: 0.0029, Accuracy: 4657/10000 (46.57%)
 
-validation-accuracy improved from 41.31 to 44.95, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-2_L1-1_L2-0_val_acc-44.95.h5
+validation-accuracy improved from 41.32 to 46.57, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-2_L1-1_L2-0_val_acc-46.57.h5
 EPOCH: 3
 LR: 0.01382208588957055
-Loss=1.672245740890503 Batch_id=97 Accuracy=43.81: 100%|██████████| 98/98 [00:05<00:00, 18.12it/s]
-Test set: Average loss: 0.0029, Accuracy: 4674/10000 (46.74%)
+Loss=1.7119848728179932 Batch_id=97 Accuracy=43.20: 100%|██████████| 98/98 [00:05<00:00, 17.55it/s]
+Test set: Average loss: 0.0029, Accuracy: 4641/10000 (46.41%)
 
-validation-accuracy improved from 44.95 to 46.74, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-3_L1-1_L2-0_val_acc-46.74.h5
 EPOCH: 4
 LR: 0.019233128834355826
-Loss=1.6134226322174072 Batch_id=97 Accuracy=44.20: 100%|██████████| 98/98 [00:05<00:00, 17.75it/s]
-Test set: Average loss: 0.0027, Accuracy: 4986/10000 (49.86%)
+Loss=1.652485966682434 Batch_id=97 Accuracy=44.32: 100%|██████████| 98/98 [00:05<00:00, 17.35it/s]
+Test set: Average loss: 0.0029, Accuracy: 4857/10000 (48.57%)
 
-validation-accuracy improved from 46.74 to 49.86, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-4_L1-1_L2-0_val_acc-49.86.h5
+validation-accuracy improved from 46.57 to 48.57, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-4_L1-1_L2-0_val_acc-48.57.h5
 EPOCH: 5
 LR: 0.024644171779141102
-Loss=1.63678777217865 Batch_id=97 Accuracy=43.51: 100%|██████████| 98/98 [00:05<00:00, 18.17it/s]
-Test set: Average loss: 0.0031, Accuracy: 4644/10000 (46.44%)
+Loss=1.5584139823913574 Batch_id=97 Accuracy=44.18: 100%|██████████| 98/98 [00:05<00:00, 17.44it/s]
+Test set: Average loss: 0.0027, Accuracy: 5116/10000 (51.16%)
 
+validation-accuracy improved from 48.57 to 51.16, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-5_L1-1_L2-0_val_acc-51.16.h5
 EPOCH: 6
 LR: 0.02998404940923738
-Loss=1.6279914379119873 Batch_id=97 Accuracy=45.43: 100%|██████████| 98/98 [00:05<00:00, 17.72it/s]
-Test set: Average loss: 0.0028, Accuracy: 4891/10000 (48.91%)
+Loss=1.5917167663574219 Batch_id=97 Accuracy=45.73: 100%|██████████| 98/98 [00:05<00:00, 17.33it/s]
+Test set: Average loss: 0.0029, Accuracy: 4782/10000 (47.82%)
 
 EPOCH: 7
 LR: 0.028420891514500536
-Loss=1.5815659761428833 Batch_id=97 Accuracy=47.65: 100%|██████████| 98/98 [00:05<00:00, 18.13it/s]
-Test set: Average loss: 0.0026, Accuracy: 5342/10000 (53.42%)
+Loss=1.6352331638336182 Batch_id=97 Accuracy=47.01: 100%|██████████| 98/98 [00:05<00:00, 16.92it/s]
+Test set: Average loss: 0.0026, Accuracy: 5197/10000 (51.97%)
 
-validation-accuracy improved from 49.86 to 53.42, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-7_L1-1_L2-0_val_acc-53.42.h5
+validation-accuracy improved from 51.16 to 51.97, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-7_L1-1_L2-0_val_acc-51.97.h5
 EPOCH: 8
 LR: 0.026857733619763693
-Loss=1.5782020092010498 Batch_id=97 Accuracy=49.10: 100%|██████████| 98/98 [00:05<00:00, 17.75it/s]
-Test set: Average loss: 0.0025, Accuracy: 5515/10000 (55.15%)
+Loss=1.5327650308609009 Batch_id=97 Accuracy=48.53: 100%|██████████| 98/98 [00:05<00:00, 17.03it/s]
+Test set: Average loss: 0.0027, Accuracy: 5232/10000 (52.32%)
 
-validation-accuracy improved from 53.42 to 55.15, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-8_L1-1_L2-0_val_acc-55.15.h5
+validation-accuracy improved from 51.97 to 52.32, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-8_L1-1_L2-0_val_acc-52.32.h5
 EPOCH: 9
 LR: 0.02529457572502685
-Loss=1.5682899951934814 Batch_id=97 Accuracy=50.57: 100%|██████████| 98/98 [00:05<00:00, 17.89it/s]
-Test set: Average loss: 0.0025, Accuracy: 5395/10000 (53.95%)
+Loss=1.5700397491455078 Batch_id=97 Accuracy=50.31: 100%|██████████| 98/98 [00:05<00:00, 17.54it/s]
+Test set: Average loss: 0.0025, Accuracy: 5513/10000 (55.13%)
 
+validation-accuracy improved from 52.32 to 55.13, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-9_L1-1_L2-0_val_acc-55.13.h5
 EPOCH: 10
 LR: 0.02373141783029001
-Loss=1.5825049877166748 Batch_id=97 Accuracy=50.88: 100%|██████████| 98/98 [00:05<00:00, 17.80it/s]
-Test set: Average loss: 0.0024, Accuracy: 5632/10000 (56.32%)
+Loss=1.511792540550232 Batch_id=97 Accuracy=50.74: 100%|██████████| 98/98 [00:05<00:00, 17.31it/s]
+Test set: Average loss: 0.0024, Accuracy: 5609/10000 (56.09%)
 
-validation-accuracy improved from 55.15 to 56.32, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-10_L1-1_L2-0_val_acc-56.32.h5
+validation-accuracy improved from 55.13 to 56.09, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-10_L1-1_L2-0_val_acc-56.09.h5
 EPOCH: 11
 LR: 0.022168259935553165
-Loss=1.4603012800216675 Batch_id=97 Accuracy=52.52: 100%|██████████| 98/98 [00:05<00:00, 17.96it/s]
-Test set: Average loss: 0.0024, Accuracy: 5733/10000 (57.33%)
+Loss=1.4840112924575806 Batch_id=97 Accuracy=51.93: 100%|██████████| 98/98 [00:05<00:00, 17.30it/s]
+Test set: Average loss: 0.0024, Accuracy: 5612/10000 (56.12%)
 
-validation-accuracy improved from 56.32 to 57.33, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-11_L1-1_L2-0_val_acc-57.33.h5
+validation-accuracy improved from 56.09 to 56.12, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-11_L1-1_L2-0_val_acc-56.12.h5
 EPOCH: 12
 LR: 0.020605102040816326
-Loss=1.453799843788147 Batch_id=97 Accuracy=53.04: 100%|██████████| 98/98 [00:05<00:00, 18.25it/s]
-Test set: Average loss: 0.0023, Accuracy: 5805/10000 (58.05%)
+Loss=1.4405205249786377 Batch_id=97 Accuracy=52.44: 100%|██████████| 98/98 [00:05<00:00, 17.59it/s]
+Test set: Average loss: 0.0024, Accuracy: 5694/10000 (56.94%)
 
-validation-accuracy improved from 57.33 to 58.05, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-12_L1-1_L2-0_val_acc-58.05.h5
+validation-accuracy improved from 56.12 to 56.94, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-12_L1-1_L2-0_val_acc-56.94.h5
 EPOCH: 13
 LR: 0.019041944146079483
-Loss=1.4936953783035278 Batch_id=97 Accuracy=54.01: 100%|██████████| 98/98 [00:05<00:00, 17.75it/s]
-Test set: Average loss: 0.0023, Accuracy: 5873/10000 (58.73%)
+Loss=1.4468913078308105 Batch_id=97 Accuracy=53.69: 100%|██████████| 98/98 [00:05<00:00, 17.30it/s]
+Test set: Average loss: 0.0023, Accuracy: 5888/10000 (58.88%)
 
-validation-accuracy improved from 58.05 to 58.73, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-13_L1-1_L2-0_val_acc-58.73.h5
+validation-accuracy improved from 56.94 to 58.88, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-13_L1-1_L2-0_val_acc-58.88.h5
 EPOCH: 14
 LR: 0.017478786251342644
-Loss=1.3427090644836426 Batch_id=97 Accuracy=54.96: 100%|██████████| 98/98 [00:05<00:00, 18.14it/s]
-Test set: Average loss: 0.0022, Accuracy: 5988/10000 (59.88%)
+Loss=1.3786044120788574 Batch_id=97 Accuracy=54.91: 100%|██████████| 98/98 [00:05<00:00, 17.36it/s]
+Test set: Average loss: 0.0022, Accuracy: 6009/10000 (60.09%)
 
-validation-accuracy improved from 58.73 to 59.88, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-14_L1-1_L2-0_val_acc-59.88.h5
+validation-accuracy improved from 58.88 to 60.09, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-14_L1-1_L2-0_val_acc-60.09.h5
 EPOCH: 15
 LR: 0.0159156283566058
-Loss=1.4042139053344727 Batch_id=97 Accuracy=55.69: 100%|██████████| 98/98 [00:05<00:00, 17.69it/s]
-Test set: Average loss: 0.0022, Accuracy: 6056/10000 (60.56%)
+Loss=1.3809154033660889 Batch_id=97 Accuracy=55.58: 100%|██████████| 98/98 [00:05<00:00, 17.39it/s]
+Test set: Average loss: 0.0022, Accuracy: 6098/10000 (60.98%)
 
-validation-accuracy improved from 59.88 to 60.56, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-15_L1-1_L2-0_val_acc-60.56.h5
+validation-accuracy improved from 60.09 to 60.98, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-15_L1-1_L2-0_val_acc-60.98.h5
 EPOCH: 16
 LR: 0.014352470461868959
-Loss=1.2993903160095215 Batch_id=97 Accuracy=56.41: 100%|██████████| 98/98 [00:05<00:00, 17.94it/s]
-Test set: Average loss: 0.0021, Accuracy: 6142/10000 (61.42%)
+Loss=1.3026299476623535 Batch_id=97 Accuracy=56.31: 100%|██████████| 98/98 [00:05<00:00, 17.49it/s]
+Test set: Average loss: 0.0021, Accuracy: 6182/10000 (61.82%)
 
-validation-accuracy improved from 60.56 to 61.42, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-16_L1-1_L2-0_val_acc-61.42.h5
+validation-accuracy improved from 60.98 to 61.82, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-16_L1-1_L2-0_val_acc-61.82.h5
 EPOCH: 17
 LR: 0.01278931256713212
-Loss=1.2752257585525513 Batch_id=97 Accuracy=57.37: 100%|██████████| 98/98 [00:05<00:00, 17.45it/s]
-Test set: Average loss: 0.0021, Accuracy: 6272/10000 (62.72%)
+Loss=1.2449743747711182 Batch_id=97 Accuracy=57.38: 100%|██████████| 98/98 [00:05<00:00, 17.08it/s]
+Test set: Average loss: 0.0021, Accuracy: 6086/10000 (60.86%)
 
-validation-accuracy improved from 61.42 to 62.72, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-17_L1-1_L2-0_val_acc-62.72.h5
 EPOCH: 18
 LR: 0.011226154672395273
-Loss=1.2637327909469604 Batch_id=97 Accuracy=58.41: 100%|██████████| 98/98 [00:05<00:00, 17.70it/s]
-Test set: Average loss: 0.0021, Accuracy: 6267/10000 (62.67%)
+Loss=1.28666090965271 Batch_id=97 Accuracy=57.65: 100%|██████████| 98/98 [00:05<00:00, 17.48it/s]
+Test set: Average loss: 0.0022, Accuracy: 6055/10000 (60.55%)
 
 EPOCH: 19
 LR: 0.00966299677765843
-Loss=1.2177902460098267 Batch_id=97 Accuracy=59.31: 100%|██████████| 98/98 [00:05<00:00, 17.75it/s]
-Test set: Average loss: 0.0020, Accuracy: 6349/10000 (63.49%)
+Loss=1.2336550951004028 Batch_id=97 Accuracy=58.61: 100%|██████████| 98/98 [00:05<00:00, 16.97it/s]
+Test set: Average loss: 0.0020, Accuracy: 6298/10000 (62.98%)
 
-validation-accuracy improved from 62.72 to 63.49, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-19_L1-1_L2-0_val_acc-63.49.h5
+validation-accuracy improved from 61.82 to 62.98, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-19_L1-1_L2-0_val_acc-62.98.h5
 EPOCH: 20
 LR: 0.008099838882921592
-Loss=1.1729973554611206 Batch_id=97 Accuracy=59.91: 100%|██████████| 98/98 [00:05<00:00, 17.95it/s]
-Test set: Average loss: 0.0019, Accuracy: 6518/10000 (65.18%)
+Loss=1.1878244876861572 Batch_id=97 Accuracy=59.38: 100%|██████████| 98/98 [00:05<00:00, 17.14it/s]
+Test set: Average loss: 0.0020, Accuracy: 6476/10000 (64.76%)
 
-validation-accuracy improved from 63.49 to 65.18, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-20_L1-1_L2-0_val_acc-65.18.h5
+validation-accuracy improved from 62.98 to 64.76, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-20_L1-1_L2-0_val_acc-64.76.h5
 EPOCH: 21
 LR: 0.006536680988184749
-Loss=1.1627588272094727 Batch_id=97 Accuracy=60.74: 100%|██████████| 98/98 [00:05<00:00, 17.57it/s]
-Test set: Average loss: 0.0020, Accuracy: 6461/10000 (64.61%)
+Loss=1.213541865348816 Batch_id=97 Accuracy=60.41: 100%|██████████| 98/98 [00:05<00:00, 17.13it/s]
+Test set: Average loss: 0.0020, Accuracy: 6444/10000 (64.44%)
 
 EPOCH: 22
 LR: 0.004973523093447906
-Loss=1.204944372177124 Batch_id=97 Accuracy=61.91: 100%|██████████| 98/98 [00:05<00:00, 17.87it/s]
-Test set: Average loss: 0.0019, Accuracy: 6606/10000 (66.06%)
+Loss=1.229129433631897 Batch_id=97 Accuracy=61.00: 100%|██████████| 98/98 [00:05<00:00, 16.83it/s]
+Test set: Average loss: 0.0019, Accuracy: 6613/10000 (66.13%)
 
-validation-accuracy improved from 65.18 to 66.06, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-22_L1-1_L2-0_val_acc-66.06.h5
+validation-accuracy improved from 64.76 to 66.13, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-22_L1-1_L2-0_val_acc-66.13.h5
 EPOCH: 23
 LR: 0.0034103651987110635
-Loss=1.2105414867401123 Batch_id=97 Accuracy=62.36: 100%|██████████| 98/98 [00:05<00:00, 17.66it/s]
-Test set: Average loss: 0.0019, Accuracy: 6688/10000 (66.88%)
+Loss=1.2032792568206787 Batch_id=97 Accuracy=61.70: 100%|██████████| 98/98 [00:05<00:00, 17.25it/s]
+Test set: Average loss: 0.0019, Accuracy: 6617/10000 (66.17%)
 
-validation-accuracy improved from 66.06 to 66.88, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-23_L1-1_L2-0_val_acc-66.88.h5
+validation-accuracy improved from 66.13 to 66.17, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-23_L1-1_L2-0_val_acc-66.17.h5
 EPOCH: 24
 LR: 0.0018472073039742243
-Loss=1.0605604648590088 Batch_id=97 Accuracy=63.38: 100%|██████████| 98/98 [00:05<00:00, 17.87it/s]
-Test set: Average loss: 0.0018, Accuracy: 6752/10000 (67.52%)
+Loss=1.0314149856567383 Batch_id=97 Accuracy=62.46: 100%|██████████| 98/98 [00:05<00:00, 17.05it/s]
+Test set: Average loss: 0.0018, Accuracy: 6678/10000 (66.78%)
 
-validation-accuracy improved from 66.88 to 67.52, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-24_L1-1_L2-0_val_acc-67.52.h5
+validation-accuracy improved from 66.17 to 66.78, saving model to /content/EVA8_API/./saved_models/CIFAR10_model_epoch-24_L1-1_L2-0_val_acc-66.78.h5
 ```
 
 
