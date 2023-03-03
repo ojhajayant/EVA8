@@ -270,7 +270,7 @@ All the model files now reside in the same location like this vit.py file
 
 For Best saved Model :
 
-![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_8/misclassified%20images.png "Logo Title Text 1")
+![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_10/misclassified_images.png "Logo Title Text 1")
 
 With Grad Cam heatmap @ model.transformer.layers[0][1].fn.net[4]:
 ```
