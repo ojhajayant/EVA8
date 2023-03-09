@@ -213,3 +213,116 @@ def __getitem__(self, index, p_mask=0.15, p_noisy=0.15):
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_11/loss_cmp.png "Logo Title Text 1")
 
+
+## Part 2:
+
+Please refer the [notebook](https://github.com/ojhajayant/EVA8/blob/main/session_11/EVA8_session11_assignment_part_2_GPT.ipynb) for this assignment solution.
+
+Training Logs:
+
+```
+step          0 | train loss 10.7412 | val loss 10.7457
+step        499 | train loss 4.8983 | val loss 5.5780
+```
+#### Few details on the dataset & sparse (strided) masked attention:
+
+Here are the relevant snippets of code where the required change was made:
+@ [model_gpt.py](https://github.com/ojhajayant/EVA8_API/blob/main/models/model_gpt.py)
+
+```python
+class AttentionHead(nn.Module):
+    """
+    One head of the self-attention layer, with sparse attention.
+    The stride parameter controls the distance between attention
+    positions. By default, it's set to 1, which means that we 
+    look at all positions within the block. If we set it to 
+    a larger number, we will get sparser attention.
+    """
+
+    def __init__(self, head_size, num_embed, block_size, dropout, stride=1):
+        super().__init__()
+        self.head_size = head_size
+        self.stride = stride
+        self.num_blocks = (block_size + stride - 1) // stride
+
+        self.key = nn.Linear(num_embed, head_size, bias=False)
+        self.query = nn.Linear(num_embed, head_size, bias=False)
+        self.value = nn.Linear(num_embed, head_size, bias=False)
+
+        # Tril matrix (lower triangular matrix) is used to mask 
+        # future positions (setting them to -inf) so that the
+        # decoder "learns" to predict next words
+        self.register_buffer("tril", torch.tril(torch.ones(block_size, block_size)))
+        
+        # Create a mask that will only allow attention to look at
+        # positions that are separated by 'stride'
+        mask = torch.zeros(block_size, block_size)
+        for i in range(self.num_blocks):
+            start_idx = i * stride
+            end_idx = min((i + 1) * stride, block_size)
+            mask[start_idx:end_idx, start_idx:end_idx] = 1
+        mask = mask.to(dtype=torch.bool)
+        self.register_buffer("mask", mask)
+
+        # let's also add dropout
+        self.dropout = nn.Dropout(dropout)
+
+    def forward(self, x):
+        B, T, C = x.shape
+        k = self.key(x)
+        q = self.query(x)
+        # compute attention scores
+        # (B, T, C) @ (B, C, T) -> (B, T, T)
+        wei = q @ k.transpose(-2, -1) * C**-0.5
+        
+        # Mask positions that are too far away
+        mask = self.mask[:T, :T]
+        wei = wei.masked_fill(~mask, 0)  # (B,T,T)
+        
+        # Set all future positions to -inf
+        tri_mask = self.tril[:T, :T]
+        wei = wei.masked_fill(tri_mask == 0, float("-inf"))  # (B,T,T)
+        
+        wei = F.softmax(wei, dim=-1)  # (B,T,T)
+        wei = self.dropout(wei)
+        
+        # weighted aggregation of the values
+        v = self.value(x)
+        out = wei @ v  # (B,T,T) @ (B,T,C) ---> (B,T,C)
+        return out
+ ```
+ 
+ which is instantiated under:
+ 
+ ```python
+ class MultiHeadAttention(nn.Module):
+    """
+    Multiple Heads of self-attention in parallel
+    """
+
+    def __init__(self, num_heads, head_size, num_embed, block_size, dropout):
+        super().__init__()
+        self.heads = nn.ModuleList(
+            [
+                AttentionHead(
+                    head_size=head_size,
+                    num_embed=num_embed,
+                    block_size=block_size,
+                    dropout=dropout,
+                    stride=2
+                )
+                for _ in range(num_heads)
+            ]
+        )
+        self.proj = nn.Linear(num_embed, num_embed)
+        self.dropout = nn.Dropout(dropout)
+
+    def forward(self, x):
+        # output of the self-attention
+        out = torch.cat([h(x) for h in self.heads], dim=-1)
+        # apply the linear projection layer
+        out = self.dropout(self.proj(out))
+        return out
+```
+
+
