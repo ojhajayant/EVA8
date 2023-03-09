@@ -292,7 +292,7 @@ class AttentionHead(nn.Module):
         return out
  ```
  
- which is instantiated under:
+ which is instantiated under class MultiHeadAttention with stride = 2:
  
  ```python
  class MultiHeadAttention(nn.Module):
