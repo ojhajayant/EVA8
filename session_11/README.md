@@ -207,8 +207,7 @@ def __getitem__(self, index, p_mask=0.15, p_noisy=0.15):
  ```
 
 
-###  Following shows the comparision of the last part of training log,
-###  from just the masked word prediction vs. with the inclusion of noisy word prediction :
+###  Following shows the comparision of the last part of training log, from just the masked word prediction vs. with the inclusion of noisy word prediction :
 
 ![alt text](https://github.com/ojhajayant/EVA8/blob/main/session_11/loss_cmp.png "Logo Title Text 1")
 
