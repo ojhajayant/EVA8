@@ -1,6 +1,8 @@
 
 # Session_11
 
+## Part 1:
+
 ### add these features to BERT training:
 
 *  collect your own data (cannot be Shakespeare or any single file downloaded from the internet. Your sources should come from multiple URLs (basically copy paste 1000s of times)
